@@ -4,10 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Harvey Jay Pilapil — Unity &amp; Gameplay Programmer</title>
-  <meta name="description" content="Portfolio of Harvey Jay Pilapil — Unity & Gameplay Programmer specializing in decoupled architecture, AI state machines, and performant C# systems." />
+  <meta name="description" content="Portfolio of Harvey Jay Pilapil — Unity & Gameplay Programmer specializing in gameplay systems, AI state machines, and performant C# mechanics." />
   <meta name="keywords" content="Harvey Jay Pilapil, Unity Programmer, Gameplay Programmer, C#, ScriptableObjects, Game Architecture, Banana Farm Chaos, Divorce Papers, Wrong Door, Sister Claire's Orphanage" />
   <meta property="og:title" content="Harvey Jay Pilapil — Unity &amp; Gameplay Programmer" />
-  <meta property="og:description" content="Decoupled gameplay architecture, AI state machines, and responsive kinematic physics in Unity &amp; C#." />
+  <meta property="og:description" content="Gameplay systems, AI state machines, and player mechanics in Unity &amp; C#." />
   <meta property="og:type" content="website" />
 
   <!-- Fonts: Inter & JetBrains Mono -->
@@ -394,7 +394,7 @@
                     </p>
                   </div>
                   <p class="text-[11px] text-zinc-400 leading-relaxed">
-                    Trailers, devlogs, and production screen captures will be published upon release of Milestone 2. Inspect the engineering architecture on the right.
+                    Trailers, devlogs, and production screen captures will be published upon release of Milestone 2. Inspect the core gameplay systems and project breakdown on the right.
                   </p>
                 </div>
               </div>
@@ -410,7 +410,7 @@
 
             <!-- Media Bar Sub-footer with Action Buttons -->
             <div class="pt-2 border-t border-brand-border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs font-mono">
-              <span id="detailFooterCaption" class="text-zinc-400">Management Loop &amp; NPC AI Architecture</span>
+              <span id="detailFooterCaption" class="text-zinc-400">Management Loop, NPC AI &amp; Gameplay Systems</span>
               <div id="detailLeftActionContainer" class="flex items-center gap-2">
                 <!-- Injected via JavaScript -->
               </div>
@@ -426,7 +426,7 @@
               <!-- Header & Role -->
               <div>
                 <span id="detailCategory" class="text-xs font-mono uppercase tracking-wider text-emerald-400 font-semibold block">
-                  Management Sim / AI Ecosystem
+                  Farm Management Simulation
                 </span>
                 <h3 id="detailTitle" class="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-100 mt-1">
                   Banana Farm Chaos
@@ -436,11 +436,11 @@
                 </p>
               </div>
 
-              <!-- Overview Narrative (Architecture for Farm Chaos, Synopsis/Story for Horror) -->
+              <!-- Overview Narrative (Core Systems for Farm Chaos, Synopsis/Story for Horror) -->
               <div class="pt-1">
-                <h4 id="detailOverviewHeading" class="text-xs font-mono uppercase tracking-wider text-zinc-500 font-semibold mb-1.5">Architecture Breakdown</h4>
+                <h4 id="detailOverviewHeading" class="text-xs font-mono uppercase tracking-wider text-zinc-500 font-semibold mb-1.5">Core Systems &amp; Overview</h4>
                 <p id="detailArchitecture" class="text-xs sm:text-sm text-zinc-300 leading-relaxed font-normal">
-                  Engineered a modular, decoupled management simulation loop in Unity adhering to strict SOLID design patterns and ScriptableObject-driven event channels. The core loop coordinates dynamic crop ripening, capacity-managed inventory racks, and customer checkout queues without direct singleton coupling.
+                  Built a modular management simulation loop in Unity and C#, combining event-driven communication with dedicated gameplay systems for crop farming, inventory storage, customer shopping behaviors, checkout queues, and daily progression.
                 </p>
               </div>
 
@@ -449,6 +449,37 @@
                 <h4 id="detailHighlightsHeading" class="text-xs font-mono uppercase tracking-wider text-zinc-500 font-semibold mb-2">Key Technical Highlights</h4>
                 <ul id="detailHighlights" class="space-y-3 text-xs sm:text-sm text-zinc-400 leading-relaxed">
                   <!-- Highlights injected via JavaScript -->
+                </ul>
+              </div>
+
+              <!-- Key Contributions Subsection -->
+              <div id="detailContributionsContainer" class="pt-2">
+                <h4 id="detailContributionsHeading" class="text-xs font-mono uppercase tracking-wider text-zinc-500 font-semibold mb-2">My Contributions</h4>
+                <ul id="detailContributions" class="space-y-1.5 text-xs text-zinc-400 leading-relaxed">
+                  <li class="flex items-start gap-2">
+                    <span class="mt-1.5 w-1 h-1 rounded-full bg-emerald-400/80 shrink-0"></span>
+                    <span>Designed and implemented the core farming, harvesting, and shopkeeping gameplay loop.</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="mt-1.5 w-1 h-1 rounded-full bg-emerald-400/80 shrink-0"></span>
+                    <span>Implemented customer shopping behaviors, browsing logic, and checkout queue registration.</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="mt-1.5 w-1 h-1 rounded-full bg-emerald-400/80 shrink-0"></span>
+                    <span>Created AI behaviors and interaction routines for Stealer NPCs and Bob the guard.</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="mt-1.5 w-1 h-1 rounded-full bg-emerald-400/80 shrink-0"></span>
+                    <span>Engineered inventory management, item pickup interactions, and grid-based plot placement.</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="mt-1.5 w-1 h-1 rounded-full bg-emerald-400/80 shrink-0"></span>
+                    <span>Built day/night progression cycles and shop upgrade systems.</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="mt-1.5 w-1 h-1 rounded-full bg-emerald-400/80 shrink-0"></span>
+                    <span>Developed responsive UI Toolkit interfaces for store management and player feedback.</span>
+                  </li>
                 </ul>
               </div>
 
@@ -471,11 +502,11 @@
 
         </div>
 
-        <!-- Optional Collapsible Architecture Code Drawer for Banana Farm Chaos -->
+        <!-- Optional Collapsible Code Drawer for Banana Farm Chaos -->
         <div id="codeSnippetDrawer" class="hidden border-t border-brand-border bg-brand-subtle p-6">
           <div class="flex items-center justify-between pb-3 mb-3 border-b border-brand-border text-xs font-mono text-zinc-400">
             <span>BananaFarmChaos / Scripts / AI / CustomerAIStateMachine.cs</span>
-            <span class="text-zinc-500">Decoupled State Pattern</span>
+            <span class="text-zinc-500">State Machine Pattern</span>
           </div>
           <pre class="text-xs font-mono text-zinc-300 overflow-x-auto leading-relaxed p-4 bg-zinc-950 rounded-lg border border-brand-border"><code><span class="text-purple-400">public class</span> <span class="text-amber-300">CustomerAI</span> : <span class="text-amber-300">MonoBehaviour</span>, <span class="text-blue-300">IPoolable</span>
 {
@@ -721,7 +752,7 @@
       {
         id: "banana-farm-chaos",
         title: "Banana Farm Chaos",
-        category: "Management Sim / AI Ecosystem",
+        category: "Farm Management Simulation",
         statusBadge: "In Development / Flagship",
         statusType: "dev",
         role: "Solo Gameplay Programmer & Designer",
@@ -739,27 +770,35 @@
           url: "https://hushgames24.itch.io/",
           icon: "external"
         },
-        footerCaption: "Management Loop & NPC AI Architecture",
-        overviewHeading: "Architecture Breakdown",
+        footerCaption: "Management Loop, NPC AI & Gameplay Systems",
+        overviewHeading: "Core Systems & Overview",
         highlightsHeading: "Key Technical Highlights",
-        overviewText: "Engineered a modular, decoupled management simulation loop in Unity adhering to strict SOLID design patterns and ScriptableObject-driven event channels. The core loop coordinates dynamic crop ripening, capacity-managed inventory racks, and customer checkout queues without direct singleton coupling.",
+        overviewText: "Built a modular management simulation loop in Unity and C#, combining event-driven communication with dedicated gameplay systems for crop farming, inventory storage, customer shopping behaviors, checkout queues, and daily progression.",
         keyHighlights: [
           {
-            title: "Hierarchical AI State Machine",
-            description: "Engineered custom finite state machines governing customer purchasing decisions, stall browsing, checkout queue registration, and opportunist thief routines."
+            title: "Customer & NPC AI",
+            description: "Implemented finite state machine behaviors for customer purchasing decisions, stall browsing, checkout queues, and dedicated routines for Stealer NPCs and Bob the security guard using Unity NavMesh."
           },
           {
-            title: "Decoupled Event Architecture",
-            description: "Employed ScriptableObject event channels and decoupled event buses to allow UI, audio, and inventory subsystems to react asynchronously without hard references."
+            title: "Event-Driven Gameplay Systems",
+            description: "Utilized event-driven communication to connect crop ripening, customer checkouts, audio triggers, and UI updates where appropriate without unnecessary direct dependencies."
           },
           {
-            title: "Zero-Allocation Object Pooling",
-            description: "Constructed generic GameObject and component pooling systems for floating UI indicators, harvested produce, and customer agents to eliminate runtime GC frame stutter."
+            title: "Inventory, Pickup & Placement",
+            description: "Built modular systems for harvesting crops, handling item pickups, managing capacity-tracked store racks, and placing farm structures on grid plots."
           },
           {
-            title: "UI Toolkit Management Interfaces",
-            description: "Structured responsive UI Toolkit interfaces with USS styling for fluid farm management, shop upgrades, and dynamic player feedback."
+            title: "Performance & UI Feedback",
+            description: "Implemented object pooling for harvested produce and floating text feedback, paired with responsive UI Toolkit interfaces for shop upgrades and daily summaries."
           }
+        ],
+        contributions: [
+          "Designed and implemented the core farming, harvesting, and shopkeeping gameplay loop.",
+          "Implemented customer shopping behaviors, browsing logic, and checkout queue registration.",
+          "Created AI behaviors and interaction routines for Stealer NPCs and Bob the guard.",
+          "Engineered inventory management, item pickup interactions, and grid-based plot placement.",
+          "Built day/night progression cycles and shop upgrade systems.",
+          "Developed responsive UI Toolkit interfaces for store management and player feedback."
         ],
         techStack: ["Unity", "C#", "UI Toolkit", "ScriptableObjects", "State Pattern", "Object Pooling", "NavMesh"]
       },
@@ -1142,7 +1181,7 @@
           leftButtonsHtml = `
             <button id="toggleCodeSampleBtn" type="button" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-brand-border bg-zinc-900 text-zinc-300 hover:text-white hover:border-zinc-600 text-xs font-mono transition-colors cursor-pointer">
               <svg class="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
-              <span>Architecture Sample</span>
+              <span>Code Sample</span>
             </button>
           `;
         }
@@ -1154,7 +1193,7 @@
           toggleCodeSampleBtn.addEventListener('click', () => {
             codeSnippetDrawer.classList.toggle('hidden');
             const isHidden = codeSnippetDrawer.classList.contains('hidden');
-            toggleCodeSampleBtn.querySelector('span').textContent = isHidden ? 'Architecture Sample' : 'Hide Code Sample';
+            toggleCodeSampleBtn.querySelector('span').textContent = isHidden ? 'Code Sample' : 'Hide Code Sample';
           });
         }
 
@@ -1179,6 +1218,24 @@
             <span><strong class="text-zinc-200 font-medium">${highlight.title}:</strong> ${highlight.description}</span>
           </li>
         `).join('');
+
+        // Contributions list (if available for project)
+        const contributionsContainer = document.getElementById('detailContributionsContainer');
+        const contributionsList = document.getElementById('detailContributions');
+        if (contributionsContainer && contributionsList) {
+          if (game.contributions && game.contributions.length > 0) {
+            contributionsList.innerHTML = game.contributions.map(item => `
+              <li class="flex items-start gap-2">
+                <span class="mt-1.5 w-1 h-1 rounded-full bg-emerald-400/80 shrink-0"></span>
+                <span>${item}</span>
+              </li>
+            `).join('');
+            contributionsContainer.classList.remove('hidden');
+          } else {
+            contributionsList.innerHTML = '';
+            contributionsContainer.classList.add('hidden');
+          }
+        }
 
         // Tags badges
         detailTags.innerHTML = game.techStack.map(tag => `

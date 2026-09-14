@@ -76,8 +76,8 @@ npm run preview
 
 1. **Banana Farm Chaos** *(Flagship — Active Development)*
    - **Role**: Solo Gameplay Programmer & Designer
-   - **Highlights**: Event-driven management loops, hierarchical FSM customer & thief AI, ScriptableObject decoupling, zero-allocation pooling.
-   - **Interactive**: Expandable C# State Machine architecture drawer & gameplay modal trigger.
+   - **Highlights**: Event-driven management loops, customer & NPC AI, inventory & checkout systems, object pooling.
+   - **Interactive**: Expandable C# State Machine code drawer.
 
 2. **Divorce Papers** *(Published itch.io Release)*
    - First-Person psychological horror with spatial audio triggers and physical inspection mechanics.
