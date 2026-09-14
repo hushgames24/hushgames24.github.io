@@ -1,0 +1,78 @@
+---
+// 1-Click Copy Toast Notification
+---
+
+<div
+  id="toastNotification"
+  class="fixed bottom-6 right-6 z-50 hidden translate-y-2 opacity-0 transition-all duration-300 pointer-events-none"
+  role="status"
+  aria-live="polite"
+>
+  <div class="px-4 py-3 rounded-lg bg-[#121316] border border-[#27272a] text-zinc-200 text-xs font-mono shadow-2xl flex items-center gap-2.5">
+    <svg class="w-4 h-4 text-[#10b981] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+    </svg>
+    <span id="toastMessage">Email copied to clipboard</span>
+  </div>
+</div>
+
+<script>
+  const copyEmailBtn = document.getElementById('copyEmailBtn');
+  const toastNotification = document.getElementById('toastNotification');
+  const contactCopyEmailBtn = document.getElementById('contactCopyEmailBtn');
+
+  async function copyEmail(email: string) {
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(email);
+      } else {
+        const textArea = document.createElement('textarea');
+        textArea.value = email;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-999999px';
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        document.execCommand('copy');
+        textArea.remove();
+      }
+
+      showToast();
+    } catch (err) {
+      console.error('Copy failed:', err);
+      window.location.href = `mailto:${email}`;
+    }
+  }
+
+  function showToast() {
+    if (!toastNotification) return;
+
+    toastNotification.classList.remove('hidden');
+    setTimeout(() => {
+      toastNotification.classList.remove('translate-y-2', 'opacity-0');
+      toastNotification.classList.add('translate-y-0', 'opacity-100');
+    }, 10);
+
+    setTimeout(() => {
+      toastNotification.classList.remove('translate-y-0', 'opacity-100');
+      toastNotification.classList.add('translate-y-2', 'opacity-0');
+      setTimeout(() => {
+        toastNotification.classList.add('hidden');
+      }, 300);
+    }, 2400);
+  }
+
+  if (copyEmailBtn) {
+    copyEmailBtn.addEventListener('click', () => {
+      const email = copyEmailBtn.getAttribute('data-email') || '';
+      copyEmail(email);
+    });
+  }
+
+  if (contactCopyEmailBtn) {
+    contactCopyEmailBtn.addEventListener('click', () => {
+      const email = contactCopyEmailBtn.getAttribute('data-email') || '';
+      copyEmail(email);
+    });
+  }
+</script>

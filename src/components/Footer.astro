@@ -1,0 +1,57 @@
+---
+import { developerProfile } from '../data/portfolioData';
+---
+
+<footer class="border-t border-[#27272a] bg-[#09090b] py-8 text-xs text-zinc-500 font-mono">
+  <div class="max-w-5xl mx-auto px-5 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 text-center sm:text-left">
+      <span>&copy; <span id="currentYear"></span> {developerProfile.name}.</span>
+      <span class="hidden sm:inline text-zinc-700">&bull;</span>
+      <span class="text-zinc-600">Engineered with Astro &amp; Tailwind CSS</span>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <a
+        href={developerProfile.itch}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hover:text-zinc-300 transition-colors"
+      >
+        itch.io
+      </a>
+      <a
+        href={developerProfile.github}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hover:text-zinc-300 transition-colors"
+      >
+        GitHub
+      </a>
+      <a
+        href={developerProfile.linkedin}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hover:text-zinc-300 transition-colors"
+      >
+        LinkedIn
+      </a>
+      <span class="text-zinc-700">&bull;</span>
+      <a
+        href="#top"
+        class="hover:text-emerald-400 transition-colors flex items-center gap-1.5 text-zinc-400"
+      >
+        <span>Top</span>
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const yearEl = document.getElementById('currentYear');
+  if (yearEl) {
+    yearEl.textContent = new Date().getFullYear().toString();
+  }
+</script>

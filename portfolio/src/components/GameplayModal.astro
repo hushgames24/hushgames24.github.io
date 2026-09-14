@@ -1,0 +1,111 @@
+---
+import { flagshipProject, developerProfile } from '../data/portfolioData';
+---
+
+<!-- Video / Gameplay Demonstration Modal -->
+<div
+  id="videoModal"
+  class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm transition-all"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="modalTitle"
+>
+  <div class="relative w-full max-w-3xl bg-[#121316] border border-[#27272a] rounded-xl overflow-hidden shadow-2xl animate-in fade-in zoom-in duration-200">
+    
+    <!-- Modal Header -->
+    <div class="px-5 py-3.5 border-b border-[#27272a] flex items-center justify-between bg-[#0e0f12]">
+      <div>
+        <h3 id="modalTitle" class="text-sm font-semibold text-zinc-100 font-mono">
+          {flagshipProject.demoVideoTitle || "Banana Farm Chaos — Gameplay Demonstration"}
+        </h3>
+        <p class="text-xs text-zinc-500 font-mono">
+          Management Loop &amp; NPC Finite State Machine
+        </p>
+      </div>
+      <button
+        id="closeModalBtn"
+        type="button"
+        class="p-1 rounded text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
+        aria-label="Close modal"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Video Embed / Showcase Viewport -->
+    <div class="relative aspect-video bg-[#09090b] flex items-center justify-center p-6 sm:p-8">
+      <div class="text-center space-y-3 max-w-md">
+        <div class="w-12 h-12 mx-auto rounded-full bg-zinc-900 border border-zinc-700 flex items-center justify-center text-emerald-400">
+          <svg class="w-5 h-5 translate-x-0.5 fill-current" viewBox="0 0 24 24">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
+        </div>
+        <h4 class="text-base font-semibold text-zinc-100 font-mono">
+          Gameplay Demonstration Container
+        </h4>
+        <p class="text-xs text-zinc-400 leading-relaxed font-sans">
+          This container is ready to host a direct MP4/WebM video element, or a YouTube / Loom trailer embed for <strong class="text-zinc-200">Banana Farm Chaos</strong>.
+        </p>
+        <div class="pt-2 flex items-center justify-center gap-3">
+          <a
+            href={developerProfile.itch}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="px-3.5 py-1.5 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-200 text-xs font-mono hover:text-white hover:border-zinc-500 transition-colors"
+          >
+            Visit itch.io Profile &rarr;
+          </a>
+          <button
+            id="modalSecondaryCloseBtn"
+            type="button"
+            class="px-3.5 py-1.5 rounded-lg bg-zinc-900 border border-[#27272a] text-zinc-400 text-xs font-mono hover:text-zinc-200 transition-colors"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const videoModal = document.getElementById('videoModal');
+  const openDemoModalBtn = document.getElementById('openDemoModalBtn');
+  const featuredWatchDemoBtn = document.getElementById('featuredWatchDemoBtn');
+  const closeModalBtn = document.getElementById('closeModalBtn');
+  const modalSecondaryCloseBtn = document.getElementById('modalSecondaryCloseBtn');
+
+  function openModal() {
+    if (videoModal) {
+      videoModal.classList.remove('hidden');
+      document.body.classList.add('overflow-hidden');
+    }
+  }
+
+  function closeModal() {
+    if (videoModal) {
+      videoModal.classList.add('hidden');
+      document.body.classList.remove('overflow-hidden');
+    }
+  }
+
+  if (openDemoModalBtn) openDemoModalBtn.addEventListener('click', openModal);
+  if (featuredWatchDemoBtn) featuredWatchDemoBtn.addEventListener('click', openModal);
+  if (closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
+  if (modalSecondaryCloseBtn) modalSecondaryCloseBtn.addEventListener('click', closeModal);
+
+  if (videoModal) {
+    videoModal.addEventListener('click', (e) => {
+      if (e.target === videoModal) closeModal();
+    });
+  }
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && videoModal && !videoModal.classList.contains('hidden')) {
+      closeModal();
+    }
+  });
+</script>

@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Harvey Jay Pilapil — Unity & Gameplay Programmer</title>
+  <meta name="description" content="Portfolio of Harvey Jay Pilapil — Unity & Gameplay Programmer specializing in decoupled gameplay systems, AI state machines, and performant C# architecture." />
+  <meta name="keywords" content="Harvey Jay Pilapil, Unity Programmer, Gameplay Programmer, C#, ScriptableObjects, Game Architecture, Banana Farm Chaos, Sister Claire's Orphanage" />
+  <meta property="og:title" content="Harvey Jay Pilapil — Unity & Gameplay Programmer" />
+  <meta property="og:description" content="Decoupled gameplay architecture, AI state machines, and responsive physics in Unity & C#." />
+  <meta property="og:type" content="website" />
+
+  <!-- Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+            mono: ['JetBrains Mono', 'ui-monospace', 'monospace'],
+          },
+          colors: {
+            brand: {
+              bg: '#09090b',         // Solid deep matte zinc
+              subtle: '#0e0f12',     // Slightly lighter canvas section
+              card: '#121316',       // Card background
+              hover: '#18191f',      // Card hover state
+              border: '#27272a',     // Crisp 1px zinc-800
+              'border-subtle': '#1f2024',
+              accent: '#10b981',     // Understated emerald
+              'accent-muted': 'rgba(16, 185, 129, 0.12)',
+            }
+          }
+        },
+      },
+    };
+  </script>
+
+  <style>
+    /* Custom Minimal Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #09090b;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #27272a;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #3f3f46;
+    }
+
+    /* Code block font overrides */
+    pre, code {
+      font-family: 'JetBrains Mono', monospace;
+    }
+  </style>
+</head>
+
+<body class="bg-brand-bg text-zinc-300 font-sans antialiased selection:bg-zinc-800 selection:text-zinc-100 min-h-screen flex flex-col">
+
+  <!-- ================================================================= -->
+  <!-- NAVIGATION BAR                                                    -->
+  <!-- ================================================================= -->
+  <header class="sticky top-0 z-40 border-b border-brand-border bg-brand-bg/95 backdrop-blur-md">
+    <div class="max-w-5xl mx-auto px-5 sm:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Brand Name & Title -->
+      <a href="#top" class="flex items-center gap-3 group">
+        <span class="w-7 h-7 rounded bg-zinc-900 border border-brand-border flex items-center justify-center font-mono text-xs font-semibold text-zinc-100 group-hover:border-zinc-600 transition-colors">
+          HP
+        </span>
+        <div class="flex flex-col">
+          <span class="text-sm font-semibold text-zinc-100 tracking-tight group-hover:text-white transition-colors">Harvey Jay Pilapil</span>
+          <span class="text-[11px] font-mono text-zinc-500">Unity &amp; Gameplay Programmer</span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <nav class="hidden md:flex items-center gap-6 text-xs font-medium text-zinc-400">
+        <a href="#featured" class="hover:text-zinc-100 transition-colors">Featured</a>
+        <a href="#shipped" class="hover:text-zinc-100 transition-colors">Releases</a>
+        <a href="#prototypes" class="hover:text-zinc-100 transition-colors">Prototypes</a>
+        <a href="#skills" class="hover:text-zinc-100 transition-colors">Skills</a>
+        <a href="#contact" class="hover:text-zinc-100 transition-colors">Contact</a>
+      </nav>
+
+      <!-- Desktop External Direct Links -->
+      <div class="hidden sm:flex items-center gap-3">
+        <a href="https://hushgames24.itch.io/" target="_blank" rel="noopener noreferrer" 
+           class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded border border-brand-border bg-zinc-900/70 text-zinc-300 hover:text-white hover:border-zinc-600 hover:bg-zinc-800 transition-all">
+          <svg class="w-3.5 h-3.5 fill-current text-zinc-400" viewBox="0 0 24 24">
+            <path d="M2.5 4.5v1.2l2.3 2.3-2.3 2.3v9.2l4.6 2.3 4.6-2.3-2.3-2.3 2.3-2.3h4.6l2.3 2.3-2.3 2.3 4.6 2.3 4.6-2.3v-9.2l-2.3-2.3 2.3-2.3V4.5l-4.6 2.3-4.6-2.3-2.3 2.3-2.3-2.3-4.6 2.3-4.6-2.3zm6.9 7.4a1.8 1.8 0 1 1 0 3.6 1.8 1.8 0 0 1 0-3.6zm5.2 0a1.8 1.8 0 1 1 0 3.6 1.8 1.8 0 0 1 0-3.6z"/>
+          </svg>
+          <span>itch.io</span>
+        </a>
+        <a href="#contact" 
+           class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded bg-zinc-100 text-zinc-950 hover:bg-white transition-colors">
+          <span>Contact</span>
+        </a>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button id="mobileMenuBtn" type="button" aria-label="Toggle Navigation"
+              class="md:hidden p-2 rounded text-zinc-400 hover:text-white hover:bg-zinc-900 border border-transparent hover:border-brand-border">
+        <svg id="hamburgerIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M4 6h16M4 12h16m-7 6h7"/>
+        </svg>
+        <svg id="closeIcon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile Drawer Menu -->
+    <div id="mobileMenu" class="hidden md:hidden border-b border-brand-border bg-brand-bg px-5 py-4 space-y-3 text-xs font-medium">
+      <a href="#featured" class="block py-1 text-zinc-300 hover:text-white">Featured Project</a>
+      <a href="#shipped" class="block py-1 text-zinc-300 hover:text-white">Shipped Releases</a>
+      <a href="#prototypes" class="block py-1 text-zinc-300 hover:text-white">Prototypes &amp; R&amp;D</a>
+      <a href="#skills" class="block py-1 text-zinc-300 hover:text-white">Technical Skills</a>
+      <a href="#contact" class="block py-1 text-zinc-300 hover:text-white">Contact</a>
+      <div class="pt-3 border-t border-brand-border flex items-center gap-2">
+        <a href="https://hushgames24.itch.io/" target="_blank" class="px-3 py-1.5 rounded border border-brand-border bg-zinc-900 text-zinc-300 text-xs">itch.io</a>
+        <a href="#contact" class="px-3 py-1.5 rounded bg-zinc-100 text-zinc-950 font-medium text-xs">Get in Touch</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================================================================= -->
+  <!-- MAIN CONTENT CONTAINER                                            -->
+  <!-- ================================================================= -->
+  <main id="top" class="flex-1 max-w-5xl mx-auto w-full px-5 sm:px-8 py-16 sm:py-24 space-y-24 sm:space-y-32">
+
+    <!-- 1. HERO / INTRODUCTION -->
+    <section class="space-y-8">
+      
+      <!-- Status Badge -->
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-brand-border bg-brand-card text-xs text-zinc-400 font-mono">
+        <span class="w-1.5 h-1.5 rounded-full bg-brand-accent"></span>
+        <span>Actively engineering: <strong class="text-zinc-200 font-medium">Banana Farm Chaos</strong></span>
+      </div>
+
+      <!-- Headline & Role -->
+      <div class="space-y-4 max-w-3xl">
+        <h1 class="text-3xl sm:text-5xl font-bold tracking-tight text-zinc-100 leading-[1.15]">
+          Harvey Jay Pilapil
+        </h1>
+        <p class="text-lg sm:text-xl text-zinc-400 font-normal leading-relaxed">
+          Unity &amp; Gameplay Programmer specializing in decoupled gameplay systems, finite state machine AI, and performant C# architecture.
+        </p>
+      </div>
+
+      <!-- Editorial Summary -->
+      <p class="text-sm sm:text-base text-zinc-400 leading-relaxed max-w-2xl font-normal">
+        I design and build game architectures with strict adherence to SOLID principles, ScriptableObject-driven event channels, zero-allocation pooling loops, and responsive player feel.
+      </p>
+
+      <!-- Action Button Row -->
+      <div class="pt-2 flex flex-wrap items-center gap-3">
+        <!-- itch.io Main Profile -->
+        <a href="https://hushgames24.itch.io/" target="_blank" rel="noopener noreferrer"
+           class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-brand-border bg-brand-card text-xs font-medium text-zinc-200 hover:text-white hover:border-zinc-600 hover:bg-brand-hover transition-all">
+          <svg class="w-3.5 h-3.5 fill-current text-[#fa5c5c]" viewBox="0 0 24 24">
+            <path d="M2.5 4.5v1.2l2.3 2.3-2.3 2.3v9.2l4.6 2.3 4.6-2.3-2.3-2.3 2.3-2.3h4.6l2.3 2.3-2.3 2.3 4.6 2.3 4.6-2.3v-9.2l-2.3-2.3 2.3-2.3V4.5l-4.6 2.3-4.6-2.3-2.3 2.3-2.3-2.3-4.6 2.3-4.6-2.3zm6.9 7.4a1.8 1.8 0 1 1 0 3.6 1.8 1.8 0 0 1 0-3.6zm5.2 0a1.8 1.8 0 1 1 0 3.6 1.8 1.8 0 0 1 0-3.6z"/>
+          </svg>
+          <span>itch.io Profile</span>
+          <svg class="w-3 h-3 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+          </svg>
+        </a>
+
+        <!-- GitHub -->
+        <a href="https://github.com/hushgames24" target="_blank" rel="noopener noreferrer"
+           class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-brand-border bg-brand-card text-xs font-medium text-zinc-200 hover:text-white hover:border-zinc-600 hover:bg-brand-hover transition-all">
+          <svg class="w-3.5 h-3.5 fill-current text-zinc-400" viewBox="0 0 24 24">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+          </svg>
+          <span>GitHub</span>
+        </a>
+
+        <!-- LinkedIn -->
+        <a href="https://www.linkedin.com/in/harvey-jay-pilapil-65703b33a/" target="_blank" rel="noopener noreferrer"
+           class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-brand-border bg-brand-card text-xs font-medium text-zinc-200 hover:text-white hover:border-zinc-600 hover:bg-brand-hover transition-all">
+          <svg class="w-3.5 h-3.5 fill-current text-zinc-400" viewBox="0 0 24 24">
+            <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 8.76a1.65 1.65 0 1 0 0-3.3 1.65 1.65 0 0 0 0 3.3m1.39 9.74v-8.37H5.07v8.37h2.78z"/>
+          </svg>
+          <span>LinkedIn</span>
+        </a>
+
+        <!-- 1-Click Copy Email Button -->
+        <button id="copyEmailBtn" type="button" data-email="harveyjaypilapil24@gmail.com"
+                class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-brand-border bg-brand-card text-xs font-medium text-zinc-200 hover:text-white hover:border-zinc-600 hover:bg-brand-hover transition-all">
+          <svg class="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+          </svg>
+          <span id="copyEmailText">harveyjaypilapil24@gmail.com</span>
+          <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-400">Copy</span>
+        </button>
+
+        <!-- Download CV Button -->
+        <a href="#cv-placeholder" id="downloadCvBtn"
+           class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-zinc-100 text-zinc-950 text-xs font-semibold hover:bg-white transition-all">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+          </svg>
+          <span>Download CV</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- 2. FEATURED PROJECT (BANANA FARM CHAOS) -->
+    <section id="featured" class="space-y-6 pt-6">
+      
+      <!-- Section Header -->
+      <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 pb-4 border-b border-brand-border">
+        <div>
+          <span class="text-xs font-mono uppercase tracking-wider text-zinc-500">Featured Production</span>
+          <h2 class="text-2xl font-bold tracking-tight text-zinc-100">Banana Farm Chaos</h2>
+        </div>
+        <div class="flex items-center gap-2 text-xs font-mono text-zinc-400">
+          <span class="w-2 h-2 rounded-full bg-brand-accent"></span>
+          <span>In Active Development</span>
+        </div>
+      </div>
+
+      <!-- Featured Card Container -->
+      <div class="rounded-xl border border-brand-border bg-brand-card overflow-hidden">
+        <div class="grid grid-cols-1 lg:grid-cols-12">
+
+          <!-- Clean Media Placeholder Frame (7 cols) -->
+          <!-- Designed for real video / GIF / screenshot embeds -->
+          <div class="lg:col-span-7 bg-zinc-950 border-b lg:border-b-0 lg:border-r border-brand-border relative flex flex-col justify-between group">
+            
+            <!-- Video / GIF Embed Viewport Container -->
+            <div class="relative w-full aspect-video sm:aspect-[16/10] bg-zinc-950 overflow-hidden flex items-center justify-center">
+              <img src="assets/banana-farm-chaos.png" alt="Banana Farm Chaos gameplay screenshot" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='assets/banana-farm-chaos-screenshot.png'">
+
+              <!-- Central Play Button / Video Modal Trigger -->
+              <button id="openDemoModalBtn" type="button" aria-label="Open gameplay demo player"
+                      class="absolute inset-0 m-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-zinc-950/80 border border-zinc-700/80 text-white flex items-center justify-center backdrop-blur-md shadow-2xl transition-all duration-300 group-hover:scale-110 group-hover:border-zinc-400 group-hover:bg-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-400">
+                <svg class="w-6 h-6 translate-x-0.5 fill-current" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z"/>
+                </svg>
+              </button>
+
+              <!-- Top Left Tag -->
+              <div class="absolute top-3 left-3 pointer-events-none">
+                <span class="px-2.5 py-1 text-[11px] font-mono rounded bg-zinc-950/85 border border-zinc-800 text-zinc-200 backdrop-blur-sm">
+                  Solo Gameplay Engineering
+                </span>
+              </div>
+
+              <!-- Bottom Right Tag -->
+              <div class="absolute bottom-3 right-3 pointer-events-none">
+                <span class="px-2.5 py-1 text-[10px] font-mono rounded bg-zinc-950/85 border border-zinc-800 text-zinc-300 backdrop-blur-sm">
+                  Watch Gameplay Demo
+                </span>
+              </div>
+            </div>
+
+            <!-- Media Bar Sub-footer -->
+            <div class="px-4 py-2.5 border-t border-brand-border bg-brand-subtle flex items-center justify-between text-xs font-mono text-zinc-400">
+              <span>Management Loop &amp; NPC AI Demo</span>
+              <button id="toggleCodeSnippetBtn" type="button" class="text-zinc-300 hover:text-white underline underline-offset-4 transition-colors">
+                <span>View Architecture Sample</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Project Details & Engineering Breakdown (5 cols) -->
+          <div class="lg:col-span-5 p-6 sm:p-7 flex flex-col justify-between space-y-6">
+            
+            <div class="space-y-4">
+              <div>
+                <span class="text-xs font-mono text-zinc-500">Role: Solo Gameplay Programmer &amp; Designer</span>
+                <h3 class="text-xl font-bold text-zinc-100 mt-0.5">Core Architecture &amp; Loops</h3>
+              </div>
+
+              <!-- Tech Stack Badges -->
+              <div class="flex flex-wrap gap-1.5 pt-1">
+                <span class="px-2 py-0.5 text-xs font-mono rounded bg-zinc-900 border border-brand-border text-zinc-300">Unity</span>
+                <span class="px-2 py-0.5 text-xs font-mono rounded bg-zinc-900 border border-brand-border text-zinc-300">C#</span>
+                <span class="px-2 py-0.5 text-xs font-mono rounded bg-zinc-900 border border-brand-border text-zinc-300">UI Toolkit</span>
+                <span class="px-2 py-0.5 text-xs font-mono rounded bg-zinc-900 border border-brand-border text-zinc-300">ScriptableObjects</span>
+                <span class="px-2 py-0.5 text-xs font-mono rounded bg-zinc-900 border border-brand-border text-zinc-300">OOP / SOLID</span>
+                <span class="px-2 py-0.5 text-xs font-mono rounded bg-zinc-900 border border-brand-border text-zinc-300">Object Pooling</span>
+              </div>
+
+              <!-- Bullet Points -->
+              <ul class="space-y-3 pt-2 text-xs sm:text-sm text-zinc-400 leading-relaxed">
+                <li class="flex items-start gap-2.5">
+                  <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-zinc-500 flex-shrink-0"></span>
+                  <span><strong class="text-zinc-200 font-medium">Decoupled Management Loop:</strong> Built an event-driven loop featuring banana maturation cycles, dynamic stall inventory capacities, and queue-based customer checkout flows.</span>
+                </li>
+                <li class="flex items-start gap-2.5">
+                  <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-zinc-500 flex-shrink-0"></span>
+                  <span><strong class="text-zinc-200 font-medium">NPC AI State Machines:</strong> Engineered hierarchical state machines governing customer purchasing decisions, obstacle routing, and opportunist stealer routines.</span>
+                </li>
+                <li class="flex items-start gap-2.5">
+                  <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-zinc-500 flex-shrink-0"></span>
+                  <span><strong class="text-zinc-200 font-medium">SOLID Principles &amp; Pooling:</strong> Applied ScriptableObjects for data decoupling and custom object pooling to eliminate runtime GC allocations and frame stutter.</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="pt-4 border-t border-brand-border flex flex-wrap items-center gap-2.5">
+              <button id="featuredWatchDemoBtn" type="button"
+                      class="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-zinc-100 text-zinc-950 text-xs font-semibold hover:bg-white transition-all">
+                <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z"/>
+                </svg>
+                <span>Watch Gameplay Demo</span>
+              </button>
+
+              <a href="https://github.com/hushgames24" target="_blank" rel="noopener noreferrer"
+                 class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg border border-brand-border bg-zinc-900 text-zinc-300 text-xs font-medium hover:border-zinc-600 hover:text-white transition-all">
+                <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+                </svg>
+                <span>Devlog / Repo</span>
+              </a>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Collapsible Architecture Code Drawer -->
+        <div id="codeSnippetDrawer" class="hidden border-t border-brand-border bg-brand-subtle p-6">
+          <div class="flex items-center justify-between pb-3 mb-3 border-b border-brand-border text-xs font-mono text-zinc-400">
+            <span>BananaFarmChaos / Scripts / AI / CustomerAIStateMachine.cs</span>
+            <span class="text-zinc-500">Decoupled State Pattern</span>
+          </div>
+          <pre class="text-xs font-mono text-zinc-300 overflow-x-auto leading-relaxed p-4 bg-zinc-950 rounded border border-brand-border"><code><span class="text-purple-400">public class</span> <span class="text-amber-300">CustomerAI</span> : <span class="text-amber-300">MonoBehaviour</span>, <span class="text-blue-300">IPoolable</span>
+{
+    [<span class="text-emerald-400">SerializeField</span>] <span class="text-purple-400">private</span> <span class="text-blue-300">GameEventChannelSO</span> _onCheckoutCompleted;
+    [<span class="text-emerald-400">SerializeField</span>] <span class="text-purple-400">private</span> <span class="text-blue-300">CustomerConfigSO</span> _config;
+    
+    <span class="text-purple-400">private</span> <span class="text-blue-300">StateMachine</span> _stateMachine;
+    <span class="text-purple-400">public</span> <span class="text-blue-300">NavMeshAgent</span> Agent { <span class="text-purple-400">get</span>; <span class="text-purple-400">private</span> <span class="text-purple-400">set</span>; }
+
+    <span class="text-purple-400">private void</span> <span class="text-blue-400">Awake</span>()
+    {
+        _stateMachine = <span class="text-purple-400">new</span> <span class="text-blue-300">StateMachine</span>();
+        <span class="text-purple-400">var</span> browseState = <span class="text-purple-400">new</span> <span class="text-blue-300">BrowseStallState</span>(<span class="text-purple-400">this</span>, _config);
+        <span class="text-purple-400">var</span> queueState  = <span class="text-purple-400">new</span> <span class="text-blue-300">QueueCheckoutState</span>(<span class="text-purple-400">this</span>, _config);
+        <span class="text-purple-400">var</span> exitState   = <span class="text-purple-400">new</span> <span class="text-blue-300">ExitStoreState</span>(<span class="text-purple-400">this</span>);
+
+        _stateMachine.<span class="text-blue-400">AddTransition</span>(browseState, queueState, () =&gt; HasSelectedItems());
+        _stateMachine.<span class="text-blue-400">AddTransition</span>(queueState, exitState, () =&gt; TransactionComplete());
+        _stateMachine.<span class="text-blue-400">SetState</span>(browseState);
+    }
+}</code></pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 3. SHIPPED & ITCH.IO RELEASES (2-COLUMN GRID) -->
+    <section id="shipped" class="space-y-6 pt-6">
+      
+      <!-- Section Header -->
+      <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 pb-4 border-b border-brand-border">
+        <div>
+          <span class="text-xs font-mono uppercase tracking-wider text-zinc-500">Published Games</span>
+          <h2 class="text-2xl font-bold tracking-tight text-zinc-100">Shipped Releases</h2>
+        </div>
+        <a href="https://hushgames24.itch.io/" target="_blank" rel="noopener noreferrer" 
+           class="inline-flex items-center gap-1 text-xs font-mono text-zinc-400 hover:text-white transition-colors">
+          <span>hushgames24.itch.io</span>
+          <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- 2-Column Responsive Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <!-- CARD 1: Divorce Papers -->
+        <article class="rounded-xl border border-brand-border bg-brand-card overflow-hidden flex flex-col justify-between hover:border-zinc-700 transition-colors group">
+          
+          <!-- Media Preview Slot -->
+          <div class="relative w-full aspect-video bg-zinc-950 border-b border-brand-border overflow-hidden flex items-center justify-center">
+            <img src="assets/divorce-papers.png" alt="Divorce Papers itch.io thumbnail or screenshot" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='assets/divorce-papers-screenshot.png'">
+
+            <!-- Direct Overlay Link to itch.io -->
+            <a href="https://hushgames24.itch.io/divorce-paper" target="_blank" rel="noopener noreferrer"
+               class="absolute inset-0 w-full h-full flex items-center justify-center bg-zinc-950/40 opacity-0 group-hover:opacity-100 transition-opacity"
+               aria-label="View Divorce Papers on itch.io">
+              <span class="px-3.5 py-1.5 rounded bg-zinc-900/90 border border-zinc-700 text-xs font-medium text-white shadow-lg">
+                View on itch.io &rarr;
+              </span>
+            </a>
+
+            <!-- Badge -->
+            <div class="absolute top-3 left-3 pointer-events-none">
+              <span class="px-2 py-0.5 text-[10px] font-mono rounded bg-zinc-950/80 border border-zinc-800 text-zinc-300 backdrop-blur-sm">
+                Published on itch.io
+              </span>
+            </div>
+          </div>
+
+          <!-- Content Body -->
+          <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+            <div class="space-y-3">
+              <div>
+                <h3 class="text-lg font-bold text-zinc-100 group-hover:text-white transition-colors">
+                  Divorce Papers
+                </h3>
+                <p class="text-xs font-mono text-zinc-500">First-Person Psychological Horror</p>
+              </div>
+
+              <!-- Tags -->
+              <div class="flex flex-wrap gap-1.5">
+                <span class="px-2 py-0.5 text-[11px] font-mono rounded bg-zinc-900 border border-brand-border text-zinc-400">Unity</span>
+                <span class="px-2 py-0.5 text-[11px] font-mono rounded bg-zinc-900 border border-brand-border text-zinc-400">C#</span>
+                <span class="px-2 py-0.5 text-[11px] font-mono rounded bg-zinc-900 border border-brand-border text-zinc-400">First-Person</span>
+                <span class="px-2 py-0.5 text-[11px] font-mono rounded bg-zinc-900 border border-brand-border text-zinc-400">Audio Triggers</span>
+              </div>
+
+              <!-- Highlights -->
+              <p class="text-xs sm:text-sm text-zinc-400 leading-relaxed">
+                Engineered an event-driven scare and atmosphere pipeline driven by spatial audio triggers and player proximity. Built responsive first-person physical interaction mechanics and item inspection routines for published itch.io distribution.
+              </p>
+            </div>
+
+            <!-- Direct Button Link -->
+            <div class="pt-4 border-t border-brand-border">
+              <a href="https://hushgames24.itch.io/divorce-paper" target="_blank" rel="noopener noreferrer"
+                 class="w-full inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg border border-brand-border bg-zinc-900 text-xs font-medium text-zinc-200 hover:text-white hover:border-zinc-600 hover:bg-zinc-800 transition-all">
+                <svg class="w-3.5 h-3.5 fill-current text-[#fa5c5c]" viewBox="0 0 24 24">
+                  <path d="M2.5 4.5v1.2l2.3 2.3-2.3 2.3v9.2l4.6 2.3 4.6-2.3-2.3-2.3 2.3-2.3h4.6l2.3 2.3-2.3 2.3 4.6 2.3 4.6-2.3v-9.2l-2.3-2.3 2.3-2.3V4.5l-4.6 2.3-4.6-2.3-2.3 2.3-2.3-2.3-4.6 2.3-4.6-2.3zm6.9 7.4a1.8 1.8 0 1 1 0 3.6 1.8 1.8 0 0 1 0-3.6zm5.2 0a1.8 1.8 0 1 1 0 3.6 1.8 1.8 0 0 1 0-3.6z"/>
+                </svg>
+                <span>Play on itch.io</span>
+                <svg class="w-3 h-3 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARD 2: Wrong Door -->
+        <article class="rounded-xl border border-brand-border bg-brand-card overflow-hidden flex flex-col justify-between hover:border-zinc-700 transition-colors group">
+          
+          <!-- Media Preview Slot -->
+          <div class="relative w-full aspect-video bg-zinc-950 border-b border-brand-border overflow-hidden flex items-center justify-center">
+            <img src="assets/wrong-door.png" alt="Wrong Door itch.io thumbnail or screenshot" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='assets/wrong-door-screenshot.png'">
+
+            <!-- Direct Overlay Link to itch.io -->
+            <a href="https://hushgames24.itch.io/wrong-door" target="_blank" rel="noopener noreferrer"
+               class="absolute inset-0 w-full h-full flex items-center justify-center bg-zinc-950/40 opacity-0 group-hover:opacity-100 transition-opacity"
+               aria-label="View Wrong Door on itch.io">
+              <span class="px-3.5 py-1.5 rounded bg-zinc-900/90 border border-zinc-700 text-xs font-medium text-white shadow-lg">
+                View on itch.io &rarr;
+              </span>
+            </a>
+
+            <!-- Badge -->
+            <div class="absolute top-3 left-3 pointer-events-none">
+              <span class="px-2 py-0.5 text-[10px] font-mono rounded bg-zinc-950/80 border border-zinc-800 text-zinc-300 backdrop-blur-sm">
+                Published on itch.io
+              </span>
+            </div>
+          </div>
+
+          <!-- Content Body -->
+          <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+            <div class="space-y-3">
+              <div>
+                <h3 class="text-lg font-bold text-zinc-100 group-hover:text-white transition-colors">
+                  Wrong Door
+                </h3>
+                <p class="text-xs font-mono text-zinc-500">Procedural &amp; State-Based Puzzle Flow</p>
+              </div>
+
+              <!-- Tags -->
+              <div class="flex flex-wrap gap-1.5">
+                <span class="px-2 py-0.5 text-[11px] font-mono rounded bg-zinc-900 border border-brand-border text-zinc-400">Unity</span>
+                <span class="px-2 py-0.5 text-[11px] font-mono rounded bg-zinc-900 border border-brand-border text-zinc-400">C#</span>
+                <span class="px-2 py-0.5 text-[11px] font-mono rounded bg-zinc-900 border border-brand-border text-zinc-400">Puzzle Logic</span>
+                <span class="px-2 py-0.5 text-[11px] font-mono rounded bg-zinc-900 border border-brand-border text-zinc-400">State Management</span>
+              </div>
+
+              <!-- Highlights -->
+              <p class="text-xs sm:text-sm text-zinc-400 leading-relaxed">
+                Architected dynamic trigger systems and state-based puzzle flow logic for branching exit conditions. Implemented clean scene resets, state serialization, and audiovisual cues optimized for WebGL and itch.io deployment.
+              </p>
+            </div>
+
+            <!-- Direct Button Link -->
+            <div class="pt-4 border-t border-brand-border">
+              <a href="https://hushgames24.itch.io/wrong-door" target="_blank" rel="noopener noreferrer"
+                 class="w-full inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg border border-brand-border bg-zinc-900 text-xs font-medium text-zinc-200 hover:text-white hover:border-zinc-600 hover:bg-zinc-800 transition-all">
+                <svg class="w-3.5 h-3.5 fill-current text-[#fa5c5c]" viewBox="0 0 24 24">
+                  <path d="M2.5 4.5v1.2l2.3 2.3-2.3 2.3v9.2l4.6 2.3 4.6-2.3-2.3-2.3 2.3-2.3h4.6l2.3 2.3-2.3 2.3 4.6 2.3 4.6-2.3v-9.2l-2.3-2.3 2.3-2.3V4.5l-4.6 2.3-4.6-2.3-2.3 2.3-2.3-2.3-4.6 2.3-4.6-2.3zm6.9 7.4a1.8 1.8 0 1 1 0 3.6 1.8 1.8 0 0 1 0-3.6zm5.2 0a1.8 1.8 0 1 1 0 3.6 1.8 1.8 0 0 1 0-3.6z"/>
+                </svg>
+                <span>Play on itch.io</span>
+                <svg class="w-3 h-3 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- 4. PROTOTYPES & EXPLORATION (SISTER CLAIRE'S ORPHANAGE) -->
+    <section id="prototypes" class="space-y-6 pt-6">
+      
+      <!-- Section Header -->
+      <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 pb-4 border-b border-brand-border">
+        <div>
+          <span class="text-xs font-mono uppercase tracking-wider text-zinc-500">R&amp;D &amp; Mechanics Exploration</span>
+          <h2 class="text-2xl font-bold tracking-tight text-zinc-100">Prototypes &amp; Systems</h2>
+        </div>
+        <span class="text-xs font-mono text-zinc-500">Physics &amp; Sensory Architecture</span>
+      </div>
+
+      <!-- Prototype Specification Card -->
+      <div class="rounded-xl border border-brand-border bg-brand-card p-6 sm:p-8 space-y-6">
+        
+        <!-- Header & Action Row -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-brand-border">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="px-2 py-0.5 rounded text-[11px] font-mono bg-zinc-900 border border-brand-border text-zinc-300">
+                Released Demo Prototype
+              </span>
+              <span class="text-xs font-mono text-zinc-500">Horror &amp; Navigation R&amp;D</span>
+            </div>
+            <h3 class="text-xl sm:text-2xl font-bold text-zinc-100 mt-2">
+              Sister Claire's Orphanage (Demo Prototype)
+            </h3>
+          </div>
+
+          <a href="https://9l-studio.itch.io/sister-claires-orphanage" target="_blank" rel="noopener noreferrer"
+             class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-zinc-100 text-zinc-950 text-xs font-semibold hover:bg-white transition-all self-start sm:self-auto">
+            <svg class="w-3.5 h-3.5 fill-current text-[#fa5c5c]" viewBox="0 0 24 24">
+              <path d="M2.5 4.5v1.2l2.3 2.3-2.3 2.3v9.2l4.6 2.3 4.6-2.3-2.3-2.3 2.3-2.3h4.6l2.3 2.3-2.3 2.3 4.6 2.3 4.6-2.3v-9.2l-2.3-2.3 2.3-2.3V4.5l-4.6 2.3-4.6-2.3-2.3 2.3-2.3-2.3-4.6 2.3-4.6-2.3zm6.9 7.4a1.8 1.8 0 1 1 0 3.6 1.8 1.8 0 0 1 0-3.6zm5.2 0a1.8 1.8 0 1 1 0 3.6 1.8 1.8 0 0 1 0-3.6z"/>
+            </svg>
+            <span>Play Demo on itch.io</span>
+            <svg class="w-3 h-3 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+            </svg>
+          </a>
+        </div>
+
+        <!-- Prototype Media & Architecture Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+          
+          <!-- Image Wrapper Container (5 cols) -->
+          <div class="lg:col-span-5 w-full aspect-video bg-zinc-950 rounded-lg overflow-hidden border border-brand-border relative group">
+            <img src="assets/sister-claires.png" alt="Sister Claire's Orphanage demo cover or screenshot" class="w-full h-full object-cover rounded-lg border border-brand-border group-hover:scale-105 transition-transform duration-500" onerror="this.src='assets/sister-claires-screenshot.png'">
+            <a href="https://9l-studio.itch.io/sister-claires-orphanage" target="_blank" rel="noopener noreferrer"
+               class="absolute inset-0 flex items-center justify-center bg-zinc-950/40 opacity-0 group-hover:opacity-100 transition-opacity"
+               aria-label="Play Sister Claire's Orphanage on itch.io">
+              <span class="px-3.5 py-1.5 rounded bg-zinc-900/90 border border-zinc-700 text-xs font-medium text-white shadow-lg">
+                Play on itch.io &rarr;
+              </span>
+            </a>
+          </div>
+
+          <!-- Specs & Narrative (7 cols) -->
+          <div class="lg:col-span-7 space-y-4">
+            <p class="text-xs sm:text-sm text-zinc-400 leading-relaxed">
+              An experimental playable prototype focused on establishing custom mathematical motion handling, slope ray-projection, and high-fidelity sensory awareness for tension-driven first-person horror navigation.
+            </p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div class="p-3.5 rounded-lg bg-zinc-950 border border-brand-border space-y-1.5">
+                <span class="text-xs font-mono font-semibold text-zinc-200 block">01 // Kinematic Motion</span>
+                <p class="text-[11px] text-zinc-400 leading-relaxed">
+                  Custom movement controller with acceleration curves, slope ray-projection, and stair step-snapping.
+                </p>
+              </div>
+
+              <div class="p-3.5 rounded-lg bg-zinc-950 border border-brand-border space-y-1.5">
+                <span class="text-xs font-mono font-semibold text-zinc-200 block">02 // Line-of-Sight</span>
+                <p class="text-[11px] text-zinc-400 leading-relaxed">
+                  Multi-raycast cone testing, shadow occlusion checks, and peripheral vision awareness for AI.
+                </p>
+              </div>
+
+              <div class="p-3.5 rounded-lg bg-zinc-950 border border-brand-border space-y-1.5">
+                <span class="text-xs font-mono font-semibold text-zinc-200 block">03 // Interactions</span>
+                <p class="text-[11px] text-zinc-400 leading-relaxed">
+                  Decoupled <code class="text-zinc-200">IInteractable</code> pipeline supporting tap, hold, and inspection mechanics.
+                </p>
+              </div>
+            </div>
+
+            <!-- Technical Tags -->
+            <div class="pt-1 flex flex-wrap gap-2">
+              <span class="px-2.5 py-0.5 text-xs font-mono rounded bg-zinc-900 border border-brand-border text-zinc-400">Unity 3D</span>
+              <span class="px-2.5 py-0.5 text-xs font-mono rounded bg-zinc-900 border border-brand-border text-zinc-400">Physics Raycasting</span>
+              <span class="px-2.5 py-0.5 text-xs font-mono rounded bg-zinc-900 border border-brand-border text-zinc-400">Vector Mathematics</span>
+              <span class="px-2.5 py-0.5 text-xs font-mono rounded bg-zinc-900 border border-brand-border text-zinc-400">Spatial Audio Pipelines</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 5. TECHNICAL SKILLS SUMMARY -->
+    <section id="skills" class="space-y-6 pt-6">
+      
+      <!-- Section Header -->
+      <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 pb-4 border-b border-brand-border">
+        <div>
+          <span class="text-xs font-mono uppercase tracking-wider text-zinc-500">Core Competencies</span>
+          <h2 class="text-2xl font-bold tracking-tight text-zinc-100">Technical Skills</h2>
+        </div>
+        <span class="text-xs font-mono text-zinc-500">Languages, Systems &amp; Tooling</span>
+      </div>
+
+      <!-- Structured Grid / Table Representation -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+        <!-- Category 1: Languages & Engine -->
+        <div class="p-5 rounded-xl border border-brand-border bg-brand-card space-y-3">
+          <span class="text-xs font-mono uppercase text-zinc-500 font-semibold tracking-wider">Engine &amp; Language</span>
+          <ul class="space-y-2 text-xs font-mono text-zinc-300">
+            <li class="flex items-center justify-between py-1 border-b border-zinc-800/60">
+              <span class="font-medium text-zinc-200">C#</span>
+              <span class="text-zinc-500 text-[11px]">Advanced OOP</span>
+            </li>
+            <li class="flex items-center justify-between py-1 border-b border-zinc-800/60">
+              <span class="font-medium text-zinc-200">Unity Engine</span>
+              <span class="text-zinc-500 text-[11px]">2021 / 2022 / 6</span>
+            </li>
+            <li class="flex items-center justify-between py-1">
+              <span class="font-medium text-zinc-200">Gameplay Math</span>
+              <span class="text-zinc-500 text-[11px]">Vector, Trigonometry</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Category 2: Architecture & Patterns -->
+        <div class="p-5 rounded-xl border border-brand-border bg-brand-card space-y-3">
+          <span class="text-xs font-mono uppercase text-zinc-500 font-semibold tracking-wider">Architecture</span>
+          <ul class="space-y-2 text-xs font-mono text-zinc-300">
+            <li class="flex items-center justify-between py-1 border-b border-zinc-800/60">
+              <span class="font-medium text-zinc-200">ScriptableObjects</span>
+              <span class="text-zinc-500 text-[11px]">Data Channels</span>
+            </li>
+            <li class="flex items-center justify-between py-1 border-b border-zinc-800/60">
+              <span class="font-medium text-zinc-200">State Machines</span>
+              <span class="text-zinc-500 text-[11px]">Hierarchical FSM</span>
+            </li>
+            <li class="flex items-center justify-between py-1">
+              <span class="font-medium text-zinc-200">SOLID Design</span>
+              <span class="text-zinc-500 text-[11px]">Decoupled Systems</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Category 3: Optimization & Systems -->
+        <div class="p-5 rounded-xl border border-brand-border bg-brand-card space-y-3">
+          <span class="text-xs font-mono uppercase text-zinc-500 font-semibold tracking-wider">Optimization &amp; UI</span>
+          <ul class="space-y-2 text-xs font-mono text-zinc-300">
+            <li class="flex items-center justify-between py-1 border-b border-zinc-800/60">
+              <span class="font-medium text-zinc-200">Object Pooling</span>
+              <span class="text-zinc-500 text-[11px]">Zero GC Alloc</span>
+            </li>
+            <li class="flex items-center justify-between py-1 border-b border-zinc-800/60">
+              <span class="font-medium text-zinc-200">UI Toolkit / UGUI</span>
+              <span class="text-zinc-500 text-[11px]">Responsive USS</span>
+            </li>
+            <li class="flex items-center justify-between py-1">
+              <span class="font-medium text-zinc-200">Profiler / Frame</span>
+              <span class="text-zinc-500 text-[11px]">Performance Budget</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Category 4: Tooling & Pipeline -->
+        <div class="p-5 rounded-xl border border-brand-border bg-brand-card space-y-3">
+          <span class="text-xs font-mono uppercase text-zinc-500 font-semibold tracking-wider">Tooling &amp; 3D</span>
+          <ul class="space-y-2 text-xs font-mono text-zinc-300">
+            <li class="flex items-center justify-between py-1 border-b border-zinc-800/60">
+              <span class="font-medium text-zinc-200">Git &amp; Git LFS</span>
+              <span class="text-zinc-500 text-[11px]">Branch Workflows</span>
+            </li>
+            <li class="flex items-center justify-between py-1 border-b border-zinc-800/60">
+              <span class="font-medium text-zinc-200">Blender</span>
+              <span class="text-zinc-500 text-[11px]">Low-poly &amp; Rig</span>
+            </li>
+            <li class="flex items-center justify-between py-1">
+              <span class="font-medium text-zinc-200">VS / Rider</span>
+              <span class="text-zinc-500 text-[11px]">IDE Pipeline</span>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Quick Pill Summary Grid -->
+      <div class="pt-4 flex flex-wrap items-center gap-2 text-xs font-mono text-zinc-400">
+        <span class="text-zinc-500 mr-2">Key Skills:</span>
+        <span class="px-2.5 py-1 rounded bg-zinc-900 border border-brand-border text-zinc-300">C#</span>
+        <span class="px-2.5 py-1 rounded bg-zinc-900 border border-brand-border text-zinc-300">Unity</span>
+        <span class="px-2.5 py-1 rounded bg-zinc-900 border border-brand-border text-zinc-300">ScriptableObjects</span>
+        <span class="px-2.5 py-1 rounded bg-zinc-900 border border-brand-border text-zinc-300">State Machines</span>
+        <span class="px-2.5 py-1 rounded bg-zinc-900 border border-brand-border text-zinc-300">Object Pooling</span>
+        <span class="px-2.5 py-1 rounded bg-zinc-900 border border-brand-border text-zinc-300">Git / GitHub</span>
+        <span class="px-2.5 py-1 rounded bg-zinc-900 border border-brand-border text-zinc-300">Blender (Low-poly)</span>
+        <span class="px-2.5 py-1 rounded bg-zinc-900 border border-brand-border text-zinc-300">UI Toolkit / UGUI</span>
+      </div>
+    </section>
+
+    <!-- 6. CONTACT & COLLABORATION -->
+    <section id="contact" class="pt-6">
+      <div class="rounded-xl border border-brand-border bg-brand-card p-8 sm:p-12 text-center space-y-6">
+        <div class="max-w-xl mx-auto space-y-3">
+          <span class="text-xs font-mono uppercase tracking-wider text-zinc-500 font-semibold">Get in Touch</span>
+          <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-100">
+            Let's Build Great Games
+          </h2>
+          <p class="text-xs sm:text-sm text-zinc-400 leading-relaxed">
+            I am available for gameplay programming roles, contract collaborations, and engineering discussions.
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
+          <!-- Email Direct -->
+          <a href="mailto:harveyjaypilapil24@gmail.com"
+             class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-zinc-100 text-zinc-950 text-xs font-semibold hover:bg-white transition-all">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+            <span>harveyjaypilapil24@gmail.com</span>
+          </a>
+
+          <!-- itch.io Direct -->
+          <a href="https://hushgames24.itch.io/" target="_blank" rel="noopener noreferrer"
+             class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-brand-border bg-zinc-900 text-zinc-200 text-xs font-medium hover:border-zinc-600 hover:text-white transition-all">
+            <svg class="w-3.5 h-3.5 fill-current text-[#fa5c5c]" viewBox="0 0 24 24">
+              <path d="M2.5 4.5v1.2l2.3 2.3-2.3 2.3v9.2l4.6 2.3 4.6-2.3-2.3-2.3 2.3-2.3h4.6l2.3 2.3-2.3 2.3 4.6 2.3 4.6-2.3v-9.2l-2.3-2.3 2.3-2.3V4.5l-4.6 2.3-4.6-2.3-2.3 2.3-2.3-2.3-4.6 2.3-4.6-2.3zm6.9 7.4a1.8 1.8 0 1 1 0 3.6 1.8 1.8 0 0 1 0-3.6zm5.2 0a1.8 1.8 0 1 1 0 3.6 1.8 1.8 0 0 1 0-3.6z"/>
+            </svg>
+            <span>hushgames24.itch.io</span>
+          </a>
+        </div>
+
+        <div class="pt-4 flex items-center justify-center gap-5 text-xs font-mono text-zinc-500">
+          <a href="https://github.com/hushgames24" target="_blank" rel="noopener noreferrer" class="hover:text-zinc-300 transition-colors">GitHub</a>
+          <span>&bull;</span>
+          <a href="https://www.linkedin.com/in/harvey-jay-pilapil-65703b33a/" target="_blank" rel="noopener noreferrer" class="hover:text-zinc-300 transition-colors">LinkedIn</a>
+          <span>&bull;</span>
+          <a href="https://hushgames24.itch.io/" target="_blank" rel="noopener noreferrer" class="hover:text-zinc-300 transition-colors">itch.io</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================================================================= -->
+  <!-- MINIMALIST FOOTER                                                 -->
+  <!-- ================================================================= -->
+  <footer class="border-t border-brand-border bg-brand-bg py-8 text-xs text-zinc-500 font-mono">
+    <div class="max-w-5xl mx-auto px-5 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div>
+        <span>&copy; <span id="currentYear"></span> Harvey Jay Pilapil.</span>
+        <span class="ml-2 text-zinc-600">Built with HTML &amp; Tailwind CSS.</span>
+      </div>
+
+      <a href="#top" class="hover:text-zinc-300 transition-colors flex items-center gap-1.5">
+        <span>Back to Top</span>
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+        </svg>
+      </a>
+    </div>
+  </footer>
+
+  <!-- ================================================================= -->
+  <!-- VIDEO / GAMEPLAY MODAL (Banana Farm Chaos)                        -->
+  <!-- ================================================================= -->
+  <div id="videoModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="relative w-full max-w-3xl bg-brand-card border border-brand-border rounded-xl overflow-hidden shadow-2xl">
+      
+      <!-- Modal Header -->
+      <div class="px-5 py-3.5 border-b border-brand-border flex items-center justify-between bg-brand-subtle">
+        <div>
+          <h4 id="modalTitle" class="text-sm font-semibold text-zinc-100">Banana Farm Chaos — Gameplay Demonstration</h4>
+          <p class="text-xs text-zinc-500 font-mono">Management Loop &amp; NPC Finite State Machine</p>
+        </div>
+        <button id="closeModalBtn" type="button" class="p-1 rounded text-zinc-400 hover:text-white hover:bg-zinc-800" aria-label="Close modal">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Video Target Body -->
+      <div class="relative aspect-video bg-zinc-950 flex items-center justify-center p-6">
+        <!-- Ready for an <iframe src="https://youtube..."> or <video controls src="..."> -->
+        <div class="text-center space-y-3 max-w-md">
+          <div class="w-10 h-10 mx-auto rounded-full bg-zinc-900 border border-zinc-700 flex items-center justify-center text-zinc-300">
+            <svg class="w-4 h-4 translate-x-0.5 fill-current" viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+          </div>
+          <h5 class="text-sm font-semibold text-zinc-100">Video Embed Container</h5>
+          <p class="text-xs text-zinc-400 leading-relaxed">
+            Replace this placeholder in <code class="text-zinc-200">index.html</code> with your gameplay trailer embed (YouTube iframe or local MP4 video file).
+          </p>
+          <div class="pt-2 flex items-center justify-center gap-2">
+            <a href="https://hushgames24.itch.io/" target="_blank" class="px-3 py-1.5 rounded bg-zinc-800 border border-zinc-700 text-zinc-200 text-xs font-mono hover:text-white">
+              View on itch.io
+            </a>
+            <button onclick="document.getElementById('closeModalBtn').click()" class="px-3 py-1.5 rounded bg-zinc-900 border border-brand-border text-zinc-400 text-xs font-mono hover:text-zinc-200">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================================================================= -->
+  <!-- TOAST NOTIFICATION (COPY EMAIL)                                   -->
+  <!-- ================================================================= -->
+  <div id="toastNotification" class="fixed bottom-6 right-6 z-50 hidden translate-y-2 opacity-0 transition-all duration-200 pointer-events-none">
+    <div class="px-4 py-2.5 rounded-lg bg-zinc-900 border border-zinc-700 text-zinc-200 text-xs font-mono shadow-xl flex items-center gap-2">
+      <svg class="w-3.5 h-3.5 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+      </svg>
+      <span>Email address copied to clipboard</span>
+    </div>
+  </div>
+
+  <!-- ================================================================= -->
+  <!-- SCRIPT LOGIC                                                      -->
+  <!-- ================================================================= -->
+  <script>
+    // Copyright Year
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+    // Mobile Hamburger Menu
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const hamburgerIcon = document.getElementById('hamburgerIcon');
+    const closeIcon = document.getElementById('closeIcon');
+
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+      hamburgerIcon.classList.toggle('hidden');
+      closeIcon.classList.toggle('hidden');
+    });
+
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+        hamburgerIcon.classList.remove('hidden');
+        closeIcon.classList.add('hidden');
+      });
+    });
+
+    // Architecture Code Snippet Drawer Toggle
+    const toggleCodeBtn = document.getElementById('toggleCodeSnippetBtn');
+    const codeDrawer = document.getElementById('codeSnippetDrawer');
+
+    if (toggleCodeBtn && codeDrawer) {
+      toggleCodeBtn.addEventListener('click', () => {
+        codeDrawer.classList.toggle('hidden');
+        const isHidden = codeDrawer.classList.contains('hidden');
+        toggleCodeBtn.querySelector('span').textContent = isHidden ? 'View Architecture Sample' : 'Hide Architecture Sample';
+      });
+    }
+
+    // Modal Video Controls
+    const videoModal = document.getElementById('videoModal');
+    const openDemoModalBtn = document.getElementById('openDemoModalBtn');
+    const featuredWatchDemoBtn = document.getElementById('featuredWatchDemoBtn');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+
+    function openModal() {
+      videoModal.classList.remove('hidden');
+      document.body.classList.add('overflow-hidden');
+    }
+
+    function closeModal() {
+      videoModal.classList.add('hidden');
+      document.body.classList.remove('overflow-hidden');
+    }
+
+    if (openDemoModalBtn) openDemoModalBtn.addEventListener('click', openModal);
+    if (featuredWatchDemoBtn) featuredWatchDemoBtn.addEventListener('click', openModal);
+    if (closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
+
+    videoModal.addEventListener('click', (e) => {
+      if (e.target === videoModal) closeModal();
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !videoModal.classList.contains('hidden')) {
+        closeModal();
+      }
+    });
+
+    // Copy Email to Clipboard with Toast Notification
+    const copyEmailBtn = document.getElementById('copyEmailBtn');
+    const toastNotification = document.getElementById('toastNotification');
+
+    if (copyEmailBtn) {
+      copyEmailBtn.addEventListener('click', async () => {
+        const email = copyEmailBtn.getAttribute('data-email');
+        try {
+          if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(email);
+          } else {
+            const textArea = document.createElement('textarea');
+            textArea.value = email;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            document.execCommand('copy');
+            textArea.remove();
+          }
+
+          toastNotification.classList.remove('hidden');
+          setTimeout(() => {
+            toastNotification.classList.remove('translate-y-2', 'opacity-0');
+            toastNotification.classList.add('translate-y-0', 'opacity-100');
+          }, 10);
+
+          setTimeout(() => {
+            toastNotification.classList.remove('translate-y-0', 'opacity-100');
+            toastNotification.classList.add('translate-y-2', 'opacity-0');
+            setTimeout(() => {
+              toastNotification.classList.add('hidden');
+            }, 200);
+          }, 2200);
+        } catch (err) {
+          console.error('Copy failed:', err);
+          window.location.href = `mailto:${email}`;
+        }
+      });
+    }
+
+    // Download CV Handler
+    const downloadCvBtn = document.getElementById('downloadCvBtn');
+    if (downloadCvBtn) {
+      downloadCvBtn.addEventListener('click', (e) => {
+        const href = downloadCvBtn.getAttribute('href');
+        if (href === '#cv-placeholder') {
+          e.preventDefault();
+          alert("Resume/CV: Replace '#cv-placeholder' in index.html with the relative path or URL to your resume PDF (e.g. 'Harvey_Jay_Pilapil_Resume.pdf')!");
+        }
+      });
+    }
+  </script>
+</body>
+</html>

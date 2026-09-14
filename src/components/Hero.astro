@@ -1,0 +1,91 @@
+---
+import { developerProfile } from '../data/portfolioData';
+---
+
+<section class="space-y-8">
+  <!-- Status Badge -->
+  <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#27272a] bg-[#121316] text-xs text-zinc-400 font-mono">
+    <span class="w-2 h-2 rounded-full bg-[#10b981] animate-pulse"></span>
+    <span>
+      {developerProfile.currentStatus.label}:{" "}
+      <strong class="text-zinc-200 font-medium">{developerProfile.currentStatus.project}</strong>
+    </span>
+  </div>
+
+  <!-- Headline & Title -->
+  <div class="space-y-4 max-w-3xl">
+    <h1 class="text-3xl sm:text-5xl font-bold tracking-tight text-zinc-100 leading-[1.15]">
+      {developerProfile.name}
+    </h1>
+    <p class="text-lg sm:text-xl text-zinc-400 font-normal leading-relaxed">
+      {developerProfile.headline}
+    </p>
+  </div>
+
+  <!-- Editorial Narrative -->
+  <p class="text-sm sm:text-base text-zinc-400 leading-relaxed max-w-2xl font-normal">
+    {developerProfile.bio}
+  </p>
+
+  <!-- Action Button Row -->
+  <div class="pt-2 flex flex-wrap items-center gap-3">
+    <!-- itch.io Main Button -->
+    <a
+      href={developerProfile.itch}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-[#27272a] bg-[#121316] text-xs font-mono font-medium text-zinc-200 hover:text-white hover:border-zinc-500 hover:bg-[#18191f] transition-all"
+    >
+      <svg class="w-3.5 h-3.5 fill-current text-[#fa5c5c]" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M2.5 4.5v1.2l2.3 2.3-2.3 2.3v9.2l4.6 2.3 4.6-2.3-2.3-2.3 2.3-2.3h4.6l2.3 2.3-2.3 2.3 4.6 2.3 4.6-2.3v-9.2l-2.3-2.3 2.3-2.3V4.5l-4.6 2.3-4.6-2.3-2.3 2.3-2.3-2.3-4.6 2.3-4.6-2.3zm6.9 7.4a1.8 1.8 0 1 1 0 3.6 1.8 1.8 0 0 1 0-3.6zm5.2 0a1.8 1.8 0 1 1 0 3.6 1.8 1.8 0 0 1 0-3.6z"/>
+      </svg>
+      <span>itch.io Profile</span>
+      <svg class="w-3 h-3 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+      </svg>
+    </a>
+
+    <!-- GitHub Profile -->
+    <a
+      href={developerProfile.github}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-[#27272a] bg-[#121316] text-xs font-mono font-medium text-zinc-200 hover:text-white hover:border-zinc-500 hover:bg-[#18191f] transition-all"
+    >
+      <svg class="w-3.5 h-3.5 fill-current text-zinc-400" viewBox="0 0 24 24" aria-hidden="true">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+      </svg>
+      <span>GitHub</span>
+    </a>
+
+    <!-- LinkedIn Profile -->
+    <a
+      href={developerProfile.linkedin}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-[#27272a] bg-[#121316] text-xs font-mono font-medium text-zinc-200 hover:text-white hover:border-zinc-500 hover:bg-[#18191f] transition-all"
+    >
+      <svg class="w-3.5 h-3.5 fill-current text-zinc-400" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 8.76a1.65 1.65 0 1 0 0-3.3 1.65 1.65 0 0 0 0 3.3m1.39 9.74v-8.37H5.07v8.37h2.78z"/>
+      </svg>
+      <span>LinkedIn</span>
+    </a>
+
+    <!-- 1-Click Copy Email Button -->
+    <button
+      id="copyEmailBtn"
+      type="button"
+      data-email={developerProfile.email}
+      class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-[#27272a] bg-[#121316] text-xs font-mono font-medium text-zinc-200 hover:text-white hover:border-zinc-500 hover:bg-[#18191f] transition-all"
+      title="Click to copy email address"
+    >
+      <svg class="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+      </svg>
+      <span id="copyEmailText">{developerProfile.email}</span>
+      <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-400 group-hover:text-zinc-200">
+        Copy
+      </span>
+    </button>
+  </div>
+</section>
