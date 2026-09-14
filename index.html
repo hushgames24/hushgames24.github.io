@@ -413,12 +413,9 @@
               </div>
             </div>
 
-            <!-- Media Bar Sub-footer with Action Buttons -->
-            <div class="pt-2 border-t border-brand-border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs font-mono">
+            <!-- Media Bar Sub-footer with Caption -->
+            <div class="pt-2 border-t border-brand-border flex items-center justify-between text-xs font-mono">
               <span id="detailFooterCaption" class="text-zinc-400">Management Loop, NPC AI &amp; Gameplay Systems</span>
-              <div id="detailLeftActionContainer" class="flex items-center gap-2">
-                <!-- Injected via JavaScript -->
-              </div>
             </div>
 
           </div>
@@ -536,34 +533,6 @@
 
           </div>
 
-        </div>
-
-        <!-- Optional Collapsible Code Drawer for Banana Farm Chaos -->
-        <div id="codeSnippetDrawer" class="hidden border-t border-brand-border bg-brand-subtle p-6">
-          <div class="flex items-center justify-between pb-3 mb-3 border-b border-brand-border text-xs font-mono text-zinc-400">
-            <span>BananaFarmChaos / Scripts / AI / CustomerAIStateMachine.cs</span>
-            <span class="text-zinc-500">State Machine Pattern</span>
-          </div>
-          <pre class="text-xs font-mono text-zinc-300 overflow-x-auto leading-relaxed p-4 bg-zinc-950 rounded-lg border border-brand-border"><code><span class="text-purple-400">public class</span> <span class="text-amber-300">CustomerAI</span> : <span class="text-amber-300">MonoBehaviour</span>, <span class="text-blue-300">IPoolable</span>
-{
-    [<span class="text-emerald-400">SerializeField</span>] <span class="text-purple-400">private</span> <span class="text-blue-300">GameEventChannelSO</span> _onCheckoutCompleted;
-    [<span class="text-emerald-400">SerializeField</span>] <span class="text-purple-400">private</span> <span class="text-blue-300">CustomerConfigSO</span> _config;
-    
-    <span class="text-purple-400">private</span> <span class="text-blue-300">StateMachine</span> _stateMachine;
-    <span class="text-purple-400">public</span> <span class="text-blue-300">NavMeshAgent</span> Agent { <span class="text-purple-400">get</span>; <span class="text-purple-400">private</span> <span class="text-purple-400">set</span>; }
-
-    <span class="text-purple-400">private void</span> <span class="text-blue-400">Awake</span>()
-    {
-        _stateMachine = <span class="text-purple-400">new</span> <span class="text-blue-300">StateMachine</span>();
-        <span class="text-purple-400">var</span> browseState = <span class="text-purple-400">new</span> <span class="text-blue-300">BrowseStallState</span>(<span class="text-purple-400">this</span>, _config);
-        <span class="text-purple-400">var</span> queueState  = <span class="text-purple-400">new</span> <span class="text-blue-300">QueueCheckoutState</span>(<span class="text-purple-400">this</span>, _config);
-        <span class="text-purple-400">var</span> exitState   = <span class="text-purple-400">new</span> <span class="text-blue-300">ExitStoreState</span>(<span class="text-purple-400">this</span>);
-
-        _stateMachine.<span class="text-blue-400">AddTransition</span>(browseState, queueState, () =&gt; HasSelectedItems());
-        _stateMachine.<span class="text-blue-400">AddTransition</span>(queueState, exitState, () =&gt; TransactionComplete());
-        _stateMachine.<span class="text-blue-400">SetState</span>(browseState);
-    }
-}</code></pre>
         </div>
 
       </div>
@@ -1041,7 +1010,6 @@
     const thumbnailStrip = document.getElementById('thumbnailStrip');
 
     const detailFooterCaption = document.getElementById('detailFooterCaption');
-    const detailLeftActionContainer = document.getElementById('detailLeftActionContainer');
     const detailCategory = document.getElementById('detailCategory');
     const detailTitle = document.getElementById('detailTitle');
     const detailRole = document.getElementById('detailRole');
@@ -1051,7 +1019,6 @@
     const detailHighlights = document.getElementById('detailHighlights');
     const detailTags = document.getElementById('detailTags');
     const detailRightActionContainer = document.getElementById('detailRightActionContainer');
-    const codeSnippetDrawer = document.getElementById('codeSnippetDrawer');
 
     let currentActiveGameId = "banana-farm-chaos";
     let currentActiveMediaMode = "trailer"; // "trailer" | "screenshots"
@@ -1172,11 +1139,6 @@
 
       currentActiveGameId = gameId;
 
-      // Close code drawer if open when switching
-      if (codeSnippetDrawer) {
-        codeSnippetDrawer.classList.add('hidden');
-      }
-
       // Smooth CSS Fade Transition
       detailContent.classList.remove('opacity-100', 'translate-y-0');
       detailContent.classList.add('opacity-0', 'translate-y-1');
@@ -1227,28 +1189,6 @@
 
         // Sub-footer caption
         detailFooterCaption.textContent = game.footerCaption;
-
-        // Sub-footer Left Action Button(s)
-        let leftButtonsHtml = '';
-        if (game.id === 'banana-farm-chaos') {
-          leftButtonsHtml = `
-            <button id="toggleCodeSampleBtn" type="button" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-brand-border bg-zinc-900 text-zinc-300 hover:text-white hover:border-zinc-600 text-xs font-mono transition-colors cursor-pointer">
-              <svg class="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
-              <span>Code Sample</span>
-            </button>
-          `;
-        }
-        detailLeftActionContainer.innerHTML = leftButtonsHtml;
-
-        // Bind code sample toggle button if present
-        const toggleCodeSampleBtn = document.getElementById('toggleCodeSampleBtn');
-        if (toggleCodeSampleBtn && codeSnippetDrawer) {
-          toggleCodeSampleBtn.addEventListener('click', () => {
-            codeSnippetDrawer.classList.toggle('hidden');
-            const isHidden = codeSnippetDrawer.classList.contains('hidden');
-            toggleCodeSampleBtn.querySelector('span').textContent = isHidden ? 'Code Sample' : 'Hide Code Sample';
-          });
-        }
 
         // 2. Update Right Column Narrative & Features
         detailCategory.textContent = game.category;
