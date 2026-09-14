@@ -70,7 +70,12 @@
       color: #f4f4f5;
     }
 
+    .scrollbar-thin {
+      scrollbar-width: thin;
+      scrollbar-color: #27272a #09090b;
+    }
     .scrollbar-thin::-webkit-scrollbar {
+      width: 4px;
       height: 4px;
     }
   </style>
@@ -474,7 +479,7 @@
               <!-- Key Contributions Subsection -->
               <div id="detailContributionsContainer" class="pt-2">
                 <h4 id="detailContributionsHeading" class="text-xs font-mono uppercase tracking-wider text-zinc-500 font-semibold mb-2">My Contributions</h4>
-                <ul id="detailContributions" class="space-y-1.5 text-xs text-zinc-400 leading-relaxed">
+                <ul id="detailContributions" class="space-y-1.5 text-xs text-zinc-400 leading-relaxed max-h-[200px] sm:max-h-[220px] overflow-y-auto pr-2 scrollbar-thin">
                   <li class="flex items-start gap-2">
                     <span class="mt-1.5 w-1 h-1 rounded-full bg-emerald-400/80 shrink-0"></span>
                     <span>Designed and implemented the core farming, harvesting, inventory, and retail gameplay loop.</span>
