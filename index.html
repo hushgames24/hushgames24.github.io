@@ -363,7 +363,7 @@
               
               <!-- 1. Video Iframe View -->
               <div id="videoView" class="hidden w-full h-full">
-                <iframe id="trailerIframe" src="" title="Game Trailer" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                <iframe id="trailerIframe" src="" title="Game Trailer" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
               </div>
 
               <!-- 2. Screenshot Gallery Main Display -->
@@ -1047,6 +1047,7 @@
         mediaTabTrailer.className = activeTabClass;
         mediaTabScreenshots.className = inactiveTabClass;
 
+        if (devPlaceholderView) devPlaceholderView.classList.add('hidden');
         videoView.classList.remove('hidden');
         trailerIframe.src = game.trailerUrl;
 
@@ -1056,6 +1057,7 @@
         mediaTabTrailer.className = inactiveTabClass;
         mediaTabScreenshots.className = activeTabClass;
 
+        if (devPlaceholderView) devPlaceholderView.classList.add('hidden');
         // Stop trailer iframe playback when switching
         trailerIframe.src = "";
         videoView.classList.add('hidden');
