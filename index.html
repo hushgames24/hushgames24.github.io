@@ -249,7 +249,7 @@
                 class="game-card group relative text-left rounded-xl border border-emerald-500 bg-zinc-900 ring-1 ring-emerald-500/40 p-3 flex flex-col justify-between transition-all duration-200 cursor-pointer shadow-lg shadow-emerald-950/20">
           <div class="space-y-2.5 w-full">
             <div class="relative w-full aspect-[16/9] rounded-lg overflow-hidden bg-zinc-950 border border-zinc-800">
-              <img src="assets/banana-farm-chaos.png" alt="Banana Farm Chaos" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='assets/banana-farm-chaos-screenshot.png'">
+              <img src="assets/bananafarm (3).png" alt="Banana Farm Chaos" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
               <div class="absolute top-2 left-2 pointer-events-none">
                 <span class="status-badge px-2 py-0.5 text-[10px] font-mono rounded bg-zinc-950/90 border border-emerald-500/30 text-emerald-400 backdrop-blur-sm">
                   Flagship
@@ -354,11 +354,11 @@
 
               <!-- Media Type Switcher Toggle Pills -->
               <div id="mediaTypeSwitcher" class="hidden flex items-center p-1 rounded-lg bg-zinc-900 border border-brand-border text-xs font-mono">
-                <button id="mediaTabTrailer" type="button" class="px-3 py-1 rounded-md transition-all text-zinc-400 hover:text-white cursor-pointer flex items-center gap-1.5">
+                <button id="mediaTabTrailer" type="button" class="hidden px-3 py-1 rounded-md transition-all text-zinc-400 hover:text-white cursor-pointer flex items-center gap-1.5">
                   <span>▶ Trailer</span>
                 </button>
-                <button id="mediaTabScreenshots" type="button" class="px-3 py-1 rounded-md transition-all text-zinc-400 hover:text-white cursor-pointer flex items-center gap-1.5">
-                  <span>📷 Screenshots (<span id="screenshotsCount">0</span>)</span>
+                <button id="mediaTabScreenshots" type="button" class="px-3 py-1 rounded-md bg-zinc-800 text-emerald-400 border border-emerald-500/40 shadow-sm font-medium transition-all cursor-pointer flex items-center gap-1.5">
+                  <span>📷 Screenshots (<span id="screenshotsCount">11</span>)</span>
                 </button>
               </div>
             </div>
@@ -372,18 +372,18 @@
               </div>
 
               <!-- 2. Screenshot Gallery Main Display -->
-              <div id="screenshotView" class="hidden w-full h-full relative group flex items-center justify-center bg-black">
-                <img id="detailMainScreenshot" src="" alt="Gameplay screenshot preview" class="w-full h-full object-contain group-hover:scale-[1.01] transition-transform duration-300">
+              <div id="screenshotView" class="w-full h-full relative group flex items-center justify-center bg-black">
+                <img id="detailMainScreenshot" src="assets/bananafarm (3).png" alt="Gameplay screenshot preview" class="w-full h-full object-contain group-hover:scale-[1.01] transition-transform duration-300">
                 <div class="absolute bottom-3 right-3 pointer-events-none">
                   <span id="screenshotCounterBadge" class="px-2.5 py-1 text-[10px] font-mono rounded bg-zinc-950/85 border border-zinc-800 text-zinc-300 backdrop-blur-sm shadow-md">
-                    1 / 1
+                    1 / 11
                   </span>
                 </div>
               </div>
 
               <!-- 3. Banana Farm Chaos Atmospheric Fallback View -->
-              <div id="devPlaceholderView" class="w-full h-full relative flex flex-col items-center justify-center text-center p-6 bg-gradient-to-b from-zinc-900/60 to-zinc-950/90 overflow-hidden">
-                <img src="assets/banana-farm-chaos.png" alt="Banana Farm Chaos" class="absolute inset-0 w-full h-full object-cover opacity-15 filter blur-sm pointer-events-none">
+              <div id="devPlaceholderView" class="hidden w-full h-full relative flex flex-col items-center justify-center text-center p-6 bg-gradient-to-b from-zinc-900/60 to-zinc-950/90 overflow-hidden">
+                <img src="assets/bananafarm (3).png" alt="Banana Farm Chaos" class="absolute inset-0 w-full h-full object-cover opacity-15 filter blur-sm pointer-events-none">
                 <div class="relative z-10 space-y-3 max-w-sm">
                   <div class="w-12 h-12 mx-auto rounded-xl bg-zinc-900/90 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shadow-lg shadow-emerald-950/40">
                     <svg class="w-6 h-6 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -577,8 +577,8 @@
               <span class="text-xs font-mono text-emerald-400/90 bg-emerald-950/40 border border-emerald-800/40 px-2 py-0.5 rounded-md">Gameplay Programming</span>
             </li>
             <li class="flex items-center justify-between py-1">
-              <span class="font-medium text-zinc-200 text-sm">Vector Math</span>
-              <span class="text-xs font-mono text-emerald-400/90 bg-emerald-950/40 border border-emerald-800/40 px-2 py-0.5 rounded-md">Movement &amp; 3D Gameplay</span>
+              <span class="font-medium text-zinc-200 text-sm">Physics &amp; Collision</span>
+              <span class="text-xs font-mono text-emerald-400/90 bg-emerald-950/40 border border-emerald-800/40 px-2 py-0.5 rounded-md">Gameplay Interactions</span>
             </li>
           </ul>
         </div>
@@ -604,7 +604,7 @@
               <span class="text-xs font-mono text-emerald-400/90 bg-emerald-950/40 border border-emerald-800/40 px-2 py-0.5 rounded-md">AI &amp; Gameplay States</span>
             </li>
             <li class="flex items-center justify-between py-1">
-              <span class="font-medium text-zinc-200 text-sm">Interfaces &amp; Events</span>
+              <span class="font-medium text-zinc-200 text-sm">Event-Driven Architecture</span>
               <span class="text-xs font-mono text-emerald-400/90 bg-emerald-950/40 border border-emerald-800/40 px-2 py-0.5 rounded-md">System Communication</span>
             </li>
           </ul>
@@ -627,12 +627,12 @@
               <span class="text-xs font-mono text-emerald-400/90 bg-emerald-950/40 border border-emerald-800/40 px-2 py-0.5 rounded-md">Runtime Object Reuse</span>
             </li>
             <li class="flex items-center justify-between py-1 border-b border-zinc-800/40">
-              <span class="font-medium text-zinc-200 text-sm">UI Toolkit &amp; UGUI</span>
-              <span class="text-xs font-mono text-emerald-400/90 bg-emerald-950/40 border border-emerald-800/40 px-2 py-0.5 rounded-md">Runtime UI</span>
+              <span class="font-medium text-zinc-200 text-sm">LOD &amp; Asset Optimization</span>
+              <span class="text-xs font-mono text-emerald-400/90 bg-emerald-950/40 border border-emerald-800/40 px-2 py-0.5 rounded-md">3D Performance</span>
             </li>
             <li class="flex items-center justify-between py-1">
-              <span class="font-medium text-zinc-200 text-sm">Unity Profiler</span>
-              <span class="text-xs font-mono text-emerald-400/90 bg-emerald-950/40 border border-emerald-800/40 px-2 py-0.5 rounded-md">Performance Debugging</span>
+              <span class="font-medium text-zinc-200 text-sm">Non-Alloc Physics</span>
+              <span class="text-xs font-mono text-emerald-400/90 bg-emerald-950/40 border border-emerald-800/40 px-2 py-0.5 rounded-md">Efficient Physics Queries</span>
             </li>
           </ul>
         </div>
@@ -658,8 +658,8 @@
               <span class="text-xs font-mono text-emerald-400/90 bg-emerald-950/40 border border-emerald-800/40 px-2 py-0.5 rounded-md">Low-poly Modeling</span>
             </li>
             <li class="flex items-center justify-between py-1">
-              <span class="font-medium text-zinc-200 text-sm">VS Code / Rider</span>
-              <span class="text-xs font-mono text-emerald-400/90 bg-emerald-950/40 border border-emerald-800/40 px-2 py-0.5 rounded-md">Development Workflow</span>
+              <span class="font-medium text-zinc-200 text-sm">Asset Optimization</span>
+              <span class="text-xs font-mono text-emerald-400/90 bg-emerald-950/40 border border-emerald-800/40 px-2 py-0.5 rounded-md">Efficient Textures &amp; Materials</span>
             </li>
           </ul>
         </div>
@@ -761,10 +761,22 @@
         statusBadge: "In Development / Flagship",
         statusType: "dev",
         role: "Solo Gameplay Programmer & Designer",
-        thumbnail: "assets/banana-farm-chaos.png",
-        screenshot: "assets/banana-farm-chaos-screenshot.png",
+        thumbnail: "assets/bananafarm (3).png",
+        screenshot: "assets/bananafarm (3).png",
         trailerUrl: null,
-        screenshots: [],
+        screenshots: [
+          "assets/bananafarm (1).png",
+          "assets/bananafarm (2).png",
+          "assets/bananafarm (3).png",
+          "assets/bananafarm (4).png",
+          "assets/bananafarm (6).png",
+          "assets/bananafarm (7).png",
+          "assets/bananafarm (8).png",
+          "assets/bananafarm (9).png",
+          "assets/bananafarm (10).png",
+          "assets/bananafarm (11).png",
+          "assets/bananafarm (12).png"
+        ],
         primaryAction: {
           label: "Repository",
           url: "https://github.com/hushgames24",
@@ -1177,8 +1189,12 @@
 
           // Default view: Trailer if available, otherwise Screenshots
           if (hasTrailer) {
+            mediaTabTrailer.classList.remove('hidden');
+            mediaTabScreenshots.classList.remove('hidden');
             setMediaMode(game, 'trailer');
           } else {
+            mediaTabTrailer.classList.add('hidden');
+            mediaTabScreenshots.classList.remove('hidden');
             setMediaMode(game, 'screenshots');
           }
 
