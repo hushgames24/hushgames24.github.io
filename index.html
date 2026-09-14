@@ -47,6 +47,7 @@
     /* Minimal Custom Scrollbar */
     ::-webkit-scrollbar {
       width: 6px;
+      height: 4px;
     }
     ::-webkit-scrollbar-track {
       background: #09090b;
@@ -67,6 +68,10 @@
     ::selection {
       background-color: #27272a;
       color: #f4f4f5;
+    }
+
+    .scrollbar-thin::-webkit-scrollbar {
+      height: 4px;
     }
   </style>
 </head>
@@ -226,9 +231,9 @@
       <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 pb-4 border-b border-brand-border">
         <div>
           <span class="text-xs font-mono uppercase tracking-wider text-zinc-500">Interactive Game Index</span>
-          <h2 class="text-2xl font-bold tracking-tight text-zinc-100">Selected Works &amp; Architecture</h2>
+          <h2 class="text-2xl font-bold tracking-tight text-zinc-100">Selected Works &amp; Media Breakdown</h2>
         </div>
-        <span class="text-xs font-mono text-zinc-500">Click any card to inspect technical systems</span>
+        <span class="text-xs font-mono text-zinc-500">Click any card to inspect media gallery &amp; technical systems</span>
       </div>
 
       <!-- 2. THE GAME SELECTOR ROW (MASTER LIST: 4 CARDS) -->
@@ -328,38 +333,85 @@
       <div id="inspectionStage" class="rounded-2xl border border-brand-border bg-brand-card overflow-hidden shadow-2xl">
         <div id="detailContent" class="grid grid-cols-1 lg:grid-cols-12 transition-all duration-300 opacity-100 transform translate-y-0">
           
-          <!-- Left Column: Large Gameplay Preview & Action Buttons (7 cols) -->
-          <div class="lg:col-span-7 bg-zinc-950 border-b lg:border-b-0 lg:border-r border-brand-border flex flex-col justify-between group">
+          <!-- Left Column: Responsive Media Viewer & Gallery (7 cols) -->
+          <div class="lg:col-span-7 bg-zinc-950 border-b lg:border-b-0 lg:border-r border-brand-border flex flex-col justify-between p-4 sm:p-6 space-y-4">
             
-            <!-- 16:9 Gameplay Preview Container -->
-            <div class="relative w-full aspect-video bg-zinc-950 overflow-hidden flex items-center justify-center">
-              <img id="detailImage" src="assets/banana-farm-chaos.png" alt="Gameplay preview"
-                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                   onerror="this.src='assets/banana-farm-chaos-screenshot.png'">
-
-              <!-- Top Left Badges -->
-              <div class="absolute top-3.5 left-3.5 pointer-events-none flex flex-wrap items-center gap-2 z-10">
-                <span id="detailBadgeRole" class="px-2.5 py-1 text-[11px] font-mono rounded bg-zinc-950/90 border border-zinc-800 text-zinc-200 backdrop-blur-sm">
+            <!-- Top Controls Row: Badges on left, Media Type Switcher on right -->
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <div class="flex flex-wrap items-center gap-2">
+                <span id="detailBadgeRole" class="px-2.5 py-1 text-[11px] font-mono rounded bg-zinc-900 border border-zinc-800 text-zinc-300">
                   Solo Gameplay Engineering
                 </span>
-                <span id="detailBadgeStatus" class="px-2.5 py-1 text-[11px] font-mono rounded bg-emerald-950/90 border border-emerald-500/40 text-emerald-300 backdrop-blur-sm">
+                <span id="detailBadgeStatus" class="px-2.5 py-1 text-[11px] font-mono rounded bg-emerald-950/90 border border-emerald-500/40 text-emerald-300">
                   In Active Development
                 </span>
               </div>
 
-              <!-- Central Demo Button (Banana Farm Chaos demo video trigger) -->
-              <button id="openDetailDemoBtn" type="button" aria-label="Open gameplay demo player"
-                      class="absolute inset-0 m-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-zinc-950/80 border border-zinc-700/80 text-white flex items-center justify-center backdrop-blur-md shadow-2xl transition-all duration-300 group-hover:scale-110 group-hover:border-emerald-500 group-hover:bg-zinc-900 focus:outline-none focus:ring-2 focus:ring-emerald-400">
-                <svg class="w-6 h-6 translate-x-0.5 fill-current text-zinc-100" viewBox="0 0 24 24">
-                  <path d="M8 5v14l11-7z"/>
-                </svg>
-              </button>
+              <!-- Media Type Switcher Toggle Pills -->
+              <div id="mediaTypeSwitcher" class="hidden flex items-center p-1 rounded-lg bg-zinc-900 border border-brand-border text-xs font-mono">
+                <button id="mediaTabTrailer" type="button" class="px-3 py-1 rounded-md transition-all text-zinc-400 hover:text-white cursor-pointer flex items-center gap-1.5">
+                  <span>▶ Trailer</span>
+                </button>
+                <button id="mediaTabScreenshots" type="button" class="px-3 py-1 rounded-md transition-all text-zinc-400 hover:text-white cursor-pointer flex items-center gap-1.5">
+                  <span>📷 Screenshots (<span id="screenshotsCount">0</span>)</span>
+                </button>
+              </div>
             </div>
 
-            <!-- Media Bar Sub-footer with Action Button -->
-            <div class="px-5 py-3.5 border-t border-brand-border bg-brand-subtle flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs font-mono">
-              <span id="detailFooterCaption" class="text-zinc-400">Management Loop &amp; NPC AI Demo</span>
-              <div id="detailLeftActionContainer" class="w-full sm:w-auto flex items-center gap-2">
+            <!-- Primary 16:9 Media Container -->
+            <div id="mediaDisplayContainer" class="relative w-full aspect-video rounded-xl border border-zinc-800 bg-zinc-950 overflow-hidden flex items-center justify-center">
+              
+              <!-- 1. Video Iframe View -->
+              <div id="videoView" class="hidden w-full h-full">
+                <iframe id="trailerIframe" src="" title="Game Trailer" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+              </div>
+
+              <!-- 2. Screenshot Gallery Main Display -->
+              <div id="screenshotView" class="hidden w-full h-full relative group flex items-center justify-center bg-black">
+                <img id="detailMainScreenshot" src="" alt="Gameplay screenshot preview" class="w-full h-full object-contain group-hover:scale-[1.01] transition-transform duration-300">
+                <div class="absolute bottom-3 right-3 pointer-events-none">
+                  <span id="screenshotCounterBadge" class="px-2.5 py-1 text-[10px] font-mono rounded bg-zinc-950/85 border border-zinc-800 text-zinc-300 backdrop-blur-sm shadow-md">
+                    1 / 1
+                  </span>
+                </div>
+              </div>
+
+              <!-- 3. Banana Farm Chaos Atmospheric Fallback View -->
+              <div id="devPlaceholderView" class="w-full h-full relative flex flex-col items-center justify-center text-center p-6 bg-gradient-to-b from-zinc-900/60 to-zinc-950/90 overflow-hidden">
+                <img src="assets/banana-farm-chaos.png" alt="Banana Farm Chaos" class="absolute inset-0 w-full h-full object-cover opacity-15 filter blur-sm pointer-events-none">
+                <div class="relative z-10 space-y-3 max-w-sm">
+                  <div class="w-12 h-12 mx-auto rounded-xl bg-zinc-900/90 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shadow-lg shadow-emerald-950/40">
+                    <svg class="w-6 h-6 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                    </svg>
+                  </div>
+                  <div class="space-y-1">
+                    <h4 class="text-sm sm:text-base font-bold text-zinc-100 tracking-tight">
+                      Asset Showcase In Progress
+                    </h4>
+                    <p class="text-xs text-emerald-400 font-mono">
+                      Playable Vertical Slice Under Active Development
+                    </p>
+                  </div>
+                  <p class="text-[11px] text-zinc-400 leading-relaxed">
+                    Trailers, devlogs, and production screen captures will be published upon release of Milestone 2. Inspect the engineering architecture on the right.
+                  </p>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Horizontal Thumbnail Strip (for screenshots gallery) -->
+            <div id="thumbnailStripContainer" class="hidden w-full">
+              <div id="thumbnailStrip" class="flex items-center gap-2 overflow-x-auto pb-1.5 scrollbar-thin">
+                <!-- Injected via JavaScript -->
+              </div>
+            </div>
+
+            <!-- Media Bar Sub-footer with Action Buttons -->
+            <div class="pt-2 border-t border-brand-border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs font-mono">
+              <span id="detailFooterCaption" class="text-zinc-400">Management Loop &amp; NPC AI Architecture</span>
+              <div id="detailLeftActionContainer" class="flex items-center gap-2">
                 <!-- Injected via JavaScript -->
               </div>
             </div>
@@ -627,53 +679,6 @@
   </footer>
 
   <!-- ================================================================= -->
-  <!-- GAMEPLAY VIDEO MODAL                                              -->
-  <!-- ================================================================= -->
-  <div id="videoModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <div class="relative w-full max-w-3xl bg-brand-card border border-brand-border rounded-xl overflow-hidden shadow-2xl">
-      
-      <!-- Modal Header -->
-      <div class="px-5 py-3.5 border-b border-brand-border flex items-center justify-between bg-brand-subtle">
-        <div>
-          <h4 id="modalTitle" class="text-sm font-semibold text-zinc-100">Banana Farm Chaos — Gameplay Demonstration</h4>
-          <p class="text-xs text-zinc-500 font-mono">Management Loop &amp; NPC Finite State Machine</p>
-        </div>
-        <button id="closeModalBtn" type="button" class="p-1.5 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800" aria-label="Close modal">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-          </svg>
-        </button>
-      </div>
-
-      <!-- Video Target Body -->
-      <div class="relative aspect-video bg-zinc-950 flex items-center justify-center p-6">
-        <div class="text-center space-y-3 max-w-md">
-          <div class="w-12 h-12 mx-auto rounded-full bg-zinc-900 border border-zinc-700 flex items-center justify-center text-zinc-300">
-            <svg class="w-5 h-5 translate-x-0.5 fill-current text-emerald-400" viewBox="0 0 24 24">
-              <path d="M8 5v14l11-7z"/>
-            </svg>
-          </div>
-          <h5 class="text-sm font-semibold text-zinc-100">Gameplay Trailer / Devlog Player</h5>
-          <p class="text-xs text-zinc-400 leading-relaxed">
-            Video embed viewport for gameplay showcases, customer AI pathfinding routines, and farm simulation loops.
-          </p>
-          <div class="pt-2 flex items-center justify-center gap-2">
-            <a href="https://github.com/hushgames24" target="_blank" rel="noopener noreferrer"
-               class="px-3.5 py-1.5 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-200 text-xs font-mono hover:text-white transition-colors">
-              View Repository
-            </a>
-            <button onclick="document.getElementById('closeModalBtn').click()" 
-                    class="px-3.5 py-1.5 rounded-lg bg-zinc-900 border border-brand-border text-zinc-400 text-xs font-mono hover:text-zinc-200 transition-colors cursor-pointer">
-              Close
-            </button>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- ================================================================= -->
   <!-- TOAST NOTIFICATION (COPY EMAIL)                                   -->
   <!-- ================================================================= -->
   <div id="toastNotification" class="fixed bottom-6 right-6 z-50 hidden translate-y-2 opacity-0 transition-all duration-200 pointer-events-none">
@@ -691,6 +696,7 @@
   <script>
     // -----------------------------------------------------------------
     // Master-Detail Games Data Array
+    // Extracted directly from itch.io project pages & production records
     // -----------------------------------------------------------------
     const gamesData = [
       {
@@ -702,17 +708,19 @@
         role: "Solo Gameplay Programmer & Designer",
         thumbnail: "assets/banana-farm-chaos.png",
         screenshot: "assets/banana-farm-chaos-screenshot.png",
+        trailerUrl: null,
+        screenshots: [],
         primaryAction: {
           label: "Repository",
           url: "https://github.com/hushgames24",
           icon: "github"
         },
         secondaryAction: {
-          label: "Watch Gameplay Demo",
-          action: "modal",
-          icon: "play"
+          label: "itch.io Profile",
+          url: "https://hushgames24.itch.io/",
+          icon: "external"
         },
-        footerCaption: "Management Loop & NPC AI Demo",
+        footerCaption: "Management Loop & NPC AI Architecture",
         architectureSummary: "Engineered a modular, decoupled management simulation loop in Unity adhering to strict SOLID design patterns and ScriptableObject-driven event channels. The core loop coordinates dynamic crop ripening, capacity-managed inventory racks, and customer checkout queues without direct singleton coupling.",
         keyHighlights: [
           {
@@ -743,6 +751,13 @@
         role: "Gameplay & Systems Programmer",
         thumbnail: "assets/divorce-papers.png",
         screenshot: "assets/divorce-papers-screenshot.png",
+        trailerUrl: "https://www.youtube-nocookie.com/embed/MDIXhx7VkcI",
+        screenshots: [
+          "https://img.itch.zone/aW1hZ2UvMzY1NDA4NC8yMTc0MzgwOC5wbmc=/original/ij8%2FMa.png",
+          "https://img.itch.zone/aW1hZ2UvMzY1NDA4NC8yMTc0MzgyNi5wbmc=/original/VtrkIV.png",
+          "https://img.itch.zone/aW1hZ2UvMzY1NDA4NC8yMTc0MzgzNC5wbmc=/original/Lq%2B%2B7U.png",
+          "https://img.itch.zone/aW1hZ2UvMzY1NDA4NC8yMTc0MzgzNy5wbmc=/original/v%2B2BmL.png"
+        ],
         primaryAction: {
           label: "Play on itch.io",
           url: "https://hushgames24.itch.io/divorce-paper",
@@ -780,6 +795,14 @@
         role: "Gameplay & Puzzle Systems Programmer",
         thumbnail: "assets/wrong-door.png",
         screenshot: "assets/wrong-door-screenshot.png",
+        trailerUrl: "https://www.youtube-nocookie.com/embed/deXF_vebdyg",
+        screenshots: [
+          "https://img.itch.zone/aW1hZ2UvMzY2ODU4Ny8yMTgyOTg2NC5wbmc=/original/KkRQ0i.png",
+          "https://img.itch.zone/aW1hZ2UvMzY2ODU4Ny8yMTgyOTg2My5wbmc=/original/5OLura.png",
+          "https://img.itch.zone/aW1hZ2UvMzY2ODU4Ny8yMTgyOTg2Ni5wbmc=/original/b5ybf1.png",
+          "https://img.itch.zone/aW1hZ2UvMzY2ODU4Ny8yMTgyOTg3MS5wbmc=/original/E3SzRN.png",
+          "https://img.itch.zone/aW1hZ2UvMzY2ODU4Ny8yMTgyOTg3NS5wbmc=/original/94Nj2b.png"
+        ],
         primaryAction: {
           label: "Play on itch.io",
           url: "https://hushgames24.itch.io/wrong-door",
@@ -817,6 +840,16 @@
         role: "Gameplay & Physics Programmer",
         thumbnail: "assets/sister-claires.png",
         screenshot: "assets/sister-claires-screenshot.png",
+        trailerUrl: "https://www.youtube-nocookie.com/embed/U6y6of8pTLM",
+        screenshots: [
+          "https://img.itch.zone/aW1hZ2UvMzg1Mjc2OS8yMjk4MTY0Ny5wbmc=/original/WXQvOt.png",
+          "https://img.itch.zone/aW1hZ2UvMzg1Mjc2OS8yMjk4MTYyMS5wbmc=/original/pF6FQj.png",
+          "https://img.itch.zone/aW1hZ2UvMzg1Mjc2OS8yMjk4MTYyMy5wbmc=/original/Ju16Cb.png",
+          "https://img.itch.zone/aW1hZ2UvMzg1Mjc2OS8yMjk4MTYyNC5wbmc=/original/d764jH.png",
+          "https://img.itch.zone/aW1hZ2UvMzg1Mjc2OS8yMjk4MTYyNS5wbmc=/original/MK%2F%2FSS.png",
+          "https://img.itch.zone/aW1hZ2UvMzg1Mjc2OS8yMjk4MTYyNi5wbmc=/original/Z3x4cp.png",
+          "https://img.itch.zone/aW1hZ2UvMzg1Mjc2OS8yMjk4MTY0MS5wbmc=/original/Arg%2BlC.png"
+        ],
         primaryAction: {
           label: "Play on itch.io",
           url: "https://9l-studio.itch.io/sister-claires-orphanage",
@@ -862,13 +895,26 @@
     }
 
     // -----------------------------------------------------------------
-    // Master-Detail Rendering Engine
+    // Master-Detail State & DOM References
     // -----------------------------------------------------------------
     const detailContent = document.getElementById('detailContent');
-    const detailImage = document.getElementById('detailImage');
     const detailBadgeRole = document.getElementById('detailBadgeRole');
     const detailBadgeStatus = document.getElementById('detailBadgeStatus');
-    const openDetailDemoBtn = document.getElementById('openDetailDemoBtn');
+    const mediaTypeSwitcher = document.getElementById('mediaTypeSwitcher');
+    const mediaTabTrailer = document.getElementById('mediaTabTrailer');
+    const mediaTabScreenshots = document.getElementById('mediaTabScreenshots');
+    const screenshotsCount = document.getElementById('screenshotsCount');
+    
+    const videoView = document.getElementById('videoView');
+    const trailerIframe = document.getElementById('trailerIframe');
+    const screenshotView = document.getElementById('screenshotView');
+    const detailMainScreenshot = document.getElementById('detailMainScreenshot');
+    const screenshotCounterBadge = document.getElementById('screenshotCounterBadge');
+    const devPlaceholderView = document.getElementById('devPlaceholderView');
+    
+    const thumbnailStripContainer = document.getElementById('thumbnailStripContainer');
+    const thumbnailStrip = document.getElementById('thumbnailStrip');
+
     const detailFooterCaption = document.getElementById('detailFooterCaption');
     const detailLeftActionContainer = document.getElementById('detailLeftActionContainer');
     const detailCategory = document.getElementById('detailCategory');
@@ -881,7 +927,12 @@
     const codeSnippetDrawer = document.getElementById('codeSnippetDrawer');
 
     let currentActiveGameId = "banana-farm-chaos";
+    let currentActiveMediaMode = "trailer"; // "trailer" | "screenshots"
+    let currentScreenshotIndex = 0;
 
+    // -----------------------------------------------------------------
+    // Active Card Selector Visuals
+    // -----------------------------------------------------------------
     function updateActiveCardVisuals(gameId) {
       const cards = document.querySelectorAll('.game-card');
       cards.forEach(card => {
@@ -907,6 +958,85 @@
       });
     }
 
+    // -----------------------------------------------------------------
+    // Media Viewer Controller (Trailer vs Screenshots vs Dev Fallback)
+    // -----------------------------------------------------------------
+    function setMediaMode(game, mode) {
+      currentActiveMediaMode = mode;
+
+      const activeTabClass = "px-3 py-1 rounded-md bg-zinc-800 text-emerald-400 border border-emerald-500/40 shadow-sm font-medium cursor-pointer flex items-center gap-1.5 transition-all";
+      const inactiveTabClass = "px-3 py-1 rounded-md text-zinc-400 hover:text-white border border-transparent cursor-pointer flex items-center gap-1.5 transition-all";
+
+      if (mode === 'trailer' && game.trailerUrl) {
+        mediaTabTrailer.className = activeTabClass;
+        mediaTabScreenshots.className = inactiveTabClass;
+
+        videoView.classList.remove('hidden');
+        trailerIframe.src = game.trailerUrl;
+
+        screenshotView.classList.add('hidden');
+        thumbnailStripContainer.classList.add('hidden');
+      } else if (mode === 'screenshots' && game.screenshots && game.screenshots.length > 0) {
+        mediaTabTrailer.className = inactiveTabClass;
+        mediaTabScreenshots.className = activeTabClass;
+
+        // Stop trailer iframe playback when switching
+        trailerIframe.src = "";
+        videoView.classList.add('hidden');
+
+        screenshotView.classList.remove('hidden');
+        thumbnailStripContainer.classList.remove('hidden');
+
+        selectScreenshot(game, currentScreenshotIndex || 0);
+      }
+    }
+
+    function selectScreenshot(game, index) {
+      if (!game.screenshots || !game.screenshots[index]) return;
+      currentScreenshotIndex = index;
+
+      detailMainScreenshot.src = game.screenshots[index];
+      detailMainScreenshot.onerror = function() {
+        this.src = game.screenshot; // local fallback if CDN image blocked
+      };
+      screenshotCounterBadge.textContent = `${index + 1} / ${game.screenshots.length}`;
+
+      // Update active thumbnail border in the strip
+      const thumbs = thumbnailStrip.querySelectorAll('.screenshot-thumb');
+      thumbs.forEach((thumb, idx) => {
+        if (idx === index) {
+          thumb.className = "screenshot-thumb flex-shrink-0 w-16 sm:w-20 aspect-video rounded-md overflow-hidden bg-zinc-900 border-2 border-emerald-500 ring-1 ring-emerald-500/50 opacity-100 scale-105 transition-all cursor-pointer shadow-md";
+        } else {
+          thumb.className = "screenshot-thumb flex-shrink-0 w-16 sm:w-20 aspect-video rounded-md overflow-hidden bg-zinc-900 border border-zinc-800 opacity-60 hover:opacity-100 hover:border-zinc-600 transition-all cursor-pointer";
+        }
+      });
+    }
+
+    function renderThumbnailStrip(game) {
+      if (!game.screenshots || game.screenshots.length === 0) {
+        thumbnailStrip.innerHTML = "";
+        thumbnailStripContainer.classList.add('hidden');
+        return;
+      }
+
+      thumbnailStrip.innerHTML = game.screenshots.map((url, idx) => `
+        <button type="button" data-index="${idx}" aria-label="View screenshot ${idx + 1}"
+                class="screenshot-thumb flex-shrink-0 w-16 sm:w-20 aspect-video rounded-md overflow-hidden bg-zinc-900 border border-zinc-800 opacity-60 hover:opacity-100 hover:border-zinc-600 transition-all cursor-pointer">
+          <img src="${url}" alt="${game.title} thumbnail ${idx + 1}" class="w-full h-full object-cover pointer-events-none" onerror="this.src='${game.screenshot}'">
+        </button>
+      `).join('');
+
+      thumbnailStrip.querySelectorAll('.screenshot-thumb').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const index = parseInt(btn.getAttribute('data-index'), 10);
+          selectScreenshot(game, index);
+        });
+      });
+    }
+
+    // -----------------------------------------------------------------
+    // Master-Detail Rendering Engine
+    // -----------------------------------------------------------------
     function renderDetail(gameId) {
       const game = gamesData.find(g => g.id === gameId);
       if (!game) return;
@@ -924,13 +1054,6 @@
 
       setTimeout(() => {
         // 1. Update Media Left Column
-        detailImage.src = game.thumbnail;
-        detailImage.alt = `${game.title} gameplay preview`;
-        detailImage.onerror = function() {
-          this.src = game.screenshot;
-        };
-
-        // Top badges
         detailBadgeRole.textContent = game.role.includes('Solo') ? 'Solo Gameplay Engineering' : 'Gameplay & Systems';
         detailBadgeStatus.textContent = game.statusBadge;
 
@@ -940,13 +1063,37 @@
           detailBadgeStatus.className = "px-2.5 py-1 text-[11px] font-mono rounded bg-zinc-950/90 border border-zinc-800 text-zinc-300 backdrop-blur-sm";
         }
 
-        // Central Demo Button
-        if (openDetailDemoBtn) {
-          if (game.id === 'banana-farm-chaos') {
-            openDetailDemoBtn.classList.remove('hidden');
+        // Check if game has Media (Trailer / Screenshots) or is Active Dev fallback
+        const hasTrailer = !!game.trailerUrl;
+        const hasScreenshots = game.screenshots && game.screenshots.length > 0;
+
+        if (!hasTrailer && !hasScreenshots) {
+          // Banana Farm Chaos / Active Development Fallback
+          trailerIframe.src = "";
+          videoView.classList.add('hidden');
+          screenshotView.classList.add('hidden');
+          thumbnailStripContainer.classList.add('hidden');
+          mediaTypeSwitcher.classList.add('hidden');
+          devPlaceholderView.classList.remove('hidden');
+        } else {
+          // Shipped / Demo Games with itch.io extracted Media
+          devPlaceholderView.classList.add('hidden');
+          mediaTypeSwitcher.classList.remove('hidden');
+          screenshotsCount.textContent = game.screenshots.length;
+
+          renderThumbnailStrip(game);
+          currentScreenshotIndex = 0;
+
+          // Default view: Trailer if available, otherwise Screenshots
+          if (hasTrailer) {
+            setMediaMode(game, 'trailer');
           } else {
-            openDetailDemoBtn.classList.add('hidden');
+            setMediaMode(game, 'screenshots');
           }
+
+          // Hook switcher tab click events
+          mediaTabTrailer.onclick = () => setMediaMode(game, 'trailer');
+          mediaTabScreenshots.onclick = () => setMediaMode(game, 'screenshots');
         }
 
         // Sub-footer caption
@@ -995,7 +1142,7 @@
           </span>
         `).join('');
 
-        // 3. Update Right Column Direct Action Button
+        // 3. Update Right Column Direct Action Buttons
         let primaryBtnClass = "flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-zinc-100 text-zinc-950 text-xs font-semibold hover:bg-white transition-all shadow-md";
         let secondaryBtnClass = "inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border border-brand-border bg-zinc-900 text-zinc-300 text-xs font-medium hover:border-zinc-600 hover:text-white transition-all";
 
@@ -1010,32 +1157,17 @@
             </a>
         `;
 
-        if (game.secondaryAction) {
-          if (game.secondaryAction.action === 'modal') {
-            actionButtonsHtml += `
-              <button id="detailWatchDemoBtn" type="button" class="${secondaryBtnClass} cursor-pointer">
-                ${getActionIconSvg(game.secondaryAction.icon)}
-                <span>${game.secondaryAction.label}</span>
-              </button>
-            `;
-          } else if (game.secondaryAction.url) {
-            actionButtonsHtml += `
-              <a href="${game.secondaryAction.url}" target="_blank" rel="noopener noreferrer" class="${secondaryBtnClass}">
-                ${getActionIconSvg(game.secondaryAction.icon)}
-                <span>${game.secondaryAction.label}</span>
-              </a>
-            `;
-          }
+        if (game.secondaryAction && game.secondaryAction.url) {
+          actionButtonsHtml += `
+            <a href="${game.secondaryAction.url}" target="_blank" rel="noopener noreferrer" class="${secondaryBtnClass}">
+              ${getActionIconSvg(game.secondaryAction.icon)}
+              <span>${game.secondaryAction.label}</span>
+            </a>
+          `;
         }
 
         actionButtonsHtml += `</div>`;
         detailRightActionContainer.innerHTML = actionButtonsHtml;
-
-        // Bind Watch Demo Button in right action container if present
-        const detailWatchDemoBtn = document.getElementById('detailWatchDemoBtn');
-        if (detailWatchDemoBtn) {
-          detailWatchDemoBtn.addEventListener('click', openModal);
-        }
 
         // Fade in new content smoothly
         detailContent.classList.remove('opacity-0', 'translate-y-1');
@@ -1058,7 +1190,7 @@
     });
 
     // -----------------------------------------------------------------
-    // General UI Utilities (Modals, Toast, Hamburger, Dynamic Year)
+    // General UI Utilities (Toast, Hamburger, Dynamic Year)
     // -----------------------------------------------------------------
     // Dynamic Year
     document.getElementById('currentYear').textContent = new Date().getFullYear();
@@ -1084,39 +1216,6 @@
         });
       });
     }
-
-    // Gameplay Video Modal
-    const videoModal = document.getElementById('videoModal');
-    const closeModalBtn = document.getElementById('closeModalBtn');
-
-    function openModal() {
-      if (videoModal) {
-        videoModal.classList.remove('hidden');
-        document.body.classList.add('overflow-hidden');
-      }
-    }
-
-    function closeModal() {
-      if (videoModal) {
-        videoModal.classList.add('hidden');
-        document.body.classList.remove('overflow-hidden');
-      }
-    }
-
-    if (openDetailDemoBtn) openDetailDemoBtn.addEventListener('click', openModal);
-    if (closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
-
-    if (videoModal) {
-      videoModal.addEventListener('click', (e) => {
-        if (e.target === videoModal) closeModal();
-      });
-    }
-
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && videoModal && !videoModal.classList.contains('hidden')) {
-        closeModal();
-      }
-    });
 
     // 1-Click Copy Email to Clipboard with Toast Notification
     const copyEmailBtn = document.getElementById('copyEmailBtn');
