@@ -440,7 +440,7 @@
               <div class="pt-1">
                 <h4 id="detailOverviewHeading" class="text-xs font-mono uppercase tracking-wider text-zinc-500 font-semibold mb-1.5">Core Systems &amp; Overview</h4>
                 <p id="detailArchitecture" class="text-xs sm:text-sm text-zinc-300 leading-relaxed font-normal">
-                  Built a modular management simulation loop in Unity and C#, combining event-driven communication with dedicated gameplay systems for crop farming, inventory storage, customer shopping behaviors, checkout queues, and daily progression.
+                  Banana Farm Chaos is a 3D first-person farm management and retail simulation game built in Unity and C#. Players cultivate banana crops, manage roadside produce stalls, operate a physical cashier checkout, defend their farm from monkey thieves, and expand their operation through an in-game computer and delivery system.
                 </p>
               </div>
 
@@ -448,7 +448,26 @@
               <div class="pt-2">
                 <h4 id="detailHighlightsHeading" class="text-xs font-mono uppercase tracking-wider text-zinc-500 font-semibold mb-2">Key Technical Highlights</h4>
                 <ul id="detailHighlights" class="space-y-3 text-xs sm:text-sm text-zinc-400 leading-relaxed">
-                  <!-- Highlights injected via JavaScript -->
+                  <li class="flex items-start gap-2.5">
+                    <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></span>
+                    <span><strong class="text-zinc-200 font-medium">Customer &amp; NPC AI:</strong> Implemented finite state machine behaviors for customers, Stealers, and Bob the Guard using Unity NavMesh, including stall browsing, item reservations, checkout queues, crop theft, patrols, chasing, and combat interactions.</span>
+                  </li>
+                  <li class="flex items-start gap-2.5">
+                    <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></span>
+                    <span><strong class="text-zinc-200 font-medium">Physical Checkout &amp; Transaction System:</strong> Built a multi-step cashier interaction where customers purchase physical banana batches, present cash, and receive manually dispensed change. Transaction validation calculates change due versus change given and handles underpayment and overpayment scenarios.</span>
+                  </li>
+                  <li class="flex items-start gap-2.5">
+                    <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></span>
+                    <span><strong class="text-zinc-200 font-medium">Farming, Inventory &amp; Item State:</strong> Implemented a complete banana production loop covering soil preparation, planting, watering, crop growth, harvesting, inventory storage, pickup/drop interactions, and real-time banana ripeness states. Individual banana attributes such as weight, rarity, pricing, and ripeness are preserved across storage transfers.</span>
+                  </li>
+                  <li class="flex items-start gap-2.5">
+                    <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></span>
+                    <span><strong class="text-zinc-200 font-medium">Gridless Building &amp; Placement:</strong> Developed a gridless building system with ghost previews, collision validation, boundary checks, alignment snapping, rotation, and editing/repacking of placed structures.</span>
+                  </li>
+                  <li class="flex items-start gap-2.5">
+                    <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></span>
+                    <span><strong class="text-zinc-200 font-medium">UI &amp; Gameplay Feedback:</strong> Built UI Toolkit interfaces for the in-game desktop, smartphone notifications, and inventory management, alongside world-space interaction prompts, feedback indicators, and animated gameplay feedback.</span>
+                  </li>
                 </ul>
               </div>
 
@@ -458,27 +477,39 @@
                 <ul id="detailContributions" class="space-y-1.5 text-xs text-zinc-400 leading-relaxed">
                   <li class="flex items-start gap-2">
                     <span class="mt-1.5 w-1 h-1 rounded-full bg-emerald-400/80 shrink-0"></span>
-                    <span>Designed and implemented the core farming, harvesting, and shopkeeping gameplay loop.</span>
+                    <span>Designed and implemented the core farming, harvesting, inventory, and retail gameplay loop.</span>
                   </li>
                   <li class="flex items-start gap-2">
                     <span class="mt-1.5 w-1 h-1 rounded-full bg-emerald-400/80 shrink-0"></span>
-                    <span>Implemented customer shopping behaviors, browsing logic, and checkout queue registration.</span>
+                    <span>Developed customer purchasing behaviors, stall browsing, item reservations, and checkout queue logic.</span>
                   </li>
                   <li class="flex items-start gap-2">
                     <span class="mt-1.5 w-1 h-1 rounded-full bg-emerald-400/80 shrink-0"></span>
-                    <span>Created AI behaviors and interaction routines for Stealer NPCs and Bob the guard.</span>
+                    <span>Implemented Stealer and Bob Guard AI using Unity NavMesh and finite state machines.</span>
                   </li>
                   <li class="flex items-start gap-2">
                     <span class="mt-1.5 w-1 h-1 rounded-full bg-emerald-400/80 shrink-0"></span>
-                    <span>Engineered inventory management, item pickup interactions, and grid-based plot placement.</span>
+                    <span>Built the physical cashier interaction, including banana bagging, physical currency, change validation, and transaction outcomes.</span>
                   </li>
                   <li class="flex items-start gap-2">
                     <span class="mt-1.5 w-1 h-1 rounded-full bg-emerald-400/80 shrink-0"></span>
-                    <span>Built day/night progression cycles and shop upgrade systems.</span>
+                    <span>Developed inventory pickup/drop interactions, item state preservation, and weight-based movement restrictions.</span>
                   </li>
                   <li class="flex items-start gap-2">
                     <span class="mt-1.5 w-1 h-1 rounded-full bg-emerald-400/80 shrink-0"></span>
-                    <span>Developed responsive UI Toolkit interfaces for store management and player feedback.</span>
+                    <span>Implemented gridless building placement, collision validation, alignment snapping, rotation, and building editing.</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="mt-1.5 w-1 h-1 rounded-full bg-emerald-400/80 shrink-0"></span>
+                    <span>Built UI Toolkit interfaces for the desktop computer, smartphone notifications, and inventory systems.</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="mt-1.5 w-1 h-1 rounded-full bg-emerald-400/80 shrink-0"></span>
+                    <span>Implemented day/night progression, shop operation rules, sleep transitions, tutorial flow, and gameplay feedback systems.</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="mt-1.5 w-1 h-1 rounded-full bg-emerald-400/80 shrink-0"></span>
+                    <span>Debugged and resolved gameplay issues involving inventory state persistence, NPC navigation, physics interactions, and object placement.</span>
                   </li>
                 </ul>
               </div>
@@ -573,7 +604,7 @@
             </li>
             <li class="flex items-center justify-between py-1">
               <span class="font-medium text-zinc-200 text-sm">Vector Math</span>
-              <span class="text-xs font-mono text-emerald-400/90 bg-emerald-950/40 border border-emerald-800/40 px-2 py-0.5 rounded-md">Gameplay Programming</span>
+              <span class="text-xs font-mono text-emerald-400/90 bg-emerald-950/40 border border-emerald-800/40 px-2 py-0.5 rounded-md">Movement &amp; 3D Gameplay</span>
             </li>
           </ul>
         </div>
@@ -599,8 +630,8 @@
               <span class="text-xs font-mono text-emerald-400/90 bg-emerald-950/40 border border-emerald-800/40 px-2 py-0.5 rounded-md">AI &amp; Gameplay States</span>
             </li>
             <li class="flex items-center justify-between py-1">
-              <span class="font-medium text-zinc-200 text-sm">SOLID Principles</span>
-              <span class="text-xs font-mono text-emerald-400/90 bg-emerald-950/40 border border-emerald-800/40 px-2 py-0.5 rounded-md">Modular Design</span>
+              <span class="font-medium text-zinc-200 text-sm">Interfaces &amp; Events</span>
+              <span class="text-xs font-mono text-emerald-400/90 bg-emerald-950/40 border border-emerald-800/40 px-2 py-0.5 rounded-md">System Communication</span>
             </li>
           </ul>
         </div>
@@ -619,7 +650,7 @@
           <ul class="space-y-2 pt-0.5">
             <li class="flex items-center justify-between py-1 border-b border-zinc-800/40">
               <span class="font-medium text-zinc-200 text-sm">Object Pooling</span>
-              <span class="text-xs font-mono text-emerald-400/90 bg-emerald-950/40 border border-emerald-800/40 px-2 py-0.5 rounded-md">Runtime Reuse</span>
+              <span class="text-xs font-mono text-emerald-400/90 bg-emerald-950/40 border border-emerald-800/40 px-2 py-0.5 rounded-md">Runtime Object Reuse</span>
             </li>
             <li class="flex items-center justify-between py-1 border-b border-zinc-800/40">
               <span class="font-medium text-zinc-200 text-sm">UI Toolkit &amp; UGUI</span>
@@ -773,32 +804,47 @@
         footerCaption: "Management Loop, NPC AI & Gameplay Systems",
         overviewHeading: "Core Systems & Overview",
         highlightsHeading: "Key Technical Highlights",
-        overviewText: "Built a modular management simulation loop in Unity and C#, combining event-driven communication with dedicated gameplay systems for crop farming, inventory storage, customer shopping behaviors, checkout queues, and daily progression.",
+        overviewText: "Banana Farm Chaos is a 3D first-person farm management and retail simulation game built in Unity and C#. Players cultivate banana crops, manage roadside produce stalls, operate a physical cashier checkout, defend their farm from monkey thieves, and expand their operation through an in-game computer and delivery system.",
         keyHighlights: [
           {
             title: "Customer & NPC AI",
-            description: "Implemented finite state machine behaviors for customer purchasing decisions, stall browsing, checkout queues, and dedicated routines for Stealer NPCs and Bob the security guard using Unity NavMesh."
+            description: "Implemented finite state machine behaviors for customers, Stealers, and Bob the Guard using Unity NavMesh, including stall browsing, item reservations, checkout queues, crop theft, patrols, chasing, and combat interactions."
           },
           {
-            title: "Event-Driven Gameplay Systems",
-            description: "Utilized event-driven communication to connect crop ripening, customer checkouts, audio triggers, and UI updates where appropriate without unnecessary direct dependencies."
+            title: "Physical Checkout & Transaction System",
+            description: "Built a multi-step cashier interaction where customers purchase physical banana batches, present cash, and receive manually dispensed change. Transaction validation calculates change due versus change given and handles underpayment and overpayment scenarios."
           },
           {
-            title: "Inventory, Pickup & Placement",
-            description: "Built modular systems for harvesting crops, handling item pickups, managing capacity-tracked store racks, and placing farm structures on grid plots."
+            title: "Farming, Inventory & Item State",
+            description: "Implemented a complete banana production loop covering soil preparation, planting, watering, crop growth, harvesting, inventory storage, pickup/drop interactions, and real-time banana ripeness states. Individual banana attributes such as weight, rarity, pricing, and ripeness are preserved across storage transfers."
           },
           {
-            title: "Performance & UI Feedback",
-            description: "Implemented object pooling for harvested produce and floating text feedback, paired with responsive UI Toolkit interfaces for shop upgrades and daily summaries."
+            title: "Gridless Building & Placement",
+            description: "Developed a gridless building system with ghost previews, collision validation, boundary checks, alignment snapping, rotation, and editing/repacking of placed structures."
+          },
+          {
+            title: "UI & Gameplay Feedback",
+            description: "Built UI Toolkit interfaces for the in-game desktop, smartphone notifications, and inventory management, alongside world-space interaction prompts, feedback indicators, and animated gameplay feedback."
           }
         ],
         contributions: [
-          "Designed and implemented the core farming, harvesting, and shopkeeping gameplay loop.",
-          "Implemented customer shopping behaviors, browsing logic, and checkout queue registration.",
-          "Created AI behaviors and interaction routines for Stealer NPCs and Bob the guard.",
-          "Engineered inventory management, item pickup interactions, and grid-based plot placement.",
-          "Built day/night progression cycles and shop upgrade systems.",
-          "Developed responsive UI Toolkit interfaces for store management and player feedback."
+          "Designed and implemented the core farming, harvesting, inventory, and retail gameplay loop.",
+          "Developed customer purchasing behaviors, stall browsing, item reservations, and checkout queue logic.",
+          "Implemented Stealer and Bob Guard AI using Unity NavMesh and finite state machines.",
+          "Built the physical cashier interaction, including banana bagging, physical currency, change validation, and transaction outcomes.",
+          "Developed inventory pickup/drop interactions, item state preservation, and weight-based movement restrictions.",
+          "Implemented gridless building placement, collision validation, alignment snapping, rotation, and building editing.",
+          "Built UI Toolkit interfaces for the desktop computer, smartphone notifications, and inventory systems.",
+          "Implemented day/night progression, shop operation rules, sleep transitions, tutorial flow, and gameplay feedback systems.",
+          "Debugged and resolved gameplay issues involving inventory state persistence, NPC navigation, physics interactions, and object placement."
+        ],
+        technicalHighlights: [
+          "Preserved banana ripeness, weight, rarity, price offsets, and spawn-day data when transferring banana batches between the world, inventory, hotbar, and stalls.",
+          "Implemented atomic reservations and FIFO waiting queues to prevent customers from fighting over the same interaction points.",
+          "Used non-allocating physics queries and object pooling for frequently updated gameplay entities.",
+          "Implemented gridless building placement with collision validation, boundary checks, and alignment snapping.",
+          "Built multi-bone ragdoll interactions that transition NPCs between animation and physics-driven reactions.",
+          "Built UI Toolkit interfaces for the in-game desktop, smartphone notifications, and inventory management."
         ],
         techStack: ["Unity", "C#", "UI Toolkit", "ScriptableObjects", "State Pattern", "Object Pooling", "NavMesh"]
       },
