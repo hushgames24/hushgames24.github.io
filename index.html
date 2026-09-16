@@ -345,10 +345,10 @@
             <div class="flex flex-wrap items-center justify-between gap-3">
               <div class="flex flex-wrap items-center gap-2">
                 <span id="detailBadgeRole" class="px-2.5 py-1 text-[11px] font-mono rounded bg-zinc-900 border border-zinc-800 text-zinc-300">
-                  Solo Gameplay Engineering
+                  Solo Gameplay Programmer &amp; Designer
                 </span>
                 <span id="detailBadgeStatus" class="px-2.5 py-1 text-[11px] font-mono rounded bg-emerald-950/90 border border-emerald-500/40 text-emerald-300">
-                  In Active Development
+                  In Development / Flagship
                 </span>
               </div>
 
@@ -438,82 +438,50 @@
                 </p>
               </div>
 
-              <!-- Overview Narrative (Core Systems for Farm Chaos, Synopsis/Story for Horror) -->
-              <div class="pt-1">
-                <h4 id="detailOverviewHeading" class="text-xs font-mono uppercase tracking-wider text-zinc-500 font-semibold mb-1.5">Core Systems &amp; Overview</h4>
-                <p id="detailArchitecture" class="text-xs sm:text-sm text-zinc-300 leading-relaxed font-normal">
-                  Banana Farm Chaos is a 3D first-person farm management and retail simulation game built in Unity and C#. Players cultivate banana crops, manage roadside produce stalls, operate a physical cashier checkout, defend their farm from monkey thieves, and expand their operation through an in-game computer and delivery system.
+              <!-- Project Narrative & Features Presentation -->
+              <div id="detailNarrativeContainer" class="space-y-3 pt-1 text-xs sm:text-sm text-zinc-300 leading-relaxed font-normal">
+                <p>
+                  A first-person farm and retail simulation currently in development, built in Unity and C#.
                 </p>
-              </div>
-
-              <!-- Key Features / Highlights (Bullet Points) -->
-              <div class="pt-2">
-                <h4 id="detailHighlightsHeading" class="text-xs font-mono uppercase tracking-wider text-zinc-500 font-semibold mb-2">Key Technical Highlights</h4>
-                <ul id="detailHighlights" class="space-y-3 text-xs sm:text-sm text-zinc-400 leading-relaxed">
-                  <li class="flex items-start gap-2.5">
-                    <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></span>
-                    <span><strong class="text-zinc-200 font-medium">Customer &amp; NPC AI:</strong> Implemented finite state machine behaviors for customers, Stealers, and Bob the Guard using Unity NavMesh, including stall browsing, item reservations, checkout queues, crop theft, patrols, chasing, and combat interactions.</span>
-                  </li>
-                  <li class="flex items-start gap-2.5">
-                    <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></span>
-                    <span><strong class="text-zinc-200 font-medium">Physical Checkout &amp; Transaction System:</strong> Built a multi-step cashier interaction where customers purchase physical banana batches, present cash, and receive manually dispensed change. Transaction validation calculates change due versus change given and handles underpayment and overpayment scenarios.</span>
-                  </li>
-                  <li class="flex items-start gap-2.5">
-                    <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></span>
-                    <span><strong class="text-zinc-200 font-medium">Farming, Inventory &amp; Item State:</strong> Implemented a complete banana production loop covering soil preparation, planting, watering, crop growth, harvesting, inventory storage, pickup/drop interactions, and real-time banana ripeness states. Individual banana attributes such as weight, rarity, pricing, and ripeness are preserved across storage transfers.</span>
-                  </li>
-                  <li class="flex items-start gap-2.5">
-                    <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></span>
-                    <span><strong class="text-zinc-200 font-medium">Gridless Building &amp; Placement:</strong> Developed a gridless building system with ghost previews, collision validation, boundary checks, alignment snapping, rotation, and editing/repacking of placed structures.</span>
-                  </li>
-                  <li class="flex items-start gap-2.5">
-                    <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></span>
-                    <span><strong class="text-zinc-200 font-medium">UI &amp; Gameplay Feedback:</strong> Built UI Toolkit interfaces for the in-game desktop, smartphone notifications, and inventory management, alongside world-space interaction prompts, feedback indicators, and animated gameplay feedback.</span>
-                  </li>
-                </ul>
-              </div>
-
-              <!-- Key Contributions Subsection -->
-              <div id="detailContributionsContainer" class="pt-2">
-                <h4 id="detailContributionsHeading" class="text-xs font-mono uppercase tracking-wider text-zinc-500 font-semibold mb-2">My Contributions</h4>
-                <ul id="detailContributions" class="space-y-1.5 text-xs text-zinc-400 leading-relaxed max-h-[200px] sm:max-h-[220px] overflow-y-auto pr-2 scrollbar-thin">
-                  <li class="flex items-start gap-2">
-                    <span class="mt-1.5 w-1 h-1 rounded-full bg-emerald-400/80 shrink-0"></span>
-                    <span>Designed and implemented the core farming, harvesting, inventory, and retail gameplay loop.</span>
-                  </li>
-                  <li class="flex items-start gap-2">
-                    <span class="mt-1.5 w-1 h-1 rounded-full bg-emerald-400/80 shrink-0"></span>
-                    <span>Developed customer purchasing behaviors, stall browsing, item reservations, and checkout queue logic.</span>
-                  </li>
-                  <li class="flex items-start gap-2">
-                    <span class="mt-1.5 w-1 h-1 rounded-full bg-emerald-400/80 shrink-0"></span>
-                    <span>Implemented Stealer and Bob Guard AI using Unity NavMesh and finite state machines.</span>
-                  </li>
-                  <li class="flex items-start gap-2">
-                    <span class="mt-1.5 w-1 h-1 rounded-full bg-emerald-400/80 shrink-0"></span>
-                    <span>Built the physical cashier interaction, including banana bagging, physical currency, change validation, and transaction outcomes.</span>
-                  </li>
-                  <li class="flex items-start gap-2">
-                    <span class="mt-1.5 w-1 h-1 rounded-full bg-emerald-400/80 shrink-0"></span>
-                    <span>Developed inventory pickup/drop interactions, item state preservation, and weight-based movement restrictions.</span>
-                  </li>
-                  <li class="flex items-start gap-2">
-                    <span class="mt-1.5 w-1 h-1 rounded-full bg-emerald-400/80 shrink-0"></span>
-                    <span>Implemented gridless building placement, collision validation, alignment snapping, rotation, and building editing.</span>
-                  </li>
-                  <li class="flex items-start gap-2">
-                    <span class="mt-1.5 w-1 h-1 rounded-full bg-emerald-400/80 shrink-0"></span>
-                    <span>Built UI Toolkit interfaces for the desktop computer, smartphone notifications, and inventory systems.</span>
-                  </li>
-                  <li class="flex items-start gap-2">
-                    <span class="mt-1.5 w-1 h-1 rounded-full bg-emerald-400/80 shrink-0"></span>
-                    <span>Implemented day/night progression, shop operation rules, sleep transitions, tutorial flow, and gameplay feedback systems.</span>
-                  </li>
-                  <li class="flex items-start gap-2">
-                    <span class="mt-1.5 w-1 h-1 rounded-full bg-emerald-400/80 shrink-0"></span>
-                    <span>Debugged and resolved gameplay issues involving inventory state persistence, NPC navigation, physics interactions, and object placement.</span>
-                  </li>
-                </ul>
+                <div class="space-y-2">
+                  <p class="text-zinc-200 font-medium">The current playable build lets players:</p>
+                  <ul class="space-y-1.5 text-zinc-400">
+                    <li class="flex items-start gap-2.5">
+                      <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></span>
+                      <span>Farm and harvest bananas</span>
+                    </li>
+                    <li class="flex items-start gap-2.5">
+                      <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></span>
+                      <span>Manage and stock a roadside stall</span>
+                    </li>
+                    <li class="flex items-start gap-2.5">
+                      <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></span>
+                      <span>Handle physical cashier and change interactions</span>
+                    </li>
+                    <li class="flex items-start gap-2.5">
+                      <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></span>
+                      <span>Build and place farm structures</span>
+                    </li>
+                    <li class="flex items-start gap-2.5">
+                      <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></span>
+                      <span>Pick up, carry, and manage items through an inventory system</span>
+                    </li>
+                    <li class="flex items-start gap-2.5">
+                      <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></span>
+                      <span>Interact with customers and NPCs</span>
+                    </li>
+                    <li class="flex items-start gap-2.5">
+                      <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></span>
+                      <span>Deal with banana thieves and farm security</span>
+                    </li>
+                  </ul>
+                </div>
+                <p>
+                  The project is currently in development with a playable core gameplay loop. The focus is on building and refining interconnected gameplay systems.
+                </p>
+                <p class="text-zinc-400">
+                  <strong class="text-zinc-200 font-medium">Note:</strong> This project is still in active development, so the current build may contain bugs, unfinished features, or temporary implementations.
+                </p>
               </div>
 
               <!-- Engine & Language Tech Tags -->
@@ -788,50 +756,19 @@
           icon: "external"
         },
         footerCaption: "Management Loop, NPC AI & Gameplay Systems",
-        overviewHeading: "Core Systems & Overview",
-        highlightsHeading: "Key Technical Highlights",
-        overviewText: "Banana Farm Chaos is a 3D first-person farm management and retail simulation game built in Unity and C#. Players cultivate banana crops, manage roadside produce stalls, operate a physical cashier checkout, defend their farm from monkey thieves, and expand their operation through an in-game computer and delivery system.",
-        keyHighlights: [
-          {
-            title: "Customer & NPC AI",
-            description: "Implemented finite state machine behaviors for customers, Stealers, and Bob the Guard using Unity NavMesh, including stall browsing, item reservations, checkout queues, crop theft, patrols, chasing, and combat interactions."
-          },
-          {
-            title: "Physical Checkout & Transaction System",
-            description: "Built a multi-step cashier interaction where customers purchase physical banana batches, present cash, and receive manually dispensed change. Transaction validation calculates change due versus change given and handles underpayment and overpayment scenarios."
-          },
-          {
-            title: "Farming, Inventory & Item State",
-            description: "Implemented a complete banana production loop covering soil preparation, planting, watering, crop growth, harvesting, inventory storage, pickup/drop interactions, and real-time banana ripeness states. Individual banana attributes such as weight, rarity, pricing, and ripeness are preserved across storage transfers."
-          },
-          {
-            title: "Gridless Building & Placement",
-            description: "Developed a gridless building system with ghost previews, collision validation, boundary checks, alignment snapping, rotation, and editing/repacking of placed structures."
-          },
-          {
-            title: "UI & Gameplay Feedback",
-            description: "Built UI Toolkit interfaces for the in-game desktop, smartphone notifications, and inventory management, alongside world-space interaction prompts, feedback indicators, and animated gameplay feedback."
-          }
+        introText: "A first-person farm and retail simulation currently in development, built in Unity and C#.",
+        featuresLead: "The current playable build lets players:",
+        features: [
+          "Farm and harvest bananas",
+          "Manage and stock a roadside stall",
+          "Handle physical cashier and change interactions",
+          "Build and place farm structures",
+          "Pick up, carry, and manage items through an inventory system",
+          "Interact with customers and NPCs",
+          "Deal with banana thieves and farm security"
         ],
-        contributions: [
-          "Designed and implemented the core farming, harvesting, inventory, and retail gameplay loop.",
-          "Developed customer purchasing behaviors, stall browsing, item reservations, and checkout queue logic.",
-          "Implemented Stealer and Bob Guard AI using Unity NavMesh and finite state machines.",
-          "Built the physical cashier interaction, including banana bagging, physical currency, change validation, and transaction outcomes.",
-          "Developed inventory pickup/drop interactions, item state preservation, and weight-based movement restrictions.",
-          "Implemented gridless building placement, collision validation, alignment snapping, rotation, and building editing.",
-          "Built UI Toolkit interfaces for the desktop computer, smartphone notifications, and inventory systems.",
-          "Implemented day/night progression, shop operation rules, sleep transitions, tutorial flow, and gameplay feedback systems.",
-          "Debugged and resolved gameplay issues involving inventory state persistence, NPC navigation, physics interactions, and object placement."
-        ],
-        technicalHighlights: [
-          "Preserved banana ripeness, weight, rarity, price offsets, and spawn-day data when transferring banana batches between the world, inventory, hotbar, and stalls.",
-          "Implemented atomic reservations and FIFO waiting queues to prevent customers from fighting over the same interaction points.",
-          "Used non-allocating physics queries and object pooling for frequently updated gameplay entities.",
-          "Implemented gridless building placement with collision validation, boundary checks, and alignment snapping.",
-          "Built multi-bone ragdoll interactions that transition NPCs between animation and physics-driven reactions.",
-          "Built UI Toolkit interfaces for the in-game desktop, smartphone notifications, and inventory management."
-        ],
+        statusText: "The project is currently in development with a playable core gameplay loop. The focus is on building and refining interconnected gameplay systems.",
+        noteText: "This project is still in active development, so the current build may contain bugs, unfinished features, or temporary implementations.",
         techStack: ["Unity", "C#", "UI Toolkit", "ScriptableObjects", "State Pattern", "Object Pooling", "NavMesh"]
       },
       {
@@ -1025,10 +962,7 @@
     const detailCategory = document.getElementById('detailCategory');
     const detailTitle = document.getElementById('detailTitle');
     const detailRole = document.getElementById('detailRole');
-    const detailOverviewHeading = document.getElementById('detailOverviewHeading');
-    const detailArchitecture = document.getElementById('detailArchitecture');
-    const detailHighlightsHeading = document.getElementById('detailHighlightsHeading');
-    const detailHighlights = document.getElementById('detailHighlights');
+    const detailNarrativeContainer = document.getElementById('detailNarrativeContainer');
     const detailTags = document.getElementById('detailTags');
     const detailRightActionContainer = document.getElementById('detailRightActionContainer');
 
@@ -1211,39 +1145,45 @@
         detailTitle.textContent = game.title;
         detailRole.textContent = `Role: ${game.role}`;
 
-        if (detailOverviewHeading) {
-          detailOverviewHeading.textContent = game.overviewHeading || "Game Overview";
-        }
-        detailArchitecture.textContent = game.overviewText;
-
-        if (detailHighlightsHeading) {
-          detailHighlightsHeading.textContent = game.highlightsHeading || "Key Highlights";
-        }
-
-        // Highlights / Features list
-        detailHighlights.innerHTML = game.keyHighlights.map(highlight => `
-          <li class="flex items-start gap-2.5">
-            <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></span>
-            <span><strong class="text-zinc-200 font-medium">${highlight.title}:</strong> ${highlight.description}</span>
-          </li>
-        `).join('');
-
-        // Contributions list (if available for project)
-        const contributionsContainer = document.getElementById('detailContributionsContainer');
-        const contributionsList = document.getElementById('detailContributions');
-        if (contributionsContainer && contributionsList) {
-          if (game.contributions && game.contributions.length > 0) {
-            contributionsList.innerHTML = game.contributions.map(item => `
-              <li class="flex items-start gap-2">
-                <span class="mt-1.5 w-1 h-1 rounded-full bg-emerald-400/80 shrink-0"></span>
-                <span>${item}</span>
-              </li>
-            `).join('');
-            contributionsContainer.classList.remove('hidden');
-          } else {
-            contributionsList.innerHTML = '';
-            contributionsContainer.classList.add('hidden');
-          }
+        if (game.features && game.features.length > 0) {
+          detailNarrativeContainer.innerHTML = `
+            <div class="space-y-3 pt-1 text-xs sm:text-sm text-zinc-300 leading-relaxed font-normal">
+              <p>${game.introText}</p>
+              <div class="space-y-2">
+                <p class="text-zinc-200 font-medium">${game.featuresLead}</p>
+                <ul class="space-y-1.5 text-zinc-400">
+                  ${game.features.map(feat => `
+                    <li class="flex items-start gap-2.5">
+                      <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></span>
+                      <span>${feat}</span>
+                    </li>
+                  `).join('')}
+                </ul>
+              </div>
+              <p>${game.statusText}</p>
+              <p class="text-zinc-400"><strong class="text-zinc-200 font-medium">Note:</strong> ${game.noteText}</p>
+            </div>
+          `;
+        } else {
+          detailNarrativeContainer.innerHTML = `
+            <div class="pt-1">
+              <h4 class="text-xs font-mono uppercase tracking-wider text-zinc-500 font-semibold mb-1.5">${game.overviewHeading || "Game Overview"}</h4>
+              <p class="text-xs sm:text-sm text-zinc-300 leading-relaxed font-normal">
+                ${game.overviewText}
+              </p>
+            </div>
+            <div class="pt-2">
+              <h4 class="text-xs font-mono uppercase tracking-wider text-zinc-500 font-semibold mb-2">${game.highlightsHeading || "Core Gameplay Features"}</h4>
+              <ul class="space-y-3 text-xs sm:text-sm text-zinc-400 leading-relaxed">
+                ${(game.keyHighlights || []).map(highlight => `
+                  <li class="flex items-start gap-2.5">
+                    <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></span>
+                    <span><strong class="text-zinc-200 font-medium">${highlight.title}:</strong> ${highlight.description}</span>
+                  </li>
+                `).join('')}
+              </ul>
+            </div>
+          `;
         }
 
         // Tags badges
