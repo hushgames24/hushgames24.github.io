@@ -731,7 +731,9 @@
         role: "Solo Gameplay Programmer & Designer",
         thumbnail: "assets/bob.png",
         screenshot: "assets/bananafarm (3).png",
-        trailerUrl: null,
+        trailerUrl: "https://www.youtube-nocookie.com/embed/XRBap5zPIcg",
+        videoUrl: "https://youtu.be/XRBap5zPIcg",
+        videoLabel: "Showcase",
         screenshots: [
           "assets/bananafarm (1).png",
           "assets/bananafarm (2).png",
@@ -998,6 +1000,12 @@
       });
     }
 
+    function toEmbedUrl(url) {
+      if (!url) return "";
+      const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+      return match ? `https://www.youtube-nocookie.com/embed/${match[1]}` : url;
+    }
+
     // -----------------------------------------------------------------
     // Media Viewer Controller (Trailer vs Screenshots vs Dev Fallback)
     // -----------------------------------------------------------------
@@ -1007,13 +1015,14 @@
       const activeTabClass = "px-3 py-1 rounded-md bg-zinc-800 text-emerald-400 border border-emerald-500/40 shadow-sm font-medium cursor-pointer flex items-center gap-1.5 transition-all";
       const inactiveTabClass = "px-3 py-1 rounded-md text-zinc-400 hover:text-white border border-transparent cursor-pointer flex items-center gap-1.5 transition-all";
 
-      if (mode === 'trailer' && game.trailerUrl) {
+      if (mode === 'trailer' && (game.trailerUrl || game.videoUrl)) {
         mediaTabTrailer.className = activeTabClass;
         mediaTabScreenshots.className = inactiveTabClass;
 
         if (devPlaceholderView) devPlaceholderView.classList.add('hidden');
         videoView.classList.remove('hidden');
-        trailerIframe.src = game.trailerUrl;
+        trailerIframe.src = toEmbedUrl(game.trailerUrl || game.videoUrl);
+        trailerIframe.title = `${game.title} ${game.videoLabel || 'Trailer'}`;
 
         screenshotView.classList.add('hidden');
         thumbnailStripContainer.classList.add('hidden');
@@ -1100,8 +1109,8 @@
           detailBadgeStatus.className = "px-2.5 py-1 text-[11px] font-mono rounded bg-zinc-950/90 border border-zinc-800 text-zinc-300 backdrop-blur-sm";
         }
 
-        // Check if game has Media (Trailer / Screenshots) or is Active Dev fallback
-        const hasTrailer = !!game.trailerUrl;
+        // Check if game has Media (Trailer / Showcase / Screenshots) or is Active Dev fallback
+        const hasTrailer = !!(game.trailerUrl || game.videoUrl);
         const hasScreenshots = game.screenshots && game.screenshots.length > 0;
 
         if (!hasTrailer && !hasScreenshots) {
@@ -1121,8 +1130,13 @@
           renderThumbnailStrip(game);
           currentScreenshotIndex = 0;
 
-          // Default view: Trailer if available, otherwise Screenshots
+          // Default view: Trailer / Showcase if available, otherwise Screenshots
           if (hasTrailer) {
+            const videoLabel = game.videoLabel || 'Trailer';
+            const trailerSpan = mediaTabTrailer.querySelector('span');
+            if (trailerSpan) {
+              trailerSpan.textContent = `▶ ${videoLabel}`;
+            }
             mediaTabTrailer.classList.remove('hidden');
             mediaTabScreenshots.classList.remove('hidden');
             setMediaMode(game, 'trailer');
