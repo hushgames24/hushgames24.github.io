@@ -3,3 +3,5 @@ node_modules/
 dist/
 *.bak
 assets/Video/Shaders_original.mp4
+assets/Video/ShadersShowcase_original.mp4
+assets/Video/Shaders.mp4
