@@ -9,11 +9,15 @@
   <meta property="og:title" content="Harvey Jay Pilapil — Unity &amp; Gameplay Programmer" />
   <meta property="og:description" content="Gameplay systems, AI state machines, and player mechanics in Unity &amp; C#." />
   <meta property="og:type" content="website" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
 
   <!-- Fonts: Inter & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+
+  <!-- Google model-viewer Web Component for 3D Assets -->
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -28,15 +32,26 @@
           },
           colors: {
             brand: {
-              bg: '#09090b',         // Solid deep matte zinc
-              subtle: '#0e0f12',     // Slightly lighter canvas section
-              card: '#121316',       // Card background
-              hover: '#18191f',      // Card hover state
-              border: '#27272a',     // Crisp 1px zinc-800
-              'border-subtle': '#1f2024',
-              accent: '#10b981',     // Understated emerald
-              'accent-muted': 'rgba(16, 185, 129, 0.12)',
+              bg: '#0C1820',              // Midnight navy canvas
+              surface: '#0e1f26',         // Translucent studio card surface
+              card: '#0e1f26',            // Dark translucent card panel
+              hover: '#132b35',           // Card hover state
+              border: '#18343A',          // Deep teal border
+              'border-subtle': '#132830',
+              cyan: '#55DCE8',            // Electric cyan primary interactive accent
+              amber: '#F1BC70',           // Warm amber environmental highlight
+              sage: '#9FD5B5',            // Soft sage greenery accent
+              light: '#E8F1F2',           // Off-white primary text
+              muted: '#8BA3A8',           // Muted cyan-slate secondary text
+              accent: '#55DCE8',          // Primary highlight
+              'accent-muted': 'rgba(85, 220, 232, 0.12)',
             }
+          },
+          boxShadow: {
+            'cyan-glow': '0 0 25px rgba(85, 220, 232, 0.35)',
+            'cyan-glow-sm': '0 0 12px rgba(85, 220, 232, 0.25)',
+            'cyan-glow-lg': '0 0 45px rgba(85, 220, 232, 0.5)',
+            'amber-glow': '0 0 20px rgba(241, 188, 112, 0.3)',
           }
         },
       },
@@ -44,20 +59,20 @@
   </script>
 
   <style>
-    /* Minimal Custom Scrollbar */
+    /* Minimal Custom Scrollbar in Cozy Sci-Fi Palette */
     ::-webkit-scrollbar {
       width: 6px;
       height: 4px;
     }
     ::-webkit-scrollbar-track {
-      background: #09090b;
+      background: #0C1820;
     }
     ::-webkit-scrollbar-thumb {
-      background: #27272a;
+      background: #18343A;
       border-radius: 3px;
     }
     ::-webkit-scrollbar-thumb:hover {
-      background: #3f3f46;
+      background: #55DCE8;
     }
 
     pre, code {
@@ -66,66 +81,160 @@
 
     /* Selection Color */
     ::selection {
-      background-color: #27272a;
-      color: #f4f4f5;
+      background-color: #18343A;
+      color: #55DCE8;
     }
 
     .scrollbar-thin {
       scrollbar-width: thin;
-      scrollbar-color: #27272a #09090b;
+      scrollbar-color: #18343A #0C1820;
     }
     .scrollbar-thin::-webkit-scrollbar {
       width: 4px;
       height: 4px;
     }
+
+    model-viewer {
+      display: block;
+      width: 100%;
+      height: 100%;
+      --poster-color: transparent;
+      background-color: #081015;
+      outline: none;
+    }
+
+    /* Single Fixed Full-Screen Cozy Sci-Fi Background Layer (Softly blurred for depth & readability) */
+    .scifi-fixed-bg {
+      position: fixed;
+      inset: -24px;
+      width: calc(100vw + 48px);
+      height: calc(100vh + 48px);
+      pointer-events: none;
+      z-index: -30;
+      overflow: hidden;
+      background-image: url('assets/cozy-scifi-background.png');
+      background-size: cover;
+      background-position: center 25%;
+      background-repeat: no-repeat;
+      filter: blur(8px) brightness(0.68);
+      transform: translate3d(0, 0, 0);
+    }
+
+    /* Ambient dark overlay: ensures complete text legibility across the page */
+    .scifi-global-overlay {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: -20;
+      background: radial-gradient(ellipse at 50% 35%, rgba(12, 24, 32, 0.45) 0%, rgba(12, 24, 32, 0.8) 100%);
+      transform: translate3d(0, 0, 0);
+    }
+
+    /* Card Panels: Solid, dark, and highly readable */
+    .glass-content {
+      background: rgba(14, 31, 38, 0.92);
+      border: 1px solid rgba(85, 220, 232, 0.2);
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    .glass-panel {
+      background: rgba(14, 31, 38, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(85, 220, 232, 0.2);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    .glass-panel-elevated {
+      background: rgba(14, 31, 38, 0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(85, 220, 232, 0.35);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 25px rgba(85, 220, 232, 0.2);
+    }
+
+    /* Subtle ambient pulse animation for cyan badges & status indicators */
+    @keyframes cyanPulse {
+      0%, 100% {
+        box-shadow: 0 0 10px rgba(85, 220, 232, 0.35);
+      }
+      50% {
+        box-shadow: 0 0 22px rgba(85, 220, 232, 0.65);
+      }
+    }
+
+    .pulse-cyan {
+      animation: cyanPulse 2.8s infinite ease-in-out;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .pulse-cyan, .animate-pulse, .animate-spin {
+        animation: none !important;
+      }
+    }
   </style>
 </head>
 
-<body class="bg-brand-bg text-zinc-300 font-sans antialiased min-h-screen flex flex-col selection:bg-zinc-800 selection:text-zinc-100">
+<body class="bg-transparent text-[#8BA3A8] font-sans antialiased min-h-screen flex flex-col selection:bg-[#18343A] selection:text-[#55DCE8] relative">
+
+  <!-- Fixed Full-Screen Cozy Sci-Fi Studio Background (Stationary throughout entire site & completely sharp) -->
+  <div class="scifi-fixed-bg" aria-hidden="true"></div>
+
+  <!-- Minimal Edge Vignette (Non-intrusive) -->
+  <div class="scifi-global-overlay" aria-hidden="true"></div>
 
   <!-- ================================================================= -->
   <!-- NAVIGATION BAR                                                    -->
   <!-- ================================================================= -->
-  <header class="sticky top-0 z-40 border-b border-brand-border bg-brand-bg/95 backdrop-blur-md">
+  <header class="sticky top-0 z-40 border-b border-[#18343A]/80 bg-[#0e1f26]/95 backdrop-blur-md transition-all duration-300 shadow-[0_4px_24px_rgba(0,0,0,0.25)]">
     <div class="max-w-6xl mx-auto px-5 sm:px-8 h-16 flex items-center justify-between">
       
       <!-- Brand Name & Title -->
       <a href="#top" class="flex items-center gap-3 group">
-        <span class="w-7 h-7 rounded bg-zinc-900 border border-brand-border flex items-center justify-center font-mono text-xs font-semibold text-zinc-100 group-hover:border-zinc-500 transition-colors">
+        <span class="w-8 h-8 rounded-lg bg-[#11222C] border border-[#55DCE8]/60 flex items-center justify-center font-mono text-xs font-semibold text-[#55DCE8] shadow-[0_0_12px_rgba(85,220,232,0.3)] group-hover:border-[#55DCE8] group-hover:shadow-[0_0_18px_rgba(85,220,232,0.5)] transition-all">
           HP
         </span>
         <div class="flex flex-col">
-          <span class="text-sm font-semibold text-zinc-100 tracking-tight group-hover:text-white transition-colors">Harvey Jay Pilapil</span>
-          <span class="text-[11px] font-mono text-zinc-500">Unity &amp; Gameplay Programmer</span>
+          <span class="text-sm font-semibold text-[#E8F1F2] tracking-tight group-hover:text-white transition-colors">Harvey Jay Pilapil</span>
+          <span class="text-[11px] font-mono text-[#8BA3A8]">Unity &amp; Gameplay Programmer</span>
         </div>
       </a>
 
       <!-- Desktop Nav Links -->
-      <nav class="hidden md:flex items-center gap-6 text-xs font-medium text-zinc-400">
-        <a href="#projects" class="hover:text-zinc-100 transition-colors">Projects</a>
-        <a href="#shaders" class="hover:text-zinc-100 transition-colors">Shader Showcase</a>
-        <a href="#skills" class="hover:text-zinc-100 transition-colors">Technical Skills</a>
-        <a href="#contact" class="hover:text-zinc-100 transition-colors">Contact</a>
+      <nav class="hidden md:flex items-center gap-6 text-xs font-medium text-[#8BA3A8]">
+        <a href="#projects" class="hover:text-[#55DCE8] transition-colors">Projects</a>
+        <a href="#experience" class="hover:text-[#55DCE8] transition-colors">Experience</a>
+        <a href="#shaders" class="hover:text-[#55DCE8] transition-colors">Shaders</a>
+        <a href="#ai-workflows" class="hover:text-[#55DCE8] transition-colors">AI Workflows</a>
+        <a href="#models-3d" class="hover:text-[#55DCE8] transition-colors">3D Assets</a>
+        <a href="#skills" class="hover:text-[#55DCE8] transition-colors">Skills</a>
+        <a href="#contact" class="hover:text-[#55DCE8] transition-colors">Contact</a>
       </nav>
 
-      <!-- Desktop External Direct Links -->
-      <div class="hidden sm:flex items-center gap-2.5">
+      <!-- Desktop External Direct Links & Status Indicator -->
+      <div class="hidden sm:flex items-center gap-3">
+        <!-- itch.io Direct Button -->
         <a href="https://hushgames24.itch.io/" target="_blank" rel="noopener noreferrer" 
-           class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg border border-brand-border bg-zinc-900/80 text-zinc-300 hover:text-white hover:border-zinc-600 hover:bg-zinc-800 transition-all">
+           class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg border border-[#18343A] bg-[#11222C]/80 text-[#E8F1F2] hover:text-white hover:border-[#55DCE8]/60 hover:bg-[#132b35] hover:shadow-[0_0_12px_rgba(85,220,232,0.2)] transition-all">
           <svg class="w-3.5 h-3.5 fill-current text-[#fa5c5c]" viewBox="0 0 24 24">
             <path d="M2.5 4.5v1.2l2.3 2.3-2.3 2.3v9.2l4.6 2.3 4.6-2.3-2.3-2.3 2.3-2.3h4.6l2.3 2.3-2.3 2.3 4.6 2.3 4.6-2.3v-9.2l-2.3-2.3 2.3-2.3V4.5l-4.6 2.3-4.6-2.3-2.3 2.3-2.3-2.3-4.6 2.3-4.6-2.3zm6.9 7.4a1.8 1.8 0 1 1 0 3.6 1.8 1.8 0 0 1 0-3.6zm5.2 0a1.8 1.8 0 1 1 0 3.6 1.8 1.8 0 0 1 0-3.6z"/>
           </svg>
           <span>itch.io</span>
         </a>
+
+        <!-- Primary CTA Button: Vibrant Electric Cyan -->
         <a href="#contact" 
-           class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-lg bg-zinc-100 text-zinc-950 hover:bg-white transition-colors">
+           class="inline-flex items-center gap-1 px-4 py-1.5 text-xs font-semibold rounded-lg bg-[#55DCE8] text-[#0C1820] hover:bg-[#7fe7f2] shadow-[0_0_20px_rgba(85,220,232,0.35)] active:scale-95 transition-all">
           <span>Get in Touch</span>
         </a>
       </div>
 
       <!-- Mobile Menu Button -->
       <button id="mobileMenuBtn" type="button" aria-label="Toggle Navigation"
-              class="md:hidden p-2 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-900 border border-transparent hover:border-brand-border">
+              class="md:hidden p-2 rounded-lg text-[#8BA3A8] hover:text-[#E8F1F2] hover:bg-[#11222C] border border-transparent hover:border-[#18343A]">
         <svg id="hamburgerIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M4 6h16M4 12h16m-7 6h7"/>
         </svg>
@@ -136,200 +245,219 @@
     </div>
 
     <!-- Mobile Drawer Menu -->
-    <div id="mobileMenu" class="hidden md:hidden border-b border-brand-border bg-brand-bg px-5 py-4 space-y-3 text-xs font-medium">
-      <a href="#projects" class="block py-1 text-zinc-300 hover:text-white">Selected Projects</a>
-      <a href="#shaders" class="block py-1 text-zinc-300 hover:text-white">Shader Showcase</a>
-      <a href="#skills" class="block py-1 text-zinc-300 hover:text-white">Technical Skills</a>
-      <a href="#contact" class="block py-1 text-zinc-300 hover:text-white">Contact</a>
-      <div class="pt-3 border-t border-brand-border flex items-center gap-2">
-        <a href="https://hushgames24.itch.io/" target="_blank" class="px-3 py-1.5 rounded-lg border border-brand-border bg-zinc-900 text-zinc-300 text-xs">itch.io</a>
-        <a href="#contact" class="px-3 py-1.5 rounded-lg bg-zinc-100 text-zinc-950 font-medium text-xs">Get in Touch</a>
+    <div id="mobileMenu" class="hidden md:hidden border-b border-[#18343A] bg-[#0C1820]/95 backdrop-blur-xl px-5 py-4 space-y-3 text-xs font-medium">
+      <a href="#projects" class="block py-1 text-[#E8F1F2] hover:text-[#55DCE8]">Selected Projects</a>
+      <a href="#experience" class="block py-1 text-[#E8F1F2] hover:text-[#55DCE8]">Professional Experience</a>
+      <a href="#shaders" class="block py-1 text-[#E8F1F2] hover:text-[#55DCE8]">Shader Showcase</a>
+      <a href="#ai-workflows" class="block py-1 text-[#E8F1F2] hover:text-[#55DCE8]">AI-Assisted Workflows</a>
+      <a href="#models-3d" class="block py-1 text-[#E8F1F2] hover:text-[#55DCE8]">Interactive 3D Assets</a>
+      <a href="#skills" class="block py-1 text-[#E8F1F2] hover:text-[#55DCE8]">Technical Skills</a>
+      <a href="#contact" class="block py-1 text-[#E8F1F2] hover:text-[#55DCE8]">Contact</a>
+      <div class="pt-3 border-t border-[#18343A] flex items-center gap-2">
+        <a href="https://hushgames24.itch.io/" target="_blank" class="px-3 py-1.5 rounded-lg border border-[#18343A] bg-[#11222C] text-[#E8F1F2] text-xs">itch.io</a>
+        <a href="#contact" class="px-3 py-1.5 rounded-lg bg-[#55DCE8] text-[#0C1820] font-semibold text-xs shadow-md">Get in Touch</a>
       </div>
     </div>
   </header>
 
   <!-- ================================================================= -->
-  <!-- MAIN CONTENT CONTAINER                                            -->
+  <!-- 1. TOP HERO SECTION (COZY SCI-FI DEVELOPER STUDIO BACKDROP)       -->
   <!-- ================================================================= -->
-  <main id="top" class="flex-1 max-w-6xl mx-auto w-full px-5 sm:px-8 py-10 sm:py-16 space-y-20 sm:space-y-24">
-
-    <!-- 1. TOP HERO SECTION -->
-    <section class="text-center pt-6 pb-2 sm:pt-10 sm:pb-6 space-y-6">
+  <section id="hero" class="relative w-full overflow-hidden min-h-[520px] sm:min-h-[580px] lg:min-h-[640px] flex items-center justify-center">
+    
+    <!-- Centered Hero Stage Container -->
+    <div class="relative z-10 max-w-3xl mx-auto px-5 sm:px-8 py-14 sm:py-20 text-center flex flex-col items-center justify-center space-y-6">
       
-      <!-- Status Badge -->
-      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-brand-border bg-brand-card text-xs text-zinc-400 font-mono">
-        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+      <!-- Status Badge Capsule -->
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[rgba(85,220,232,0.3)] bg-[#0C1820]/80 text-xs text-[#55DCE8] font-mono backdrop-blur-sm shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
+        <span class="w-2 h-2 rounded-full bg-[#55DCE8] animate-pulse shadow-[0_0_8px_#55DCE8]"></span>
         <span>Available for Gameplay &amp; Systems Engineering</span>
       </div>
 
-      <!-- Centered, Clean Branding -->
-      <div class="space-y-3 max-w-3xl mx-auto">
-        <h1 class="text-4xl sm:text-6xl font-bold tracking-tight text-zinc-100 uppercase">
-          Harvey Jay Pilapil
+      <!-- Framed Name & Title with Sleek Cyan Corner Decorations (matching reference image) -->
+      <div class="relative px-8 py-4 sm:px-12 sm:py-5 inline-block">
+        <!-- Cyan Corner Decorations matching reference screenshot -->
+        <span class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-[#55DCE8] shadow-[0_0_8px_#55DCE8]"></span>
+        <span class="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-[#55DCE8] shadow-[0_0_8px_#55DCE8]"></span>
+        <span class="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-[#55DCE8] shadow-[0_0_8px_#55DCE8]"></span>
+        <span class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-[#55DCE8] shadow-[0_0_8px_#55DCE8]"></span>
+
+        <!-- Headline & Subtitle -->
+        <h1 class="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight uppercase">
+          <span class="text-[#E8F1F2]">Harvey Jay</span>
+          <span class="text-[#55DCE8] drop-shadow-[0_0_20px_rgba(85,220,232,0.5)]">Pilapil</span>
         </h1>
-        <p class="text-lg sm:text-xl text-zinc-400 font-normal">
+        <p class="text-base sm:text-xl text-[#E8F1F2]/90 font-medium tracking-wide mt-2">
           Unity &amp; Gameplay Programmer
         </p>
       </div>
 
-      <!-- Editorial Narrative -->
-      <p class="text-sm sm:text-base text-zinc-400 max-w-2xl mx-auto leading-relaxed font-normal">
+      <!-- Editorial Narrative: Floating naturally, crisp & high-contrast -->
+      <p class="text-sm sm:text-base text-[#E8F1F2] max-w-xl mx-auto leading-relaxed font-normal">
         Gameplay and systems programmer building immersive interactive experiences, responsive first-person mechanics, AI state machines, and performant C# architecture.
       </p>
 
-      <!-- Quick-Action Pill Buttons -->
-      <div class="flex flex-wrap items-center justify-center gap-2.5 pt-2">
+      <!-- Quick-Action Social Pills: Floating naturally -->
+      <div class="flex flex-wrap items-center justify-center gap-2.5 pt-1">
         <!-- GitHub Pill -->
         <a href="https://github.com/hushgames24" target="_blank" rel="noopener noreferrer"
-           class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-brand-border bg-brand-card text-xs font-medium text-zinc-200 hover:text-white hover:border-zinc-500 hover:bg-brand-hover transition-all group">
-          <svg class="w-3.5 h-3.5 fill-current text-zinc-400 group-hover:text-white transition-colors" viewBox="0 0 24 24">
+           class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[rgba(85,220,232,0.25)] bg-[#11222C]/80 text-xs font-medium text-[#E8F1F2] hover:text-white hover:border-[#55DCE8] hover:bg-[#132b35] hover:shadow-[0_0_15px_rgba(85,220,232,0.25)] transition-all group backdrop-blur-sm">
+          <svg class="w-3.5 h-3.5 fill-current text-[#8BA3A8] group-hover:text-[#55DCE8] transition-colors" viewBox="0 0 24 24">
             <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
           </svg>
           <span>GitHub</span>
-          <svg class="w-3 h-3 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+          <svg class="w-3 h-3 text-[#8BA3A8] group-hover:text-[#55DCE8] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
           </svg>
         </a>
 
         <!-- itch.io Pill -->
         <a href="https://hushgames24.itch.io/" target="_blank" rel="noopener noreferrer"
-           class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-brand-border bg-brand-card text-xs font-medium text-zinc-200 hover:text-white hover:border-zinc-500 hover:bg-brand-hover transition-all group">
+           class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[rgba(85,220,232,0.25)] bg-[#11222C]/80 text-xs font-medium text-[#E8F1F2] hover:text-white hover:border-[#55DCE8] hover:bg-[#132b35] hover:shadow-[0_0_15px_rgba(85,220,232,0.25)] transition-all group backdrop-blur-sm">
           <svg class="w-3.5 h-3.5 fill-current text-[#fa5c5c]" viewBox="0 0 24 24">
             <path d="M2.5 4.5v1.2l2.3 2.3-2.3 2.3v9.2l4.6 2.3 4.6-2.3-2.3-2.3 2.3-2.3h4.6l2.3 2.3-2.3 2.3 4.6 2.3 4.6-2.3v-9.2l-2.3-2.3 2.3-2.3V4.5l-4.6 2.3-4.6-2.3-2.3 2.3-2.3-2.3-4.6 2.3-4.6-2.3zm6.9 7.4a1.8 1.8 0 1 1 0 3.6 1.8 1.8 0 0 1 0-3.6zm5.2 0a1.8 1.8 0 1 1 0 3.6 1.8 1.8 0 0 1 0-3.6z"/>
           </svg>
           <span>itch.io</span>
-          <svg class="w-3 h-3 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+          <svg class="w-3 h-3 text-[#8BA3A8] group-hover:text-[#55DCE8] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
           </svg>
         </a>
 
         <!-- LinkedIn Pill -->
         <a href="https://www.linkedin.com/in/harvey-jay-pilapil-65703b33a/" target="_blank" rel="noopener noreferrer"
-           class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-brand-border bg-brand-card text-xs font-medium text-zinc-200 hover:text-white hover:border-zinc-500 hover:bg-brand-hover transition-all group">
+           class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[rgba(85,220,232,0.25)] bg-[#11222C]/80 text-xs font-medium text-[#E8F1F2] hover:text-white hover:border-[#55DCE8] hover:bg-[#132b35] hover:shadow-[0_0_15px_rgba(85,220,232,0.25)] transition-all group backdrop-blur-sm">
           <svg class="w-3.5 h-3.5 fill-current text-[#0a66c2]" viewBox="0 0 24 24">
             <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 8.76a1.65 1.65 0 1 0 0-3.3 1.65 1.65 0 0 0 0 3.3m1.39 9.74v-8.37H5.07v8.37h2.78z"/>
           </svg>
           <span>LinkedIn</span>
-          <svg class="w-3 h-3 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+          <svg class="w-3 h-3 text-[#8BA3A8] group-hover:text-[#55DCE8] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
           </svg>
         </a>
 
         <!-- 1-Click Copy Email Pill -->
         <button id="copyEmailBtn" type="button" data-email="harveyjaypilapil24@gmail.com"
-           class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-brand-border bg-brand-card text-xs font-medium text-zinc-200 hover:text-white hover:border-emerald-500/60 hover:bg-brand-hover transition-all group cursor-pointer"
+           class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[rgba(85,220,232,0.25)] bg-[#11222C]/80 text-xs font-medium text-[#E8F1F2] hover:text-white hover:border-[#55DCE8] hover:bg-[#132b35] hover:shadow-[0_0_15px_rgba(85,220,232,0.25)] transition-all group cursor-pointer backdrop-blur-sm"
            aria-label="Copy email address to clipboard">
-          <svg class="w-3.5 h-3.5 text-zinc-400 group-hover:text-emerald-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-3.5 h-3.5 text-[#8BA3A8] group-hover:text-[#55DCE8] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
           </svg>
           <span id="copyEmailText">harveyjaypilapil24@gmail.com</span>
-          <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-400 group-hover:text-emerald-300 transition-colors">Copy</span>
+          <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-[#11222C] text-[#8BA3A8] group-hover:text-[#55DCE8] border border-[#18343A] transition-colors">Copy</span>
         </button>
       </div>
 
-    </section>
+    </div>
+  </section>
+
+  <!-- MAIN CONTENT CONTAINER                                            -->
+  <!-- ================================================================= -->
+  <main id="top" class="flex-1 max-w-6xl mx-auto w-full px-5 sm:px-8 py-10 sm:py-16 space-y-20 sm:space-y-24">
 
     <!-- ================================================================= -->
     <!-- 2 & 3. MASTER-DETAIL SECTION (CARD SELECTOR + INSPECTION STAGE)   -->
     <!-- ================================================================= -->
     <section id="projects" class="space-y-6 pt-2">
       
-      <!-- Section Header -->
-      <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 pb-4 border-b border-brand-border">
+      <!-- Section Header with Soft Background Blur (NO Card, NO Border) -->
+      <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 mb-2">
         <div>
-          <span class="text-xs font-mono uppercase tracking-wider text-zinc-500">Interactive Game Index</span>
-          <h2 class="text-2xl font-bold tracking-tight text-zinc-100">Selected Works &amp; itch.io Releases</h2>
+          <span class="text-xs font-mono uppercase tracking-wider text-[#55DCE8] font-semibold block">Interactive Game Index</span>
+          <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-[#E8F1F2]">Selected Works &amp; itch.io Releases</h2>
         </div>
-        <span class="text-xs font-mono text-zinc-500">Click any card to inspect media gallery &amp; gameplay features</span>
+        <span class="text-xs font-mono text-[#8BA3A8] shrink-0 sm:text-right">Click any card to inspect media gallery &amp; gameplay features</span>
       </div>
+
+      <!-- Glowing Cyan-to-Teal Accent Line -->
+      <div class="h-0.5 w-full bg-gradient-to-r from-[#55DCE8] via-[#18343A] to-transparent rounded-full mb-3"></div>
 
       <!-- 2. THE GAME SELECTOR ROW (MASTER LIST: 4 CARDS) -->
       <div id="gameSelectorRow" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5" role="tablist" aria-label="Game Projects Selector">
         
-        <!-- Card 1: Banana Farm Chaos -->
+        <!-- Card 1: Banana Farm Chaos (Active by Default) -->
         <button type="button" role="tab" aria-selected="true" data-game-id="banana-farm-chaos"
-                class="game-card group relative text-left rounded-xl border border-emerald-500 bg-zinc-900 ring-1 ring-emerald-500/40 p-3 flex flex-col justify-between transition-all duration-200 cursor-pointer shadow-lg shadow-emerald-950/20">
+                class="game-card group relative text-left rounded-2xl border-2 border-[#55DCE8] bg-[#132b35]/95 backdrop-blur-md ring-1 ring-[#55DCE8]/40 p-3 flex flex-col justify-between transition-all duration-200 cursor-pointer shadow-[0_8px_32px_rgba(0,0,0,0.3),0_0_25px_rgba(85,220,232,0.3)]">
           <div class="space-y-2.5 w-full">
-            <div class="relative w-full aspect-[16/9] rounded-lg overflow-hidden bg-zinc-950 border border-zinc-800">
+            <div class="relative w-full aspect-[16/9] rounded-xl overflow-hidden bg-[#081015] border border-[#18343A]">
               <img src="assets/bob.png" alt="Banana Farm Chaos" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
               <div class="absolute top-2 left-2 pointer-events-none">
-                <span class="status-badge px-2 py-0.5 text-[10px] font-mono rounded bg-zinc-950/90 border border-emerald-500/30 text-emerald-400 backdrop-blur-sm">
+                <span class="status-badge px-2 py-0.5 text-[10px] font-mono rounded bg-[#0C1820]/90 border border-[#55DCE8]/50 text-[#55DCE8] backdrop-blur-sm shadow-[0_0_8px_rgba(85,220,232,0.2)]">
                   Flagship
                 </span>
               </div>
             </div>
             <div>
               <div class="flex items-center justify-between gap-1">
-                <h3 class="text-sm font-semibold text-zinc-100 group-hover:text-white transition-colors">Banana Farm Chaos</h3>
-                <span class="status-dot w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></span>
+                <h3 class="text-sm font-semibold text-[#E8F1F2] group-hover:text-white transition-colors">Banana Farm Chaos</h3>
+                <span class="status-dot w-2 h-2 rounded-full bg-[#55DCE8] shadow-[0_0_8px_#55DCE8] shrink-0"></span>
               </div>
-              <span class="text-[11px] font-mono text-zinc-400 block mt-0.5">In Development / Flagship</span>
+              <span class="text-[11px] font-mono text-[#55DCE8] block mt-0.5">In Development / Flagship</span>
             </div>
           </div>
         </button>
 
         <!-- Card 2: Sister Claire's Orphanage (Demo) -->
         <button type="button" role="tab" aria-selected="false" data-game-id="sister-claires"
-                class="game-card group relative text-left rounded-xl border border-brand-border bg-brand-card hover:border-zinc-700 hover:bg-brand-hover p-3 flex flex-col justify-between transition-all duration-200 cursor-pointer">
+                class="game-card group relative text-left rounded-2xl border border-[rgba(85,220,232,0.2)] bg-[#0e1f26]/90 backdrop-blur-md hover:border-[#55DCE8]/60 hover:bg-[rgba(19,43,53,0.75)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.35)] p-3 flex flex-col justify-between transition-all duration-200 cursor-pointer">
           <div class="space-y-2.5 w-full">
-            <div class="relative w-full aspect-[16/9] rounded-lg overflow-hidden bg-zinc-950 border border-zinc-800">
+            <div class="relative w-full aspect-[16/9] rounded-xl overflow-hidden bg-[#081015] border border-[#18343A]">
               <img src="assets/sister-claires.png" alt="Sister Claire's Orphanage" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='assets/sister-claires-screenshot.png'">
               <div class="absolute top-2 left-2 pointer-events-none">
-                <span class="status-badge px-2 py-0.5 text-[10px] font-mono rounded bg-zinc-950/90 border border-zinc-800 text-zinc-300 backdrop-blur-sm">
+                <span class="status-badge px-2 py-0.5 text-[10px] font-mono rounded bg-[#0C1820]/90 border border-[#18343A] text-[#8BA3A8] backdrop-blur-sm">
                   Demo
                 </span>
               </div>
             </div>
             <div>
               <div class="flex items-center justify-between gap-1">
-                <h3 class="text-sm font-semibold text-zinc-200 group-hover:text-white transition-colors">Sister Claire's (Demo)</h3>
-                <span class="status-dot w-1.5 h-1.5 rounded-full bg-zinc-600 shrink-0"></span>
+                <h3 class="text-sm font-semibold text-[#E8F1F2]/90 group-hover:text-white transition-colors">Sister Claire's (Demo)</h3>
+                <span class="status-dot w-2 h-2 rounded-full bg-[#18343A] shrink-0"></span>
               </div>
-              <span class="text-[11px] font-mono text-zinc-400 block mt-0.5">Collaborative Demo</span>
+              <span class="text-[11px] font-mono text-[#8BA3A8] block mt-0.5">Collaborative Demo</span>
             </div>
           </div>
         </button>
 
         <!-- Card 3: Wrong Door -->
         <button type="button" role="tab" aria-selected="false" data-game-id="wrong-door"
-                class="game-card group relative text-left rounded-xl border border-brand-border bg-brand-card hover:border-zinc-700 hover:bg-brand-hover p-3 flex flex-col justify-between transition-all duration-200 cursor-pointer">
+                class="game-card group relative text-left rounded-2xl border border-[rgba(85,220,232,0.2)] bg-[#0e1f26]/90 backdrop-blur-md hover:border-[#55DCE8]/60 hover:bg-[rgba(19,43,53,0.75)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.35)] p-3 flex flex-col justify-between transition-all duration-200 cursor-pointer">
           <div class="space-y-2.5 w-full">
-            <div class="relative w-full aspect-[16/9] rounded-lg overflow-hidden bg-zinc-950 border border-zinc-800">
+            <div class="relative w-full aspect-[16/9] rounded-xl overflow-hidden bg-[#081015] border border-[#18343A]">
               <img src="assets/wrong-door.png" alt="Wrong Door" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='assets/wrong-door-screenshot.png'">
               <div class="absolute top-2 left-2 pointer-events-none">
-                <span class="status-badge px-2 py-0.5 text-[10px] font-mono rounded bg-zinc-950/90 border border-zinc-800 text-zinc-300 backdrop-blur-sm">
+                <span class="status-badge px-2 py-0.5 text-[10px] font-mono rounded bg-[#0C1820]/90 border border-[#18343A] text-[#8BA3A8] backdrop-blur-sm">
                   Shipped
                 </span>
               </div>
             </div>
             <div>
               <div class="flex items-center justify-between gap-1">
-                <h3 class="text-sm font-semibold text-zinc-200 group-hover:text-white transition-colors">Wrong Door</h3>
-                <span class="status-dot w-1.5 h-1.5 rounded-full bg-zinc-600 shrink-0"></span>
+                <h3 class="text-sm font-semibold text-[#E8F1F2]/90 group-hover:text-white transition-colors">Wrong Door</h3>
+                <span class="status-dot w-2 h-2 rounded-full bg-[#18343A] shrink-0"></span>
               </div>
-              <span class="text-[11px] font-mono text-zinc-400 block mt-0.5">Shipped on itch.io</span>
+              <span class="text-[11px] font-mono text-[#8BA3A8] block mt-0.5">Shipped on itch.io</span>
             </div>
           </div>
         </button>
 
         <!-- Card 4: Divorce Papers -->
         <button type="button" role="tab" aria-selected="false" data-game-id="divorce-papers"
-                class="game-card group relative text-left rounded-xl border border-brand-border bg-brand-card hover:border-zinc-700 hover:bg-brand-hover p-3 flex flex-col justify-between transition-all duration-200 cursor-pointer">
+                class="game-card group relative text-left rounded-2xl border border-[rgba(85,220,232,0.2)] bg-[#0e1f26]/90 backdrop-blur-md hover:border-[#55DCE8]/60 hover:bg-[rgba(19,43,53,0.75)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.35)] p-3 flex flex-col justify-between transition-all duration-200 cursor-pointer">
           <div class="space-y-2.5 w-full">
-            <div class="relative w-full aspect-[16/9] rounded-lg overflow-hidden bg-zinc-950 border border-zinc-800">
+            <div class="relative w-full aspect-[16/9] rounded-xl overflow-hidden bg-[#081015] border border-[#18343A]">
               <img src="assets/divorce-papers.png" alt="Divorce Papers" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='assets/divorce-papers-screenshot.png'">
               <div class="absolute top-2 left-2 pointer-events-none">
-                <span class="status-badge px-2 py-0.5 text-[10px] font-mono rounded bg-zinc-950/90 border border-zinc-800 text-zinc-300 backdrop-blur-sm">
+                <span class="status-badge px-2 py-0.5 text-[10px] font-mono rounded bg-[#0C1820]/90 border border-[#18343A] text-[#8BA3A8] backdrop-blur-sm">
                   Shipped
                 </span>
               </div>
             </div>
             <div>
               <div class="flex items-center justify-between gap-1">
-                <h3 class="text-sm font-semibold text-zinc-200 group-hover:text-white transition-colors">Divorce Papers</h3>
-                <span class="status-dot w-1.5 h-1.5 rounded-full bg-zinc-600 shrink-0"></span>
+                <h3 class="text-sm font-semibold text-[#E8F1F2]/90 group-hover:text-white transition-colors">Divorce Papers</h3>
+                <span class="status-dot w-2 h-2 rounded-full bg-[#18343A] shrink-0"></span>
               </div>
-              <span class="text-[11px] font-mono text-zinc-400 block mt-0.5">Shipped on itch.io</span>
+              <span class="text-[11px] font-mono text-[#8BA3A8] block mt-0.5">Shipped on itch.io</span>
             </div>
           </div>
         </button>
@@ -337,36 +465,36 @@
       </div>
 
       <!-- 3. THE INSPECTION STAGE BELOW (DETAIL VIEW) -->
-      <div id="inspectionStage" class="rounded-2xl border border-brand-border bg-brand-card overflow-hidden shadow-2xl">
+      <div id="inspectionStage" class="rounded-2xl border border-[rgba(85,220,232,0.25)] bg-[#0e1f26]/95 backdrop-blur-md overflow-hidden shadow-[0_12px_40px_rgba(0,0,0,0.35)]">
         <div id="detailContent" class="grid grid-cols-1 lg:grid-cols-12 transition-all duration-300 opacity-100 transform translate-y-0">
           
           <!-- Left Column: Responsive Media Viewer & Gallery (7 cols) -->
-          <div class="lg:col-span-7 bg-zinc-950 border-b lg:border-b-0 lg:border-r border-brand-border flex flex-col justify-between p-4 sm:p-6 space-y-4">
+          <div class="lg:col-span-7 bg-[rgba(8,16,21,0.55)] border-b lg:border-b-0 lg:border-r border-[#18343A] flex flex-col justify-between p-4 sm:p-6 space-y-4">
             
             <!-- Top Controls Row: Badges on left, Media Type Switcher on right -->
             <div class="flex flex-wrap items-center justify-between gap-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span id="detailBadgeRole" class="px-2.5 py-1 text-[11px] font-mono rounded bg-zinc-900 border border-zinc-800 text-zinc-300">
+                <span id="detailBadgeRole" class="px-2.5 py-1 text-[11px] font-mono rounded bg-[#11222C] border border-[#18343A] text-[#8BA3A8]">
                   Solo Gameplay Programmer &amp; Designer
                 </span>
-                <span id="detailBadgeStatus" class="px-2.5 py-1 text-[11px] font-mono rounded bg-emerald-950/90 border border-emerald-500/40 text-emerald-300">
+                <span id="detailBadgeStatus" class="px-2.5 py-1 text-[11px] font-mono rounded bg-[#18343A]/90 border border-[#55DCE8]/40 text-[#55DCE8] shadow-[0_0_10px_rgba(85,220,232,0.15)]">
                   In Development / Flagship
                 </span>
               </div>
 
               <!-- Media Type Switcher Toggle Pills -->
-              <div id="mediaTypeSwitcher" class="hidden flex items-center p-1 rounded-lg bg-zinc-900 border border-brand-border text-xs font-mono">
-                <button id="mediaTabTrailer" type="button" class="hidden px-3 py-1 rounded-md transition-all text-zinc-400 hover:text-white cursor-pointer flex items-center gap-1.5">
+              <div id="mediaTypeSwitcher" class="hidden flex items-center p-1 rounded-lg bg-[#11222C] border border-[#18343A] text-xs font-mono">
+                <button id="mediaTabTrailer" type="button" class="hidden px-3 py-1 rounded-md transition-all text-[#8BA3A8] hover:text-[#E8F1F2] cursor-pointer flex items-center gap-1.5">
                   <span>▶ Trailer</span>
                 </button>
-                <button id="mediaTabScreenshots" type="button" class="px-3 py-1 rounded-md bg-zinc-800 text-emerald-400 border border-emerald-500/40 shadow-sm font-medium transition-all cursor-pointer flex items-center gap-1.5">
+                <button id="mediaTabScreenshots" type="button" class="px-3 py-1 rounded-md bg-[#132b35] text-[#55DCE8] border border-[#55DCE8]/40 shadow-sm font-medium transition-all cursor-pointer flex items-center gap-1.5">
                   <span>📷 Screenshots (<span id="screenshotsCount">11</span>)</span>
                 </button>
               </div>
             </div>
 
             <!-- Primary 16:9 Media Container -->
-            <div id="mediaDisplayContainer" class="relative w-full aspect-video rounded-xl border border-zinc-800 bg-zinc-950 overflow-hidden flex items-center justify-center">
+            <div id="mediaDisplayContainer" class="relative w-full aspect-video rounded-xl border border-[#18343A] bg-[#050B0E] overflow-hidden flex items-center justify-center">
               
               <!-- 1. Video Iframe View -->
               <div id="videoView" class="hidden w-full h-full">
@@ -377,30 +505,30 @@
               <div id="screenshotView" class="w-full h-full relative group flex items-center justify-center bg-black">
                 <img id="detailMainScreenshot" src="assets/bananafarm (3).png" alt="Gameplay screenshot preview" class="w-full h-full object-contain group-hover:scale-[1.01] transition-transform duration-300">
                 <div class="absolute bottom-3 right-3 pointer-events-none">
-                  <span id="screenshotCounterBadge" class="px-2.5 py-1 text-[10px] font-mono rounded bg-zinc-950/85 border border-zinc-800 text-zinc-300 backdrop-blur-sm shadow-md">
+                  <span id="screenshotCounterBadge" class="px-2.5 py-1 text-[10px] font-mono rounded bg-[#0C1820]/90 border border-[#18343A] text-[#8BA3A8] backdrop-blur-sm shadow-md">
                     1 / 11
                   </span>
                 </div>
               </div>
 
               <!-- 3. Banana Farm Chaos Atmospheric Fallback View -->
-              <div id="devPlaceholderView" class="hidden w-full h-full relative flex flex-col items-center justify-center text-center p-6 bg-gradient-to-b from-zinc-900/60 to-zinc-950/90 overflow-hidden">
+              <div id="devPlaceholderView" class="hidden w-full h-full relative flex flex-col items-center justify-center text-center p-6 bg-gradient-to-b from-[#11222C]/70 to-[#081015]/90 overflow-hidden">
                 <img src="assets/bananafarm (3).png" alt="Banana Farm Chaos" class="absolute inset-0 w-full h-full object-cover opacity-15 filter blur-sm pointer-events-none">
                 <div class="relative z-10 space-y-3 max-w-sm">
-                  <div class="w-12 h-12 mx-auto rounded-xl bg-zinc-900/90 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shadow-lg shadow-emerald-950/40">
+                  <div class="w-12 h-12 mx-auto rounded-xl bg-[#11222C] border border-[#55DCE8]/40 flex items-center justify-center text-[#55DCE8] shadow-[0_0_15px_rgba(85,220,232,0.25)]">
                     <svg class="w-6 h-6 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
                     </svg>
                   </div>
                   <div class="space-y-1">
-                    <h4 class="text-sm sm:text-base font-bold text-zinc-100 tracking-tight">
+                    <h4 class="text-sm sm:text-base font-bold text-[#E8F1F2] tracking-tight">
                       Asset Showcase In Progress
                     </h4>
-                    <p class="text-xs text-emerald-400 font-mono">
+                    <p class="text-xs text-[#55DCE8] font-mono">
                       Playable Vertical Slice Under Active Development
                     </p>
                   </div>
-                  <p class="text-[11px] text-zinc-400 leading-relaxed">
+                  <p class="text-[11px] text-[#8BA3A8] leading-relaxed">
                     Trailers, devlogs, and production screen captures will be published upon release of Milestone 2. Inspect the core gameplay systems and project breakdown on the right.
                   </p>
                 </div>
@@ -416,8 +544,8 @@
             </div>
 
             <!-- Media Bar Sub-footer with Caption -->
-            <div class="pt-2 border-t border-brand-border flex items-center justify-between text-xs font-mono">
-              <span id="detailFooterCaption" class="text-zinc-400">Management Loop, NPC AI &amp; Gameplay Systems</span>
+            <div class="pt-2 border-t border-[#18343A] flex items-center justify-between text-xs font-mono">
+              <span id="detailFooterCaption" class="text-[#8BA3A8]">Management Loop, NPC AI &amp; Gameplay Systems</span>
             </div>
 
           </div>
@@ -429,51 +557,51 @@
               
               <!-- Header & Role -->
               <div>
-                <span id="detailCategory" class="text-xs font-mono uppercase tracking-wider text-emerald-400 font-semibold block">
+                <span id="detailCategory" class="text-xs font-mono uppercase tracking-wider text-[#55DCE8] font-semibold block">
                   Farm Management Simulation
                 </span>
-                <h3 id="detailTitle" class="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-100 mt-1">
+                <h3 id="detailTitle" class="text-2xl sm:text-3xl font-bold tracking-tight text-[#E8F1F2] mt-1">
                   Banana Farm Chaos
                 </h3>
-                <p id="detailRole" class="text-xs font-mono text-zinc-400 mt-1">
+                <p id="detailRole" class="text-xs font-mono text-[#8BA3A8] mt-1">
                   Role: Solo Gameplay Programmer &amp; Designer
                 </p>
               </div>
 
               <!-- Project Narrative & Features Presentation -->
-              <div id="detailNarrativeContainer" class="space-y-3 pt-1 text-xs sm:text-sm text-zinc-300 leading-relaxed font-normal">
+              <div id="detailNarrativeContainer" class="space-y-3 pt-1 text-xs sm:text-sm text-[#E8F1F2] leading-relaxed font-normal">
                 <p>
                   A first-person farm and retail simulation currently in development, built in Unity and C#.
                 </p>
                 <div class="space-y-2">
-                  <p class="text-zinc-200 font-medium">The current playable build lets players:</p>
-                  <ul class="space-y-1.5 text-zinc-400">
+                  <p class="text-[#E8F1F2] font-medium">The current playable build lets players:</p>
+                  <ul class="space-y-1.5 text-[#8BA3A8]">
                     <li class="flex items-start gap-2.5">
-                      <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></span>
+                      <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#55DCE8] shadow-[0_0_6px_#55DCE8] shrink-0"></span>
                       <span>Farm and harvest bananas</span>
                     </li>
                     <li class="flex items-start gap-2.5">
-                      <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></span>
+                      <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#55DCE8] shadow-[0_0_6px_#55DCE8] shrink-0"></span>
                       <span>Manage and stock produce stalls</span>
                     </li>
                     <li class="flex items-start gap-2.5">
-                      <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></span>
+                      <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#55DCE8] shadow-[0_0_6px_#55DCE8] shrink-0"></span>
                       <span>Handle physical cashier and change interactions</span>
                     </li>
                     <li class="flex items-start gap-2.5">
-                      <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></span>
+                      <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#55DCE8] shadow-[0_0_6px_#55DCE8] shrink-0"></span>
                       <span>Build and place farm structures</span>
                     </li>
                     <li class="flex items-start gap-2.5">
-                      <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></span>
+                      <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#55DCE8] shadow-[0_0_6px_#55DCE8] shrink-0"></span>
                       <span>Pick up, carry, and manage items through an inventory system</span>
                     </li>
                     <li class="flex items-start gap-2.5">
-                      <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></span>
+                      <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#55DCE8] shadow-[0_0_6px_#55DCE8] shrink-0"></span>
                       <span>Interact with customers and NPCs</span>
                     </li>
                     <li class="flex items-start gap-2.5">
-                      <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></span>
+                      <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#55DCE8] shadow-[0_0_6px_#55DCE8] shrink-0"></span>
                       <span>Deal with banana thieves and farm security</span>
                     </li>
                   </ul>
@@ -481,14 +609,37 @@
                 <p>
                   The project is currently in development with a playable core gameplay loop. The main goal is creating and polishing game mechanics that work well together, while also making the game fun and adding more features over time.
                 </p>
-                <p class="text-zinc-400">
-                  <strong class="text-zinc-200 font-medium">Note:</strong> This project is still in active development, so the current build may contain bugs, unfinished features, or temporary implementations.
+                <p class="text-[#8BA3A8]">
+                  <strong class="text-[#E8F1F2] font-medium">Note:</strong> This project is still in active development, so the current build may contain bugs, unfinished features, or temporary implementations.
                 </p>
+
+                <!-- Technical Architecture (Compact Summary) -->
+                <div class="pt-3 border-t border-[#18343A] space-y-2">
+                  <h4 class="text-xs font-mono uppercase tracking-wider text-[#8BA3A8] font-semibold">Technical Architecture</h4>
+                  <ul class="space-y-1.5 text-xs text-[#8BA3A8]">
+                    <li class="flex items-start gap-2">
+                      <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#55DCE8] shadow-[0_0_6px_#55DCE8] shrink-0"></span>
+                      <span><strong class="text-[#E8F1F2] font-medium">Gameplay:</strong> ScriptableObjects, events, modular systems</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                      <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#55DCE8] shadow-[0_0_6px_#55DCE8] shrink-0"></span>
+                      <span><strong class="text-[#E8F1F2] font-medium">NPCs:</strong> NavMesh navigation and AI behaviors</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                      <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#55DCE8] shadow-[0_0_6px_#55DCE8] shrink-0"></span>
+                      <span><strong class="text-[#E8F1F2] font-medium">Interactions:</strong> Item pickup, inventory, and placement</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                      <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#55DCE8] shadow-[0_0_6px_#55DCE8] shrink-0"></span>
+                      <span><strong class="text-[#E8F1F2] font-medium">Optimization:</strong> Object pooling and GPU instancing</span>
+                    </li>
+                  </ul>
+                </div>
               </div>
 
               <!-- Engine & Language Tech Tags -->
               <div class="pt-2">
-                <h4 class="text-xs font-mono uppercase tracking-wider text-zinc-500 font-semibold mb-2">Technologies &amp; Tags</h4>
+                <h4 class="text-xs font-mono uppercase tracking-wider text-[#8BA3A8] font-semibold mb-2">Technologies &amp; Tags</h4>
                 <div id="detailTags" class="flex flex-wrap gap-1.5">
                   <!-- Badges injected via JavaScript -->
                 </div>
@@ -497,7 +648,7 @@
             </div>
 
             <!-- Right Column Direct Action Button -->
-            <div id="detailRightActionContainer" class="pt-4 border-t border-brand-border">
+            <div id="detailRightActionContainer" class="pt-4 border-t border-[#18343A]">
               <!-- Direct Action Button injected via JavaScript -->
             </div>
 
@@ -510,41 +661,153 @@
     </section>
 
     <!-- ================================================================= -->
+    <!-- PROFESSIONAL EXPERIENCE                                           -->
+    <!-- ================================================================= -->
+    <section id="experience" class="space-y-6 pt-6">
+      
+      <!-- Section Header with Soft Background Blur (NO Card, NO Border) -->
+      <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 mb-2">
+        <div>
+          <span class="text-xs font-mono uppercase tracking-wider text-[#55DCE8] font-semibold block">Industry Experience</span>
+          <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-[#E8F1F2]">Professional Experience</h2>
+        </div>
+        <span class="text-xs font-mono text-[#8BA3A8] shrink-0 sm:text-right">Commercial Game Studio Internship</span>
+      </div>
+
+      <!-- Glowing Cyan-to-Teal Accent Line -->
+      <div class="h-0.5 w-full bg-gradient-to-r from-[#55DCE8] via-[#18343A] to-transparent rounded-full mb-3"></div>
+
+      <div class="rounded-2xl border border-[rgba(85,220,232,0.22)] bg-[#0e1f26]/95 backdrop-blur-md p-6 sm:p-8 space-y-6 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+        <div class="flex flex-col md:flex-row md:items-start justify-between gap-4 pb-6 border-b border-[#18343A]">
+          <div class="space-y-1.5">
+            <div class="flex flex-wrap items-center gap-2.5">
+              <h3 class="text-lg sm:text-xl font-bold text-[#E8F1F2]">Game Development Intern</h3>
+              <span class="text-xs font-mono px-2.5 py-0.5 rounded bg-[#11222C] border border-[#55DCE8]/40 text-[#55DCE8] font-medium shadow-[0_0_10px_rgba(85,220,232,0.15)]">
+                Rak Son OPC
+              </span>
+            </div>
+            <p class="text-xs font-mono text-[#8BA3A8]">
+              Project: <strong class="text-[#E8F1F2]">Astro Chibbi / Astro Survivors</strong> &bull; Engine: <span class="text-[#55DCE8]">Unity</span>
+            </p>
+          </div>
+          <div class="flex items-center gap-2 text-xs font-mono text-[#F1BC70] shrink-0">
+            <svg class="w-4 h-4 text-[#F1BC70]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>
+            <span>September 2025 &ndash; November 2025</span>
+          </div>
+        </div>
+
+        <!-- Description & Work Contributions -->
+        <div class="space-y-4 text-xs sm:text-sm text-[#E8F1F2] leading-relaxed">
+          <p>
+            Contributed to gameplay programming and enemy combat mechanics on an active commercial Unity title under the mentorship of senior game developers. Worked directly within the studio's existing codebase to design, balance, and implement core enemy archetypes, projectile patterns, and multi-phase boss encounters.
+          </p>
+
+          <div class="space-y-3 pt-2">
+            <h4 class="text-xs font-mono uppercase tracking-wider text-[#8BA3A8] font-semibold">Key Technical Contributions</h4>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5 pt-1">
+              <!-- Item 1: Enemy AI Archetypes -->
+              <div class="p-4 rounded-xl bg-[#11222C]/90 border border-[#18343A] space-y-1.5 hover:border-[#55DCE8]/40 transition-colors">
+                <div class="flex items-center gap-2 text-[#E8F1F2] font-semibold text-xs sm:text-sm">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[#55DCE8] shadow-[0_0_6px_#55DCE8] shrink-0"></span>
+                  <span>Enemy AI &amp; Attack Behaviors</span>
+                </div>
+                <p class="text-xs sm:text-[13px] text-[#BACFD4] leading-relaxed">
+                  Engineered distinct AI state behaviors including high-speed <strong class="text-white font-medium">Charger</strong> enemies with wind-up telegraphs and volatile <strong class="text-white font-medium">Suicider</strong> units that track players and detonate upon proximity.
+                </p>
+              </div>
+
+              <!-- Item 2: Boss Attack Phases -->
+              <div class="p-4 rounded-xl bg-[#11222C]/90 border border-[#18343A] space-y-1.5 hover:border-[#55DCE8]/40 transition-colors">
+                <div class="flex items-center gap-2 text-[#E8F1F2] font-semibold text-xs sm:text-sm">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[#55DCE8] shadow-[0_0_6px_#55DCE8] shrink-0"></span>
+                  <span>Boss Fight Phase Transitions</span>
+                </div>
+                <p class="text-xs sm:text-[13px] text-[#BACFD4] leading-relaxed">
+                  Implemented modular multi-phase boss fight logic with health thresholds, altering attack cadences, movement speeds, and triggering distinct combat sequences between stages.
+                </p>
+              </div>
+
+              <!-- Item 3: Projectile Patterns -->
+              <div class="p-4 rounded-xl bg-[#11222C]/90 border border-[#18343A] space-y-1.5 hover:border-[#55DCE8]/40 transition-colors">
+                <div class="flex items-center gap-2 text-[#E8F1F2] font-semibold text-xs sm:text-sm">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[#55DCE8] shadow-[0_0_6px_#55DCE8] shrink-0"></span>
+                  <span>Projectile Patterns &amp; Spread Mathematics</span>
+                </div>
+                <p class="text-xs sm:text-[13px] text-[#BACFD4] leading-relaxed">
+                  Scripted parametric bullet hell spreads, radial bursts, and targeted trajectory calculations used across elite enemies and boss combat encounters.
+                </p>
+              </div>
+
+              <!-- Item 4: Team Codebase Integration -->
+              <div class="p-4 rounded-xl bg-[#11222C]/90 border border-[#18343A] space-y-1.5 hover:border-[#55DCE8]/40 transition-colors">
+                <div class="flex items-center gap-2 text-[#E8F1F2] font-semibold text-xs sm:text-sm">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[#55DCE8] shadow-[0_0_6px_#55DCE8] shrink-0"></span>
+                  <span>Team Codebase &amp; Collaborative Git</span>
+                </div>
+                <p class="text-xs sm:text-[13px] text-[#BACFD4] leading-relaxed">
+                  Integrated gameplay features into established project architecture without breaking existing mechanics, actively participating in code reviews, bug fixing, and Git branching workflows.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tags -->
+        <div class="pt-2 flex flex-wrap gap-1.5">
+          <span class="px-2 py-0.5 text-xs font-mono rounded bg-[#11222C] border border-[#18343A] text-[#E8F1F2]">Unity</span>
+          <span class="px-2 py-0.5 text-xs font-mono rounded bg-[#11222C] border border-[#18343A] text-[#E8F1F2]">C#</span>
+          <span class="px-2 py-0.5 text-xs font-mono rounded bg-[#11222C] border border-[#18343A] text-[#E8F1F2]">Enemy AI</span>
+          <span class="px-2 py-0.5 text-xs font-mono rounded bg-[#11222C] border border-[#18343A] text-[#E8F1F2]">Boss Phases</span>
+          <span class="px-2 py-0.5 text-xs font-mono rounded bg-[#11222C] border border-[#18343A] text-[#E8F1F2]">Combat Systems</span>
+          <span class="px-2 py-0.5 text-xs font-mono rounded bg-[#11222C] border border-[#18343A] text-[#E8F1F2]">Projectile Math</span>
+          <span class="px-2 py-0.5 text-xs font-mono rounded bg-[#11222C] border border-[#18343A] text-[#E8F1F2]">Collaborative Git</span>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ================================================================= -->
     <!-- HLSL SHADER SHOWCASE                                              -->
     <!-- ================================================================= -->
     <section id="shaders" class="space-y-6 pt-6">
       
-      <!-- Section Header -->
-      <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 pb-4 border-b border-brand-border">
+      <!-- Section Header with Soft Background Blur (NO Card, NO Border) -->
+      <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 mb-2">
         <div>
-          <span class="text-xs font-mono uppercase tracking-wider text-emerald-400 font-semibold">Graphics &amp; Shaders</span>
-          <h2 class="text-2xl font-bold tracking-tight text-zinc-100">HLSL Shader Showcase</h2>
+          <span class="text-xs font-mono uppercase tracking-wider text-[#55DCE8] font-semibold block">Graphics &amp; Shaders</span>
+          <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-[#E8F1F2]">HLSL Shader Showcase</h2>
         </div>
-        <span class="text-xs font-mono text-zinc-500">Unity Custom Shaders &amp; Materials</span>
+        <span class="text-xs font-mono text-[#8BA3A8] shrink-0 sm:text-right">Unity Custom Shaders &amp; Materials</span>
       </div>
 
+      <!-- Glowing Cyan-to-Teal Accent Line -->
+      <div class="h-0.5 w-full bg-gradient-to-r from-[#55DCE8] via-[#18343A] to-transparent rounded-full mb-3"></div>
+
       <!-- Showcase Stage Card -->
-      <div class="rounded-2xl border border-brand-border bg-brand-card overflow-hidden shadow-2xl">
+      <div class="rounded-2xl border border-[rgba(85,220,232,0.22)] bg-[#0e1f26]/95 backdrop-blur-md overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
         <div class="grid grid-cols-1 lg:grid-cols-12">
           
           <!-- Left Column: Responsive Video Player (8 cols) -->
-          <div class="lg:col-span-8 bg-zinc-950 border-b lg:border-b-0 lg:border-r border-brand-border p-4 sm:p-6 flex flex-col justify-between space-y-4">
+          <div class="lg:col-span-8 bg-[rgba(8,16,21,0.55)] border-b lg:border-b-0 lg:border-r border-[#18343A] p-4 sm:p-6 flex flex-col justify-between space-y-4">
             
             <!-- Top Controls/Status Bar -->
             <div class="flex flex-wrap items-center justify-between gap-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="px-2.5 py-1 text-[11px] font-mono rounded bg-zinc-900 border border-zinc-800 text-zinc-300">
+                <span class="px-2.5 py-1 text-[11px] font-mono rounded bg-[#11222C] border border-[#18343A] text-[#8BA3A8]">
                   Custom Materials
                 </span>
-                <span class="px-2.5 py-1 text-[11px] font-mono rounded bg-emerald-950/90 border border-emerald-500/40 text-emerald-300">
+                <span class="px-2.5 py-1 text-[11px] font-mono rounded bg-[#18343A]/90 border border-[#55DCE8]/40 text-[#55DCE8] shadow-[0_0_10px_rgba(85,220,232,0.15)]">
                   HLSL Shaders
                 </span>
               </div>
-              <span class="text-xs font-mono text-zinc-500 hidden sm:inline-block">Real-time Visual Effects</span>
+              <span class="text-xs font-mono text-[#8BA3A8] hidden sm:inline-block">Real-time Visual Effects</span>
             </div>
 
             <!-- Responsive 16:9 Video Container -->
-            <div class="relative w-full aspect-video rounded-xl border border-zinc-800 bg-black overflow-hidden flex items-center justify-center">
+            <div class="relative w-full aspect-video rounded-xl border border-[#18343A] bg-black overflow-hidden flex items-center justify-center">
               <video controls preload="metadata" playsinline poster="assets/Video/shaders-poster.jpg" class="w-full h-full object-contain">
                 <source src="assets/Video/ShadersShowcase.mp4" type="video/mp4">
                 Your browser does not support the video tag.
@@ -552,9 +815,9 @@
             </div>
 
             <!-- Media Bar Sub-footer -->
-            <div class="pt-2 border-t border-brand-border flex items-center justify-between text-xs font-mono text-zinc-400">
+            <div class="pt-2 border-t border-[#18343A] flex items-center justify-between text-xs font-mono text-[#8BA3A8]">
               <span>Local Video Showcase</span>
-              <span class="text-zinc-500">Unity &bull; HLSL</span>
+              <span class="text-[#55DCE8]">Unity &bull; HLSL</span>
             </div>
 
           </div>
@@ -564,40 +827,63 @@
             
             <div class="space-y-4">
               <div>
-                <span class="text-xs font-mono uppercase tracking-wider text-emerald-400 font-semibold block">
+                <span class="text-xs font-mono uppercase tracking-wider text-[#55DCE8] font-semibold block">
                   Technical Art &amp; Rendering
                 </span>
-                <h3 class="text-xl sm:text-2xl font-bold tracking-tight text-zinc-100 mt-1">
+                <h3 class="text-xl sm:text-2xl font-bold tracking-tight text-[#E8F1F2] mt-1">
                   HLSL Shader Showcase
                 </h3>
-                <p class="text-xs font-mono text-zinc-400 mt-1">
+                <p class="text-xs font-mono text-[#8BA3A8] mt-1">
                   Environment: Unity
                 </p>
               </div>
 
               <!-- Concise & Accurate Description -->
-              <div class="space-y-3 pt-1 text-xs sm:text-sm text-zinc-300 leading-relaxed font-normal">
+              <div class="space-y-3 pt-1 text-xs sm:text-sm text-[#E8F1F2] leading-relaxed font-normal">
                 <p>
-                  I created custom HLSL materials and applied them to cube objects in Unity to demonstrate their visual effects.
+                  A collection of custom HLSL shader effects demonstrated in Unity using simple cube meshes to highlight each material's visual behavior without mesh distractions. The showcase explores real-time shader programming, procedural mathematics, and rendering techniques.
                 </p>
+                <div class="space-y-2 pt-1 text-xs text-[#8BA3A8]">
+                  <p class="text-[#E8F1F2] font-medium">Techniques &amp; Mechanics Explored:</p>
+                  <ul class="space-y-1.5">
+                    <li class="flex items-start gap-2">
+                      <span class="mt-1.5 w-1 h-1 rounded-full bg-[#55DCE8] shadow-[0_0_6px_#55DCE8] shrink-0"></span>
+                      <span><strong class="text-[#E8F1F2] font-mono">Procedural Noise &amp; Distortion:</strong> Dynamic mathematical noise and fractional functions for animated surfaces.</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                      <span class="mt-1.5 w-1 h-1 rounded-full bg-[#55DCE8] shadow-[0_0_6px_#55DCE8] shrink-0"></span>
+                      <span><strong class="text-[#E8F1F2] font-mono">Vertex Displacement:</strong> Mathematical wave manipulation directly calculated in vertex shader passes.</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                      <span class="mt-1.5 w-1 h-1 rounded-full bg-[#55DCE8] shadow-[0_0_6px_#55DCE8] shrink-0"></span>
+                      <span><strong class="text-[#E8F1F2] font-mono">UV Transformations:</strong> Panning coordinates, rotation matrices, and animated texture distortion.</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                      <span class="mt-1.5 w-1 h-1 rounded-full bg-[#55DCE8] shadow-[0_0_6px_#55DCE8] shrink-0"></span>
+                      <span><strong class="text-[#E8F1F2] font-mono">Lighting &amp; Rim Emission:</strong> Dot-product Fresnel calculations and stylized border emission for depth.</span>
+                    </li>
+                  </ul>
+                </div>
               </div>
 
               <!-- Technology Badges -->
               <div class="pt-2">
-                <h4 class="text-xs font-mono uppercase tracking-wider text-zinc-500 font-semibold mb-2">Technologies &amp; Topics</h4>
+                <h4 class="text-xs font-mono uppercase tracking-wider text-[#8BA3A8] font-semibold mb-2">Technologies &amp; Topics</h4>
                 <div class="flex flex-wrap gap-1.5">
-                  <span class="px-2 py-0.5 text-xs font-mono rounded bg-zinc-900 border border-brand-border text-zinc-300">Unity</span>
-                  <span class="px-2 py-0.5 text-xs font-mono rounded bg-zinc-900 border border-brand-border text-zinc-300">HLSL</span>
-                  <span class="px-2 py-0.5 text-xs font-mono rounded bg-zinc-900 border border-brand-border text-zinc-300">Custom Shaders</span>
-                  <span class="px-2 py-0.5 text-xs font-mono rounded bg-zinc-900 border border-brand-border text-zinc-300">Materials</span>
+                  <span class="px-2 py-0.5 text-xs font-mono rounded bg-[#11222C] border border-[#18343A] text-[#E8F1F2]">Unity</span>
+                  <span class="px-2 py-0.5 text-xs font-mono rounded bg-[#11222C] border border-[#18343A] text-[#E8F1F2]">HLSL</span>
+                  <span class="px-2 py-0.5 text-xs font-mono rounded bg-[#11222C] border border-[#18343A] text-[#E8F1F2]">Vertex Shaders</span>
+                  <span class="px-2 py-0.5 text-xs font-mono rounded bg-[#11222C] border border-[#18343A] text-[#E8F1F2]">Fragment Shaders</span>
+                  <span class="px-2 py-0.5 text-xs font-mono rounded bg-[#11222C] border border-[#18343A] text-[#E8F1F2]">Procedural Math</span>
+                  <span class="px-2 py-0.5 text-xs font-mono rounded bg-[#11222C] border border-[#18343A] text-[#E8F1F2]">Custom Materials</span>
                 </div>
               </div>
             </div>
 
             <!-- Bottom Note -->
-            <div class="pt-4 border-t border-brand-border flex items-center justify-between text-xs font-mono text-zinc-500">
+            <div class="pt-4 border-t border-[#18343A] flex items-center justify-between text-xs font-mono text-[#8BA3A8]">
               <span>Unity Shader Showcase</span>
-              <span class="text-emerald-400">Cube Demonstrations</span>
+              <span class="text-[#55DCE8]">Cube Demonstrations</span>
             </div>
 
           </div>
@@ -608,126 +894,447 @@
     </section>
 
     <!-- ================================================================= -->
+    <!-- AI-ASSISTED DEVELOPMENT & WORKFLOWS                               -->
+    <!-- ================================================================= -->
+    <section id="ai-workflows" class="space-y-6 pt-6">
+      
+      <!-- Section Header with Soft Background Blur (NO Card, NO Border) -->
+      <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 mb-2">
+        <div>
+          <span class="text-xs font-mono uppercase tracking-wider text-[#55DCE8] font-semibold block">Modern Production Pipeline</span>
+          <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-[#E8F1F2]">AI-Assisted Development &amp; Workflows</h2>
+        </div>
+        <span class="text-xs font-mono text-[#8BA3A8] shrink-0 sm:text-right">Autonomous Coding Agents &bull; 3D Modeling</span>
+      </div>
+
+      <!-- Glowing Cyan-to-Teal Accent Line -->
+      <div class="h-0.5 w-full bg-gradient-to-r from-[#55DCE8] via-[#18343A] to-transparent rounded-full mb-3"></div>
+
+      <!-- Two Workflow Cards: Workflow A & Workflow B -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+        <!-- Workflow A: Unity Development with Antigravity -->
+        <div class="rounded-2xl border border-[rgba(85,220,232,0.22)] bg-[#0e1f26]/95 backdrop-blur-md p-6 sm:p-7 flex flex-col justify-between space-y-6 shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:border-[#55DCE8]/40 transition-all">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-[#18343A]">
+              <div class="flex items-center gap-2.5">
+                <span class="w-2 h-2 rounded-full bg-[#55DCE8] shadow-[0_0_6px_#55DCE8]"></span>
+                <span class="text-xs font-mono uppercase tracking-wider text-[#55DCE8] font-semibold">Workflow A</span>
+              </div>
+              <span class="text-[11px] font-mono text-[#8BA3A8]">Gameplay &amp; Systems</span>
+            </div>
+
+            <div>
+              <h3 class="text-xl font-bold text-[#E8F1F2]">AI-Assisted Unity Development</h3>
+              <p class="text-xs font-mono text-[#8BA3A8] mt-1">Tools: Google Antigravity Pro (Desktop + CLI)</p>
+            </div>
+
+            <p class="text-sm text-[#E8F1F2] leading-relaxed">
+              I use AI coding agents to build gameplay systems, debug issues, and iterate on Unity projects.
+            </p>
+          </div>
+
+          <!-- Compact Tags -->
+          <div class="pt-4 border-t border-[#18343A] flex items-center justify-between">
+            <div class="flex flex-wrap items-center gap-2 text-xs font-mono">
+              <span class="px-2.5 py-1 rounded bg-[#11222C] border border-[#18343A] text-[#E8F1F2]">Architecture</span>
+              <span class="text-[#18343A] font-mono">&bull;</span>
+              <span class="px-2.5 py-1 rounded bg-[#11222C] border border-[#18343A] text-[#E8F1F2]">Implementation</span>
+              <span class="text-[#18343A] font-mono">&bull;</span>
+              <span class="px-2.5 py-1 rounded bg-[#11222C] border border-[#18343A] text-[#E8F1F2]">Testing</span>
+              <span class="text-[#18343A] font-mono">&bull;</span>
+              <span class="px-2.5 py-1 rounded bg-[#11222C] border border-[#18343A] text-[#E8F1F2]">Debugging</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Workflow B: 3D Asset Creation with Gemini, ChatGPT & Blender -->
+        <div class="rounded-2xl border border-[rgba(85,220,232,0.22)] bg-[#0e1f26]/95 backdrop-blur-md p-6 sm:p-7 flex flex-col justify-between space-y-6 shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:border-[#55DCE8]/40 transition-all">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-[#18343A]">
+              <div class="flex items-center gap-2.5">
+                <span class="w-2 h-2 rounded-full bg-[#F1BC70] shadow-[0_0_6px_#F1BC70]"></span>
+                <span class="text-xs font-mono uppercase tracking-wider text-[#F1BC70] font-semibold">Workflow B</span>
+              </div>
+              <span class="text-[11px] font-mono text-[#8BA3A8]">Stylized 3D Assets</span>
+            </div>
+
+            <div>
+              <h3 class="text-xl font-bold text-[#E8F1F2]">AI-Assisted 3D Asset Creation</h3>
+              <p class="text-xs font-mono text-[#8BA3A8] mt-1">Tools: Gemini &bull; ChatGPT Plus &bull; Blender</p>
+            </div>
+
+            <p class="text-sm text-[#E8F1F2] leading-relaxed">
+              I turn AI-generated reference images into stylized 3D models using an AI-assisted Blender workflow.
+            </p>
+
+            <!-- Authentic Blender Collection Screenshot (Clickable link to #models-3d) -->
+            <a href="#models-3d" 
+               class="block relative w-full aspect-video rounded-xl border border-[#18343A] bg-black overflow-hidden focus:outline-none focus:ring-1 focus:ring-[#55DCE8]/50 group" 
+               title="Explore 3D Models in the interactive showcase">
+              <img src="assets/blender-vehicles-showcase.jpg" alt="Blender Filipino Vehicle Collection Overview" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+              <div class="absolute bottom-2 left-2 px-2.5 py-1 rounded bg-[#0C1820]/90 backdrop-blur-sm border border-[#18343A] text-[10px] font-mono text-[#E8F1F2]">
+                Actual Blender Vehicle Collection Render
+              </div>
+            </a>
+          </div>
+
+          <!-- Compact Tags & CTA Navigation -->
+          <div class="pt-4 border-t border-[#18343A] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div class="flex flex-wrap items-center gap-1.5">
+              <span class="px-2 py-0.5 text-[11px] font-mono rounded bg-[#11222C] border border-[#18343A] text-[#E8F1F2]">Jeepneys</span>
+              <span class="px-2 py-0.5 text-[11px] font-mono rounded bg-[#11222C] border border-[#18343A] text-[#E8F1F2]">Multicabs</span>
+              <span class="px-2 py-0.5 text-[11px] font-mono rounded bg-[#11222C] border border-[#18343A] text-[#E8F1F2]">Hatchbacks</span>
+              <span class="px-2 py-0.5 text-[11px] font-mono rounded bg-[#11222C] border border-[#18343A] text-[#E8F1F2]">Scooters</span>
+            </div>
+            <a href="#models-3d" 
+               class="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-[#55DCE8] hover:text-[#7fe7f2] transition-colors group focus:outline-none focus:ring-1 focus:ring-[#55DCE8]/50 rounded px-1 -mx-1 py-0.5 self-start sm:self-auto">
+              <span>Explore 3D Models</span>
+              <svg class="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- INTERACTIVE 3D ASSET SHOWCASE                                     -->
+    <!-- ================================================================= -->
+    <section id="models-3d" class="space-y-6 pt-6">
+      
+      <!-- Section Header with Soft Background Blur (NO Card, NO Border) -->
+      <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 mb-2">
+        <div>
+          <span class="text-xs font-mono uppercase tracking-wider text-[#55DCE8] font-semibold block">Real-Time Web 3D</span>
+          <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-[#E8F1F2]">Interactive 3D Asset Showcase</h2>
+        </div>
+        <span class="text-xs font-mono text-[#8BA3A8] shrink-0 sm:text-right">Interactive WebGL &bull; Orbit, Pan &amp; Zoom</span>
+      </div>
+
+      <!-- Glowing Cyan-to-Teal Accent Line -->
+      <div class="h-0.5 w-full bg-gradient-to-r from-[#55DCE8] via-[#18343A] to-transparent rounded-full mb-3"></div>
+
+      <div class="rounded-2xl border border-[rgba(85,220,232,0.25)] bg-[#0e1f26]/95 backdrop-blur-md overflow-hidden shadow-[0_12px_40px_rgba(0,0,0,0.35)]">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-0">
+
+          <!-- Left Column: Interactive 3D Viewer (8 cols) -->
+          <div class="lg:col-span-8 p-4 sm:p-6 flex flex-col space-y-4 border-b lg:border-b-0 lg:border-r border-[#18343A] bg-[rgba(8,16,21,0.55)]">
+            
+            <!-- Viewer Top Controls Bar -->
+            <div class="flex items-center justify-between text-xs font-mono">
+              <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-[#55DCE8] shadow-[0_0_6px_#55DCE8] animate-pulse"></span>
+                <span id="activeModelTag" class="text-[#E8F1F2] font-medium">Jeepney &bull; Blue</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <button id="toggleAutoRotateBtn" class="px-2.5 py-1 rounded bg-[#11222C] border border-[#18343A] text-[#8BA3A8] hover:text-[#E8F1F2] hover:border-[#55DCE8]/50 transition-colors">
+                  Auto-Rotate: On
+                </button>
+                <button id="resetCameraBtn" class="px-2.5 py-1 rounded bg-[#11222C] border border-[#18343A] text-[#8BA3A8] hover:text-[#E8F1F2] hover:border-[#55DCE8]/50 transition-colors">
+                  Reset Camera
+                </button>
+              </div>
+            </div>
+
+            <!-- 3D Canvas Box with Sci-Fi Corner Accents -->
+            <div class="relative w-full aspect-video min-h-[320px] sm:min-h-[400px] rounded-xl border border-[#18343A] bg-[#081015] overflow-hidden flex items-center justify-center">
+              <!-- Holographic Corner Accents -->
+              <span class="absolute top-2 left-2 w-3 h-3 border-t-2 border-l-2 border-[#55DCE8]/60 pointer-events-none z-10"></span>
+              <span class="absolute top-2 right-2 w-3 h-3 border-t-2 border-r-2 border-[#55DCE8]/60 pointer-events-none z-10"></span>
+              <span class="absolute bottom-2 left-2 w-3 h-3 border-b-2 border-l-2 border-[#55DCE8]/60 pointer-events-none z-10"></span>
+              <span class="absolute bottom-2 right-2 w-3 h-3 border-b-2 border-r-2 border-[#55DCE8]/60 pointer-events-none z-10"></span>
+
+              <model-viewer id="vehicleViewer"
+                src="assets/models/jeepney-blue.glb"
+                alt="3D Interactive Filipino Vehicle Model"
+                camera-controls
+                auto-rotate
+                rotation-per-second="20deg"
+                shadow-intensity="1.2"
+                shadow-softness="0.8"
+                exposure="1"
+                environment-image="neutral"
+                interaction-prompt="none"
+                loading="eager"
+                touch-action="pan-y"
+                class="w-full h-full block cursor-grab active:cursor-grabbing">
+              </model-viewer>
+
+              <!-- Loading / Poster State -->
+              <div id="viewerLoadingState" class="absolute inset-0 bg-[#081015] flex flex-col items-center justify-center gap-2 transition-opacity duration-300 pointer-events-none z-10">
+                <div class="w-7 h-7 border-2 border-[#55DCE8] border-t-transparent rounded-full animate-spin"></div>
+                <span class="text-xs font-mono text-[#8BA3A8]">Loading 3D asset...</span>
+              </div>
+              
+              <!-- Error State (hidden by default) -->
+              <div id="viewerErrorState" class="hidden absolute inset-0 bg-[#081015]/95 flex flex-col items-center justify-center p-6 text-center gap-2 z-20">
+                <svg class="w-8 h-8 text-[#F1BC70]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                </svg>
+                <p class="text-xs font-semibold text-[#E8F1F2]">Unable to load 3D model</p>
+                <p id="viewerErrorMessage" class="text-[11px] font-mono text-[#8BA3A8]">File not found or WebGL context unavailable</p>
+              </div>
+
+              <!-- Interaction Hint Overlay -->
+              <div class="absolute bottom-3 left-3 pointer-events-none px-2.5 py-1 rounded bg-[#0C1820]/80 backdrop-blur-sm border border-[#18343A] text-[10px] font-mono text-[#8BA3A8] flex items-center gap-1.5 z-10">
+                <svg class="w-3.5 h-3.5 text-[#55DCE8]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"/>
+                </svg>
+                <span>Drag to rotate &bull; Scroll to zoom</span>
+              </div>
+            </div>
+
+            <!-- Collection Filter & Model Selection Bar -->
+            <div class="space-y-3 pt-1">
+              <div class="flex items-center justify-between">
+                <span class="text-[11px] font-mono uppercase text-[#8BA3A8] font-semibold block">Collection:</span>
+                <span id="collectionItemCount" class="text-[10px] font-mono text-[#8BA3A8]">4 Vehicles</span>
+              </div>
+              <div class="grid grid-cols-3 gap-1.5 p-1 rounded-lg bg-[#11222C] border border-[#18343A] text-xs font-mono text-center">
+                <button type="button" data-coll="vehicles" class="collection-tab px-2.5 py-1.5 rounded-md bg-[#132b35] text-[#55DCE8] border border-[#55DCE8]/40 shadow-sm font-medium transition-all">
+                  Vehicles
+                </button>
+                <button type="button" data-coll="architecture" class="collection-tab px-2.5 py-1.5 rounded-md text-[#8BA3A8] hover:text-[#E8F1F2] border border-transparent transition-all">
+                  Houses &amp; Gates
+                </button>
+                <button type="button" data-coll="props" class="collection-tab px-2.5 py-1.5 rounded-md text-[#8BA3A8] hover:text-[#E8F1F2] border border-transparent transition-all">
+                  Props &amp; Objects
+                </button>
+              </div>
+
+              <!-- Model Selector Buttons Grid -->
+              <div class="space-y-1.5 pt-0.5">
+                <span class="text-[11px] font-mono uppercase text-[#8BA3A8] font-semibold block">Select Model:</span>
+                <div id="modelButtonsGrid" class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                  <!-- Injected via JavaScript -->
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Right Column: Model Information & Color Variants (4 cols) -->
+          <div class="lg:col-span-4 p-6 sm:p-8 flex flex-col justify-between space-y-6">
+            <div class="space-y-4">
+              <div>
+                <span class="text-xs font-mono uppercase tracking-wider text-[#55DCE8] font-semibold block">
+                  3D Asset Details
+                </span>
+                <h3 id="modelDetailTitle" class="text-xl sm:text-2xl font-bold tracking-tight text-[#E8F1F2] mt-1">
+                  Filipino Jeepney
+                </h3>
+                <p id="modelDetailSubtitle" class="text-xs font-mono text-[#8BA3A8] mt-1">
+                  Iconic Philippine Public Transport Vehicle
+                </p>
+              </div>
+
+              <!-- Description -->
+              <p id="modelDetailDesc" class="text-xs sm:text-sm text-[#E8F1F2] leading-relaxed font-normal">
+                A stylized, low-poly representation of the classic Philippine passenger jeepney featuring signature passenger rails, decorative hood ornaments, and route display placards.
+              </p>
+
+              <!-- Color Variant Selector -->
+              <div id="variantSection" class="space-y-2 pt-1">
+                <span class="text-xs font-mono uppercase tracking-wider text-[#8BA3A8] font-semibold block">
+                  Color Paint Variants:
+                </span>
+                <div id="variantPillContainer" class="flex flex-wrap gap-2">
+                  <!-- Injected by JavaScript based on active model -->
+                </div>
+              </div>
+
+              <!-- Technical Specs -->
+              <div class="pt-2 space-y-2 border-t border-[#18343A]">
+                <span class="text-xs font-mono uppercase tracking-wider text-[#8BA3A8] font-semibold block">
+                  Model Specifications
+                </span>
+                <div class="grid grid-cols-2 gap-2 text-xs font-mono">
+                  <div class="p-2.5 rounded-lg bg-[#0e1f26]/80 border border-[#18343A]">
+                    <span class="text-[#8BA3A8] block text-[10px]">FORMAT</span>
+                    <span class="text-[#E8F1F2] font-medium">glTF 2.0 (GLB)</span>
+                  </div>
+                  <div class="p-2.5 rounded-lg bg-[#0e1f26]/80 border border-[#18343A]">
+                    <span class="text-[#8BA3A8] block text-[10px]">FILE SIZE</span>
+                    <span id="modelDetailSize" class="text-[#55DCE8] font-medium">~389 KB</span>
+                  </div>
+                  <div class="p-2.5 rounded-lg bg-[#0e1f26]/80 border border-[#18343A]">
+                    <span class="text-[#8BA3A8] block text-[10px]">MATERIALS</span>
+                    <span class="text-[#E8F1F2] font-medium">Shared Palette</span>
+                  </div>
+                  <div class="p-2.5 rounded-lg bg-[#0e1f26]/80 border border-[#18343A]">
+                    <span class="text-[#8BA3A8] block text-[10px]">GEOMETRY</span>
+                    <span class="text-[#E8F1F2] font-medium">Stylized Low-Poly</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Tools Used -->
+              <div class="pt-1">
+                <span class="text-xs font-mono uppercase tracking-wider text-[#8BA3A8] font-semibold mb-2 block">Creation Pipeline</span>
+                <div class="flex flex-wrap gap-1.5">
+                  <span class="px-2 py-0.5 text-xs font-mono rounded bg-[#11222C] border border-[#18343A] text-[#E8F1F2]">Gemini</span>
+                  <span class="px-2 py-0.5 text-xs font-mono rounded bg-[#11222C] border border-[#18343A] text-[#E8F1F2]">ChatGPT Desktop</span>
+                  <span class="px-2 py-0.5 text-xs font-mono rounded bg-[#11222C] border border-[#18343A] text-[#E8F1F2]">Blender 5.0</span>
+                  <span class="px-2 py-0.5 text-xs font-mono rounded bg-[#11222C] border border-[#18343A] text-[#E8F1F2]">Unity Ready</span>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="pt-4 border-t border-[#18343A] flex items-center justify-between text-xs font-mono text-[#8BA3A8]">
+              <span>Real-time Inspection</span>
+              <span class="text-[#55DCE8]">Zero Plugins Required</span>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
     <!-- 4. TECHNICAL SKILLS SUMMARY                                       -->
     <!-- ================================================================= -->
     <section id="skills" class="space-y-6 pt-6">
       
-      <!-- Section Header -->
-      <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 pb-4 border-b border-brand-border">
+      <!-- Section Header with Soft Background Blur (NO Card, NO Border) -->
+      <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 mb-2">
         <div>
-          <span class="text-xs font-mono uppercase tracking-wider text-emerald-400 font-semibold">Core Competencies</span>
-          <h2 class="text-2xl font-bold tracking-tight text-zinc-100">Technical Skills</h2>
+          <span class="text-xs font-mono uppercase tracking-wider text-[#55DCE8] font-semibold block">Core Competencies</span>
+          <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-[#E8F1F2]">Technical Skills</h2>
         </div>
-        <span class="text-xs font-mono text-zinc-500">Gameplay Programming &amp; Systems</span>
+        <span class="text-xs font-mono text-[#8BA3A8] shrink-0 sm:text-right">Gameplay Programming &amp; Systems</span>
       </div>
+
+      <!-- Glowing Cyan-to-Teal Accent Line -->
+      <div class="h-0.5 w-full bg-gradient-to-r from-[#55DCE8] via-[#18343A] to-transparent rounded-full mb-3"></div>
 
       <!-- Cockpit 4-Column Responsive Grid -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 
         <!-- Card 1: Engine & Core -->
-        <div class="bg-zinc-900/40 border border-zinc-800/80 rounded-2xl p-5 hover:border-zinc-700 transition duration-200 backdrop-blur-sm space-y-3.5 flex flex-col justify-between">
-          <div class="flex items-center justify-between pb-3 border-b border-zinc-800/60">
+        <div class="bg-[rgba(12,24,32,0.65)] border border-[rgba(85,220,232,0.2)] rounded-2xl p-5 hover:border-[#55DCE8]/50 hover:shadow-[0_8px_32px_rgba(85,220,232,0.18)] transition duration-200 backdrop-blur-[12px] space-y-3.5 flex flex-col justify-start">
+          <div class="flex items-center justify-between pb-3 border-b border-[#18343A]">
             <div class="flex items-center">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block mr-2"></span>
-              <span class="text-[11px] font-mono uppercase text-zinc-400 font-semibold tracking-widest">Engine &amp; Core</span>
+              <span class="w-1.5 h-1.5 rounded-full bg-[#55DCE8] shadow-[0_0_6px_#55DCE8] inline-block mr-2"></span>
+              <span class="text-[11px] font-mono uppercase text-[#8BA3A8] font-semibold tracking-widest">Engine &amp; Core</span>
             </div>
-            <svg class="w-3.5 h-3.5 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-3.5 h-3.5 text-[#8BA3A8]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
             </svg>
           </div>
           <ul class="space-y-2 pt-0.5">
-            <li class="flex items-center justify-between py-1 border-b border-zinc-800/40">
-              <span class="font-medium text-zinc-200 text-sm">C#</span>
-              <span class="text-xs font-mono text-emerald-400/90 bg-emerald-950/40 border border-emerald-800/40 px-2 py-0.5 rounded-md">Object-Oriented Programming</span>
+            <li class="flex items-center justify-between py-1 border-b border-[#18343A]/60">
+              <span class="font-medium text-[#E8F1F2] text-sm">C#</span>
+              <span class="text-xs font-mono text-[#55DCE8] bg-[#11222C] border border-[#18343A] px-2 py-0.5 rounded-md">Gameplay Programming</span>
             </li>
-            <li class="flex items-center justify-between py-1 border-b border-zinc-800/40">
-              <span class="font-medium text-zinc-200 text-sm">Unity</span>
-              <span class="text-xs font-mono text-emerald-400/90 bg-emerald-950/40 border border-emerald-800/40 px-2 py-0.5 rounded-md">Gameplay Programming</span>
+            <li class="flex items-center justify-between py-1 border-b border-[#18343A]/60">
+              <span class="font-medium text-[#E8F1F2] text-sm">Unity 6</span>
+              <span class="text-xs font-mono text-[#55DCE8] bg-[#11222C] border border-[#18343A] px-2 py-0.5 rounded-md">Physics &amp; Mechanics</span>
+            </li>
+            <li class="flex items-center justify-between py-1 border-b border-[#18343A]/60">
+              <span class="font-medium text-[#E8F1F2] text-sm">UI Toolkit</span>
+              <span class="text-xs font-mono text-[#55DCE8] bg-[#11222C] border border-[#18343A] px-2 py-0.5 rounded-md">Modern Runtime UI</span>
             </li>
             <li class="flex items-center justify-between py-1">
-              <span class="font-medium text-zinc-200 text-sm">Physics &amp; Collision</span>
-              <span class="text-xs font-mono text-emerald-400/90 bg-emerald-950/40 border border-emerald-800/40 px-2 py-0.5 rounded-md">Gameplay Interactions</span>
+              <span class="font-medium text-[#E8F1F2] text-sm">Git &amp; GitHub</span>
+              <span class="text-xs font-mono text-[#55DCE8] bg-[#11222C] border border-[#18343A] px-2 py-0.5 rounded-md">Version Control</span>
             </li>
           </ul>
         </div>
 
         <!-- Card 2: Architecture -->
-        <div class="bg-zinc-900/40 border border-zinc-800/80 rounded-2xl p-5 hover:border-zinc-700 transition duration-200 backdrop-blur-sm space-y-3.5 flex flex-col justify-between">
-          <div class="flex items-center justify-between pb-3 border-b border-zinc-800/60">
+        <div class="bg-[rgba(12,24,32,0.65)] border border-[rgba(85,220,232,0.2)] rounded-2xl p-5 hover:border-[#55DCE8]/50 hover:shadow-[0_8px_32px_rgba(85,220,232,0.18)] transition duration-200 backdrop-blur-[12px] space-y-3.5 flex flex-col justify-start">
+          <div class="flex items-center justify-between pb-3 border-b border-[#18343A]">
             <div class="flex items-center">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block mr-2"></span>
-              <span class="text-[11px] font-mono uppercase text-zinc-400 font-semibold tracking-widest">Architecture</span>
+              <span class="w-1.5 h-1.5 rounded-full bg-[#55DCE8] shadow-[0_0_6px_#55DCE8] inline-block mr-2"></span>
+              <span class="text-[11px] font-mono uppercase text-[#8BA3A8] font-semibold tracking-widest">Architecture</span>
             </div>
-            <svg class="w-3.5 h-3.5 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-3.5 h-3.5 text-[#8BA3A8]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
             </svg>
           </div>
           <ul class="space-y-2 pt-0.5">
-            <li class="flex items-center justify-between py-1 border-b border-zinc-800/40">
-              <span class="font-medium text-zinc-200 text-sm">ScriptableObjects</span>
-              <span class="text-xs font-mono text-emerald-400/90 bg-emerald-950/40 border border-emerald-800/40 px-2 py-0.5 rounded-md">Data &amp; Configuration</span>
+            <li class="flex items-center justify-between py-1 border-b border-[#18343A]/60">
+              <span class="font-medium text-[#E8F1F2] text-sm">ScriptableObjects</span>
+              <span class="text-xs font-mono text-[#55DCE8] bg-[#11222C] border border-[#18343A] px-2 py-0.5 rounded-md">Data &amp; Config</span>
             </li>
-            <li class="flex items-center justify-between py-1 border-b border-zinc-800/40">
-              <span class="font-medium text-zinc-200 text-sm">State Machines</span>
-              <span class="text-xs font-mono text-emerald-400/90 bg-emerald-950/40 border border-emerald-800/40 px-2 py-0.5 rounded-md">AI &amp; Gameplay States</span>
+            <li class="flex items-center justify-between py-1 border-b border-[#18343A]/60">
+              <span class="font-medium text-[#E8F1F2] text-sm">State Machines</span>
+              <span class="text-xs font-mono text-[#55DCE8] bg-[#11222C] border border-[#18343A] px-2 py-0.5 rounded-md">AI &amp; Logic</span>
+            </li>
+            <li class="flex items-center justify-between py-1 border-b border-[#18343A]/60">
+              <span class="font-medium text-[#E8F1F2] text-sm">Event-Driven Arch</span>
+              <span class="text-xs font-mono text-[#55DCE8] bg-[#11222C] border border-[#18343A] px-2 py-0.5 rounded-md">Decoupled Systems</span>
             </li>
             <li class="flex items-center justify-between py-1">
-              <span class="font-medium text-zinc-200 text-sm">Event-Driven Architecture</span>
-              <span class="text-xs font-mono text-emerald-400/90 bg-emerald-950/40 border border-emerald-800/40 px-2 py-0.5 rounded-md">System Communication</span>
+              <span class="font-medium text-[#E8F1F2] text-sm">Modular Code</span>
+              <span class="text-xs font-mono text-[#55DCE8] bg-[#11222C] border border-[#18343A] px-2 py-0.5 rounded-md">Clean Composition</span>
             </li>
           </ul>
         </div>
 
         <!-- Card 3: Systems & Optimization -->
-        <div class="bg-zinc-900/40 border border-zinc-800/80 rounded-2xl p-5 hover:border-zinc-700 transition duration-200 backdrop-blur-sm space-y-3.5 flex flex-col justify-between">
-          <div class="flex items-center justify-between pb-3 border-b border-zinc-800/60">
+        <div class="bg-[rgba(12,24,32,0.65)] border border-[rgba(85,220,232,0.2)] rounded-2xl p-5 hover:border-[#55DCE8]/50 hover:shadow-[0_8px_32px_rgba(85,220,232,0.18)] transition duration-200 backdrop-blur-[12px] space-y-3.5 flex flex-col justify-start">
+          <div class="flex items-center justify-between pb-3 border-b border-[#18343A]">
             <div class="flex items-center">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block mr-2"></span>
-              <span class="text-[11px] font-mono uppercase text-zinc-400 font-semibold tracking-widest">Systems &amp; Optimization</span>
+              <span class="w-1.5 h-1.5 rounded-full bg-[#F1BC70] shadow-[0_0_6px_#F1BC70] inline-block mr-2"></span>
+              <span class="text-[11px] font-mono uppercase text-[#8BA3A8] font-semibold tracking-widest">Systems &amp; Optimization</span>
             </div>
-            <svg class="w-3.5 h-3.5 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-3.5 h-3.5 text-[#8BA3A8]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M13 10V3L4 14h7v7l9-11h-7z"/>
             </svg>
           </div>
           <ul class="space-y-2 pt-0.5">
-            <li class="flex items-center justify-between py-1 border-b border-zinc-800/40">
-              <span class="font-medium text-zinc-200 text-sm">Object Pooling</span>
-              <span class="text-xs font-mono text-emerald-400/90 bg-emerald-950/40 border border-emerald-800/40 px-2 py-0.5 rounded-md">Runtime Object Reuse</span>
+            <li class="flex items-center justify-between py-1 border-b border-[#18343A]/60">
+              <span class="font-medium text-[#E8F1F2] text-sm">Object Pooling</span>
+              <span class="text-xs font-mono text-[#F1BC70] bg-[#11222C] border border-[#18343A] px-2 py-0.5 rounded-md">Zero-GC Reuse</span>
             </li>
-            <li class="flex items-center justify-between py-1 border-b border-zinc-800/40">
-              <span class="font-medium text-zinc-200 text-sm">LOD &amp; Asset Optimization</span>
-              <span class="text-xs font-mono text-emerald-400/90 bg-emerald-950/40 border border-emerald-800/40 px-2 py-0.5 rounded-md">3D Performance</span>
+            <li class="flex items-center justify-between py-1 border-b border-[#18343A]/60">
+              <span class="font-medium text-[#E8F1F2] text-sm">GPU Instancing</span>
+              <span class="text-xs font-mono text-[#F1BC70] bg-[#11222C] border border-[#18343A] px-2 py-0.5 rounded-md">Draw Call Reduction</span>
+            </li>
+            <li class="flex items-center justify-between py-1 border-b border-[#18343A]/60">
+              <span class="font-medium text-[#E8F1F2] text-sm">NavMesh AI</span>
+              <span class="text-xs font-mono text-[#F1BC70] bg-[#11222C] border border-[#18343A] px-2 py-0.5 rounded-md">Pathing &amp; Avoidance</span>
             </li>
             <li class="flex items-center justify-between py-1">
-              <span class="font-medium text-zinc-200 text-sm">GPU Instancing</span>
-              <span class="text-xs font-mono text-emerald-400/90 bg-emerald-950/40 border border-emerald-800/40 px-2 py-0.5 rounded-md">Rendering Optimization</span>
+              <span class="font-medium text-[#E8F1F2] text-sm">HLSL Shaders</span>
+              <span class="text-xs font-mono text-[#F1BC70] bg-[#11222C] border border-[#18343A] px-2 py-0.5 rounded-md">Custom Materials</span>
             </li>
           </ul>
         </div>
 
-        <!-- Card 4: Tooling & Workflow -->
-        <div class="bg-zinc-900/40 border border-zinc-800/80 rounded-2xl p-5 hover:border-zinc-700 transition duration-200 backdrop-blur-sm space-y-3.5 flex flex-col justify-between">
-          <div class="flex items-center justify-between pb-3 border-b border-zinc-800/60">
+        <!-- Card 4: AI & Tooling -->
+        <div class="bg-[rgba(12,24,32,0.65)] border border-[rgba(85,220,232,0.2)] rounded-2xl p-5 hover:border-[#55DCE8]/50 hover:shadow-[0_8px_32px_rgba(85,220,232,0.18)] transition duration-200 backdrop-blur-[12px] space-y-3.5 flex flex-col justify-start">
+          <div class="flex items-center justify-between pb-3 border-b border-[#18343A]">
             <div class="flex items-center">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block mr-2"></span>
-              <span class="text-[11px] font-mono uppercase text-zinc-400 font-semibold tracking-widest">Tooling &amp; Workflow</span>
+              <span class="w-1.5 h-1.5 rounded-full bg-[#55DCE8] shadow-[0_0_6px_#55DCE8] inline-block mr-2"></span>
+              <span class="text-[11px] font-mono uppercase text-[#8BA3A8] font-semibold tracking-widest">AI &amp; Tooling</span>
             </div>
-            <svg class="w-3.5 h-3.5 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-3.5 h-3.5 text-[#8BA3A8]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
             </svg>
           </div>
           <ul class="space-y-2 pt-0.5">
-            <li class="flex items-center justify-between py-1 border-b border-zinc-800/40">
-              <span class="font-medium text-zinc-200 text-sm">Git &amp; GitHub</span>
-              <span class="text-xs font-mono text-emerald-400/90 bg-emerald-950/40 border border-emerald-800/40 px-2 py-0.5 rounded-md">Version Control</span>
+            <li class="flex items-center justify-between py-1 border-b border-[#18343A]/60">
+              <span class="font-medium text-[#E8F1F2] text-sm">Google Antigravity</span>
+              <span class="text-xs font-mono text-[#55DCE8] bg-[#11222C] border border-[#18343A] px-2 py-0.5 rounded-md">Coding Agents &bull; CLI</span>
             </li>
-            <li class="flex items-center justify-between py-1 border-b border-zinc-800/40">
-              <span class="font-medium text-zinc-200 text-sm">Blender</span>
-              <span class="text-xs font-mono text-emerald-400/90 bg-emerald-950/40 border border-emerald-800/40 px-2 py-0.5 rounded-md">Low-poly Modeling</span>
+            <li class="flex items-center justify-between py-1 border-b border-[#18343A]/60">
+              <span class="font-medium text-[#E8F1F2] text-sm">AI Coding Agents</span>
+              <span class="text-xs font-mono text-[#55DCE8] bg-[#11222C] border border-[#18343A] px-2 py-0.5 rounded-md">Feature Dev</span>
+            </li>
+            <li class="flex items-center justify-between py-1 border-b border-[#18343A]/60">
+              <span class="font-medium text-[#E8F1F2] text-sm">AI Debugging</span>
+              <span class="text-xs font-mono text-[#55DCE8] bg-[#11222C] border border-[#18343A] px-2 py-0.5 rounded-md">Bug Isolation</span>
             </li>
             <li class="flex items-center justify-between py-1">
-              <span class="font-medium text-zinc-200 text-sm">Asset Optimization</span>
-              <span class="text-xs font-mono text-emerald-400/90 bg-emerald-950/40 border border-emerald-800/40 px-2 py-0.5 rounded-md">Efficient Textures &amp; Materials</span>
+              <span class="font-medium text-[#E8F1F2] text-sm">Blender 5.0</span>
+              <span class="text-xs font-mono text-[#55DCE8] bg-[#11222C] border border-[#18343A] px-2 py-0.5 rounded-md">Low-Poly 3D Assets</span>
             </li>
           </ul>
         </div>
@@ -739,21 +1346,22 @@
     <!-- 5. CONTACT & COLLABORATION                                        -->
     <!-- ================================================================= -->
     <section id="contact" class="pt-6">
-      <div class="rounded-2xl border border-brand-border bg-brand-card p-8 sm:p-12 text-center space-y-6 shadow-xl">
-        <div class="max-w-xl mx-auto space-y-3">
-          <span class="text-xs font-mono uppercase tracking-wider text-emerald-400 font-semibold">Get in Touch</span>
-          <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-100">
+      <div class="rounded-2xl border border-[rgba(85,220,232,0.25)] bg-[#0e1f26]/95 backdrop-blur-md p-8 sm:p-12 text-center space-y-6 shadow-[0_12px_40px_rgba(0,0,0,0.35)] relative overflow-hidden">
+
+        <div class="max-w-xl mx-auto space-y-3 relative z-10">
+          <span class="text-xs font-mono uppercase tracking-wider text-[#55DCE8] font-semibold">Get in Touch</span>
+          <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-[#E8F1F2]">
             Let's Build Great Games
           </h2>
-          <p class="text-xs sm:text-sm text-zinc-400 leading-relaxed">
-            Available for full-time Unity and gameplay programming roles, systems design contracts, and technical collaborations.
+          <p class="text-xs sm:text-sm text-[#8BA3A8] leading-relaxed">
+            Available for full-time Unity gameplay programming roles, part-time remote Unity development, gameplay systems contracts, and technical collaborations.
           </p>
         </div>
 
-        <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
+        <div class="flex flex-wrap items-center justify-center gap-3 pt-2 relative z-10">
           <!-- Direct Email Mailto -->
           <a href="mailto:harveyjaypilapil24@gmail.com"
-             class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-zinc-100 text-zinc-950 text-xs font-semibold hover:bg-white transition-all shadow-md">
+             class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#55DCE8] text-[#0C1820] text-xs font-semibold hover:bg-[#7fe7f2] transition-all shadow-[0_0_20px_rgba(85,220,232,0.35)] active:scale-95">
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
             </svg>
@@ -762,7 +1370,7 @@
 
           <!-- itch.io Direct -->
           <a href="https://hushgames24.itch.io/" target="_blank" rel="noopener noreferrer"
-             class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-brand-border bg-zinc-900 text-zinc-200 text-xs font-medium hover:border-zinc-600 hover:text-white transition-all">
+             class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-[#18343A] bg-[#11222C] text-[#E8F1F2] text-xs font-medium hover:border-[#55DCE8]/60 hover:text-white hover:bg-[#132b35] transition-all">
             <svg class="w-3.5 h-3.5 fill-current text-[#fa5c5c]" viewBox="0 0 24 24">
               <path d="M2.5 4.5v1.2l2.3 2.3-2.3 2.3v9.2l4.6 2.3 4.6-2.3-2.3-2.3 2.3-2.3h4.6l2.3 2.3-2.3 2.3 4.6 2.3 4.6-2.3v-9.2l-2.3-2.3 2.3-2.3V4.5l-4.6 2.3-4.6-2.3-2.3 2.3-2.3-2.3-4.6 2.3-4.6-2.3zm6.9 7.4a1.8 1.8 0 1 1 0 3.6 1.8 1.8 0 0 1 0-3.6zm5.2 0a1.8 1.8 0 1 1 0 3.6 1.8 1.8 0 0 1 0-3.6z"/>
             </svg>
@@ -770,12 +1378,12 @@
           </a>
         </div>
 
-        <div class="pt-4 flex items-center justify-center gap-5 text-xs font-mono text-zinc-500">
-          <a href="https://github.com/hushgames24" target="_blank" rel="noopener noreferrer" class="hover:text-zinc-300 transition-colors">GitHub</a>
+        <div class="pt-4 flex items-center justify-center gap-5 text-xs font-mono text-[#8BA3A8] relative z-10">
+          <a href="https://github.com/hushgames24" target="_blank" rel="noopener noreferrer" class="hover:text-[#55DCE8] transition-colors">GitHub</a>
           <span>&bull;</span>
-          <a href="https://www.linkedin.com/in/harvey-jay-pilapil-65703b33a/" target="_blank" rel="noopener noreferrer" class="hover:text-zinc-300 transition-colors">LinkedIn</a>
+          <a href="https://www.linkedin.com/in/harvey-jay-pilapil-65703b33a/" target="_blank" rel="noopener noreferrer" class="hover:text-[#55DCE8] transition-colors">LinkedIn</a>
           <span>&bull;</span>
-          <a href="https://hushgames24.itch.io/" target="_blank" rel="noopener noreferrer" class="hover:text-zinc-300 transition-colors">itch.io</a>
+          <a href="https://hushgames24.itch.io/" target="_blank" rel="noopener noreferrer" class="hover:text-[#55DCE8] transition-colors">itch.io</a>
         </div>
       </div>
     </section>
@@ -785,14 +1393,14 @@
   <!-- ================================================================= -->
   <!-- FOOTER                                                            -->
   <!-- ================================================================= -->
-  <footer class="border-t border-brand-border bg-brand-bg py-8 text-xs text-zinc-500 font-mono">
+  <footer class="border-t border-[#18343A]/80 bg-[rgba(12,24,32,0.72)] backdrop-blur-[14px] py-8 text-xs text-[#8BA3A8] font-mono relative z-10 shadow-[0_-4px_24px_rgba(0,0,0,0.3)]">
     <div class="max-w-6xl mx-auto px-5 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
       <div>
         <span>&copy; <span id="currentYear"></span> Harvey Jay Pilapil.</span>
-        <span class="ml-2 text-zinc-600">Built with HTML &amp; Tailwind CSS.</span>
+        <span class="ml-2 text-[#8BA3A8]/70">Cozy Sci-Fi Developer Studio.</span>
       </div>
 
-      <a href="#top" class="hover:text-zinc-300 transition-colors flex items-center gap-1.5">
+      <a href="#top" class="hover:text-[#55DCE8] transition-colors flex items-center gap-1.5">
         <span>Back to Top</span>
         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
@@ -805,8 +1413,8 @@
   <!-- TOAST NOTIFICATION (COPY EMAIL)                                   -->
   <!-- ================================================================= -->
   <div id="toastNotification" class="fixed bottom-6 right-6 z-50 hidden translate-y-2 opacity-0 transition-all duration-200 pointer-events-none">
-    <div class="px-4 py-2.5 rounded-lg bg-zinc-900 border border-zinc-700 text-zinc-200 text-xs font-mono shadow-2xl flex items-center gap-2.5">
-      <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <div class="px-4 py-2.5 rounded-lg bg-[#0C1820] border border-[#55DCE8]/60 text-[#E8F1F2] text-xs font-mono shadow-[0_0_20px_rgba(85,220,232,0.3)] flex items-center gap-2.5">
+      <svg class="w-4 h-4 text-[#55DCE8]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
       </svg>
       <span>Email address copied to clipboard</span>
@@ -831,8 +1439,8 @@
         role: "Solo Gameplay Programmer & Designer",
         thumbnail: "assets/bob.png",
         screenshot: "assets/bananafarm (3).png",
-        trailerUrl: "https://www.youtube-nocookie.com/embed/XRBap5zPIcg",
-        videoUrl: "https://youtu.be/XRBap5zPIcg",
+        trailerUrl: "https://www.youtube.com/embed/XRBap5zPIcg",
+        videoUrl: "https://www.youtube.com/embed/XRBap5zPIcg",
         videoLabel: "Showcase",
         screenshots: [
           "assets/bananafarm (1).png",
@@ -871,6 +1479,12 @@
         ],
         statusText: "The project is currently in development with a playable core gameplay loop. The main goal is creating and polishing game mechanics that work well together, while also making the game fun and adding more features over time.",
         noteText: "This project is still in active development, so the current build may contain bugs, unfinished features, or temporary implementations.",
+        technicalHighlights: [
+          { system: "Gameplay", details: "ScriptableObjects, events, modular systems" },
+          { system: "NPCs", details: "NavMesh navigation and AI behaviors" },
+          { system: "Interactions", details: "Item pickup, inventory, and placement" },
+          { system: "Optimization", details: "Object pooling and GPU instancing" }
+        ],
         techStack: ["Unity", "C#", "UI Toolkit", "ScriptableObjects", "State Pattern", "Object Pooling", "NavMesh"]
       },
       {
@@ -882,7 +1496,7 @@
         role: "Gameplay & Systems Programmer (9L Studio Collab)",
         thumbnail: "assets/sister-claires.png",
         screenshot: "assets/sister-claires-screenshot.png",
-        trailerUrl: "https://www.youtube-nocookie.com/embed/U6y6of8pTLM",
+        trailerUrl: "https://www.youtube.com/embed/U6y6of8pTLM",
         screenshots: [
           "https://img.itch.zone/aW1hZ2UvMzg1Mjc2OS8yMjk4MTY0Ny5wbmc=/original/WXQvOt.png",
           "https://img.itch.zone/aW1hZ2UvMzg1Mjc2OS8yMjk4MTYyMS5wbmc=/original/pF6FQj.png",
@@ -935,7 +1549,7 @@
         role: "Solo Gameplay & Systems Programmer",
         thumbnail: "assets/wrong-door.png",
         screenshot: "assets/wrong-door-screenshot.png",
-        trailerUrl: "https://www.youtube-nocookie.com/embed/deXF_vebdyg",
+        trailerUrl: "https://www.youtube.com/embed/deXF_vebdyg",
         screenshots: [
           "https://img.itch.zone/aW1hZ2UvMzY2ODU4Ny8yMTgyOTg2NC5wbmc=/original/KkRQ0i.png",
           "https://img.itch.zone/aW1hZ2UvMzY2ODU4Ny8yMTgyOTg2My5wbmc=/original/5OLura.png",
@@ -986,7 +1600,7 @@
         role: "Solo Gameplay & Level Programmer",
         thumbnail: "assets/divorce-papers.png",
         screenshot: "assets/divorce-papers-screenshot.png",
-        trailerUrl: "https://www.youtube-nocookie.com/embed/MDIXhx7VkcI",
+        trailerUrl: "https://www.youtube.com/embed/MDIXhx7VkcI",
         screenshots: [
           "https://img.itch.zone/aW1hZ2UvMzY1NDA4NC8yMTc0MzgwOC5wbmc=/original/ij8%2FMa.png",
           "https://img.itch.zone/aW1hZ2UvMzY1NDA4NC8yMTc0MzgyNi5wbmc=/original/VtrkIV.png",
@@ -1025,6 +1639,8 @@
       }
     ];
 
+    // ---
+
     // -----------------------------------------------------------------
     // Helper Icon SVG Generators
     // -----------------------------------------------------------------
@@ -1034,9 +1650,9 @@
       } else if (iconType === 'itch') {
         return `<svg class="w-3.5 h-3.5 fill-current text-[#fa5c5c]" viewBox="0 0 24 24"><path d="M2.5 4.5v1.2l2.3 2.3-2.3 2.3v9.2l4.6 2.3 4.6-2.3-2.3-2.3 2.3-2.3h4.6l2.3 2.3-2.3 2.3 4.6 2.3 4.6-2.3v-9.2l-2.3-2.3 2.3-2.3V4.5l-4.6 2.3-4.6-2.3-2.3 2.3-2.3-2.3-4.6 2.3-4.6-2.3zm6.9 7.4a1.8 1.8 0 1 1 0 3.6 1.8 1.8 0 0 1 0-3.6zm5.2 0a1.8 1.8 0 1 1 0 3.6 1.8 1.8 0 0 1 0-3.6z"/></svg>`;
       } else if (iconType === 'play') {
-        return `<svg class="w-3.5 h-3.5 fill-current text-emerald-400" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>`;
+        return `<svg class="w-3.5 h-3.5 fill-current text-[#55DCE8]" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>`;
       }
-      return `<svg class="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>`;
+      return `<svg class="w-3.5 h-3.5 text-[#8BA3A8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>`;
     }
 
     // -----------------------------------------------------------------
@@ -1083,18 +1699,14 @@
         const dot = card.querySelector('.status-dot');
 
         if (isMatch) {
-          card.classList.remove('border-brand-border', 'bg-brand-card', 'hover:border-zinc-700', 'hover:bg-brand-hover');
-          card.classList.add('border-emerald-500', 'bg-zinc-900', 'ring-1', 'ring-emerald-500/40', 'shadow-lg', 'shadow-emerald-950/20');
+          card.className = "game-card group relative text-left rounded-2xl border-2 border-[#55DCE8] bg-[#132b35]/95 backdrop-blur-md ring-1 ring-[#55DCE8]/40 p-3 flex flex-col justify-between transition-all duration-200 cursor-pointer shadow-[0_8px_32px_rgba(0,0,0,0.3),0_0_25px_rgba(85,220,232,0.3)]";
           if (dot) {
-            dot.classList.remove('bg-zinc-600');
-            dot.classList.add('bg-emerald-500');
+            dot.className = "status-dot w-2 h-2 rounded-full bg-[#55DCE8] shadow-[0_0_8px_#55DCE8] shrink-0";
           }
         } else {
-          card.classList.remove('border-emerald-500', 'bg-zinc-900', 'ring-1', 'ring-emerald-500/40', 'shadow-lg', 'shadow-emerald-950/20');
-          card.classList.add('border-brand-border', 'bg-brand-card', 'hover:border-zinc-700', 'hover:bg-brand-hover');
+          card.className = "game-card group relative text-left rounded-2xl border border-[rgba(85,220,232,0.2)] bg-[#0e1f26]/90 backdrop-blur-md hover:border-[#55DCE8]/60 hover:bg-[rgba(19,43,53,0.75)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.35)] p-3 flex flex-col justify-between transition-all duration-200 cursor-pointer";
           if (dot) {
-            dot.classList.remove('bg-emerald-500');
-            dot.classList.add('bg-zinc-600');
+            dot.className = "status-dot w-2 h-2 rounded-full bg-[#18343A] shrink-0";
           }
         }
       });
@@ -1102,8 +1714,8 @@
 
     function toEmbedUrl(url) {
       if (!url) return "";
-      const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
-      return match ? `https://www.youtube-nocookie.com/embed/${match[1]}` : url;
+      const match = url.match(/(?:youtu\.be\/|(?:www\.)?youtube(?:-nocookie)?\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+      return match ? `https://www.youtube.com/embed/${match[1]}` : url;
     }
 
     // -----------------------------------------------------------------
@@ -1112,8 +1724,8 @@
     function setMediaMode(game, mode) {
       currentActiveMediaMode = mode;
 
-      const activeTabClass = "px-3 py-1 rounded-md bg-zinc-800 text-emerald-400 border border-emerald-500/40 shadow-sm font-medium cursor-pointer flex items-center gap-1.5 transition-all";
-      const inactiveTabClass = "px-3 py-1 rounded-md text-zinc-400 hover:text-white border border-transparent cursor-pointer flex items-center gap-1.5 transition-all";
+      const activeTabClass = "px-3 py-1 rounded-md bg-[#132b35] text-[#55DCE8] border border-[#55DCE8]/40 shadow-sm font-medium cursor-pointer flex items-center gap-1.5 transition-all";
+      const inactiveTabClass = "px-3 py-1 rounded-md text-[#8BA3A8] hover:text-[#E8F1F2] border border-transparent cursor-pointer flex items-center gap-1.5 transition-all";
 
       if (mode === 'trailer' && (game.trailerUrl || game.videoUrl)) {
         mediaTabTrailer.className = activeTabClass;
@@ -1131,7 +1743,6 @@
         mediaTabScreenshots.className = activeTabClass;
 
         if (devPlaceholderView) devPlaceholderView.classList.add('hidden');
-        // Stop trailer iframe playback when switching
         trailerIframe.src = "";
         videoView.classList.add('hidden');
 
@@ -1148,17 +1759,16 @@
 
       detailMainScreenshot.src = game.screenshots[index];
       detailMainScreenshot.onerror = function() {
-        this.src = game.screenshot; // local fallback if CDN image blocked
+        this.src = game.screenshot;
       };
       screenshotCounterBadge.textContent = `${index + 1} / ${game.screenshots.length}`;
 
-      // Update active thumbnail border in the strip
       const thumbs = thumbnailStrip.querySelectorAll('.screenshot-thumb');
       thumbs.forEach((thumb, idx) => {
         if (idx === index) {
-          thumb.className = "screenshot-thumb flex-shrink-0 w-16 sm:w-20 aspect-video rounded-md overflow-hidden bg-zinc-900 border-2 border-emerald-500 ring-1 ring-emerald-500/50 opacity-100 scale-105 transition-all cursor-pointer shadow-md";
+          thumb.className = "screenshot-thumb flex-shrink-0 w-16 sm:w-20 aspect-video rounded-md overflow-hidden bg-[#081015] border-2 border-[#55DCE8] ring-1 ring-[#55DCE8]/50 opacity-100 scale-105 transition-all cursor-pointer shadow-[0_0_12px_rgba(85,220,232,0.25)]";
         } else {
-          thumb.className = "screenshot-thumb flex-shrink-0 w-16 sm:w-20 aspect-video rounded-md overflow-hidden bg-zinc-900 border border-zinc-800 opacity-60 hover:opacity-100 hover:border-zinc-600 transition-all cursor-pointer";
+          thumb.className = "screenshot-thumb flex-shrink-0 w-16 sm:w-20 aspect-video rounded-md overflow-hidden bg-[#081015] border border-[#18343A] opacity-60 hover:opacity-100 hover:border-[#55DCE8]/40 transition-all cursor-pointer";
         }
       });
     }
@@ -1172,7 +1782,7 @@
 
       thumbnailStrip.innerHTML = game.screenshots.map((url, idx) => `
         <button type="button" data-index="${idx}" aria-label="View screenshot ${idx + 1}"
-                class="screenshot-thumb flex-shrink-0 w-16 sm:w-20 aspect-video rounded-md overflow-hidden bg-zinc-900 border border-zinc-800 opacity-60 hover:opacity-100 hover:border-zinc-600 transition-all cursor-pointer">
+                class="screenshot-thumb flex-shrink-0 w-16 sm:w-20 aspect-video rounded-md overflow-hidden bg-[#081015] border border-[#18343A] opacity-60 hover:opacity-100 hover:border-[#55DCE8]/40 transition-all cursor-pointer">
           <img src="${url}" alt="${game.title} thumbnail ${idx + 1}" class="w-full h-full object-cover pointer-events-none" onerror="this.src='${game.screenshot}'">
         </button>
       `).join('');
@@ -1194,27 +1804,23 @@
 
       currentActiveGameId = gameId;
 
-      // Smooth CSS Fade Transition
       detailContent.classList.remove('opacity-100', 'translate-y-0');
       detailContent.classList.add('opacity-0', 'translate-y-1');
 
       setTimeout(() => {
-        // 1. Update Media Left Column
         detailBadgeRole.textContent = game.role;
         detailBadgeStatus.textContent = game.statusBadge;
 
         if (game.statusType === 'dev') {
-          detailBadgeStatus.className = "px-2.5 py-1 text-[11px] font-mono rounded bg-emerald-950/90 border border-emerald-500/40 text-emerald-300 backdrop-blur-sm";
+          detailBadgeStatus.className = "px-2.5 py-1 text-[11px] font-mono rounded bg-[#18343A]/90 border border-[#55DCE8]/40 text-[#55DCE8] shadow-[0_0_10px_rgba(85,220,232,0.15)] backdrop-blur-sm";
         } else {
-          detailBadgeStatus.className = "px-2.5 py-1 text-[11px] font-mono rounded bg-zinc-950/90 border border-zinc-800 text-zinc-300 backdrop-blur-sm";
+          detailBadgeStatus.className = "px-2.5 py-1 text-[11px] font-mono rounded bg-[#11222C] border border-[#18343A] text-[#8BA3A8] backdrop-blur-sm";
         }
 
-        // Check if game has Media (Trailer / Showcase / Screenshots) or is Active Dev fallback
         const hasTrailer = !!(game.trailerUrl || game.videoUrl);
         const hasScreenshots = game.screenshots && game.screenshots.length > 0;
 
         if (!hasTrailer && !hasScreenshots) {
-          // Banana Farm Chaos / Active Development Fallback
           trailerIframe.src = "";
           videoView.classList.add('hidden');
           screenshotView.classList.add('hidden');
@@ -1222,7 +1828,6 @@
           mediaTypeSwitcher.classList.add('hidden');
           devPlaceholderView.classList.remove('hidden');
         } else {
-          // Shipped / Demo Games with itch.io extracted Media
           devPlaceholderView.classList.add('hidden');
           mediaTypeSwitcher.classList.remove('hidden');
           screenshotsCount.textContent = game.screenshots.length;
@@ -1230,7 +1835,6 @@
           renderThumbnailStrip(game);
           currentScreenshotIndex = 0;
 
-          // Default view: Trailer / Showcase if available, otherwise Screenshots
           if (hasTrailer) {
             const videoLabel = game.videoLabel || 'Trailer';
             const trailerSpan = mediaTabTrailer.querySelector('span');
@@ -1246,53 +1850,63 @@
             setMediaMode(game, 'screenshots');
           }
 
-          // Hook switcher tab click events
           mediaTabTrailer.onclick = () => setMediaMode(game, 'trailer');
           mediaTabScreenshots.onclick = () => setMediaMode(game, 'screenshots');
         }
 
-        // Sub-footer caption
         detailFooterCaption.textContent = game.footerCaption;
 
-        // 2. Update Right Column Narrative & Features
         detailCategory.textContent = game.category;
         detailTitle.textContent = game.title;
         detailRole.textContent = `Role: ${game.role}`;
 
         if (game.features && game.features.length > 0) {
           detailNarrativeContainer.innerHTML = `
-            <div class="space-y-3 pt-1 text-xs sm:text-sm text-zinc-300 leading-relaxed font-normal">
+            <div class="space-y-3 pt-1 text-xs sm:text-sm text-[#E8F1F2] leading-relaxed font-normal">
               <p>${game.introText}</p>
               <div class="space-y-2">
-                <p class="text-zinc-200 font-medium">${game.featuresLead}</p>
-                <ul class="space-y-1.5 text-zinc-400">
+                <p class="text-[#E8F1F2] font-medium">${game.featuresLead}</p>
+                <ul class="space-y-1.5 text-[#8BA3A8]">
                   ${game.features.map(feat => `
                     <li class="flex items-start gap-2.5">
-                      <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></span>
+                      <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#55DCE8] shadow-[0_0_6px_#55DCE8] shrink-0"></span>
                       <span>${feat}</span>
                     </li>
                   `).join('')}
                 </ul>
               </div>
               <p>${game.statusText}</p>
-              <p class="text-zinc-400"><strong class="text-zinc-200 font-medium">Note:</strong> ${game.noteText}</p>
+              <p class="text-[#8BA3A8]"><strong class="text-[#E8F1F2] font-medium">Note:</strong> ${game.noteText}</p>
+              ${game.technicalHighlights ? `
+                <div class="pt-3 border-t border-[#18343A] space-y-2">
+                  <h4 class="text-xs font-mono uppercase tracking-wider text-[#8BA3A8] font-semibold">Technical Architecture</h4>
+                  <ul class="space-y-1.5 text-xs text-[#8BA3A8]">
+                    ${game.technicalHighlights.map(item => `
+                      <li class="flex items-start gap-2">
+                        <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#55DCE8] shadow-[0_0_6px_#55DCE8] shrink-0"></span>
+                        <span><strong class="text-[#E8F1F2] font-medium">${item.system}:</strong> ${item.details}</span>
+                      </li>
+                    `).join('')}
+                  </ul>
+                </div>
+              ` : ''}
             </div>
           `;
         } else {
           detailNarrativeContainer.innerHTML = `
             <div class="pt-1">
-              <h4 class="text-xs font-mono uppercase tracking-wider text-zinc-500 font-semibold mb-1.5">${game.overviewHeading || "Game Overview"}</h4>
-              <p class="text-xs sm:text-sm text-zinc-300 leading-relaxed font-normal">
+              <h4 class="text-xs font-mono uppercase tracking-wider text-[#55DCE8] font-semibold mb-1.5">${game.overviewHeading || "Game Overview"}</h4>
+              <p class="text-xs sm:text-sm text-[#E8F1F2] leading-relaxed font-normal">
                 ${game.overviewText}
               </p>
             </div>
             <div class="pt-2">
-              <h4 class="text-xs font-mono uppercase tracking-wider text-zinc-500 font-semibold mb-2">${game.highlightsHeading || "Core Gameplay Features"}</h4>
-              <ul class="space-y-3 text-xs sm:text-sm text-zinc-400 leading-relaxed">
+              <h4 class="text-xs font-mono uppercase tracking-wider text-[#55DCE8] font-semibold mb-2">${game.highlightsHeading || "Core Gameplay Features"}</h4>
+              <ul class="space-y-3 text-xs sm:text-sm text-[#8BA3A8] leading-relaxed">
                 ${(game.keyHighlights || []).map(highlight => `
                   <li class="flex items-start gap-2.5">
-                    <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></span>
-                    <span><strong class="text-zinc-200 font-medium">${highlight.title}:</strong> ${highlight.description}</span>
+                    <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#55DCE8] shadow-[0_0_6px_#55DCE8] shrink-0"></span>
+                    <span><strong class="text-[#E8F1F2] font-medium">${highlight.title}:</strong> ${highlight.description}</span>
                   </li>
                 `).join('')}
               </ul>
@@ -1300,23 +1914,21 @@
           `;
         }
 
-        // Tags badges
         detailTags.innerHTML = game.techStack.map(tag => `
-          <span class="px-2 py-0.5 text-xs font-mono rounded bg-zinc-900 border border-brand-border text-zinc-300">
+          <span class="px-2 py-0.5 text-xs font-mono rounded bg-[#11222C] border border-[#18343A] text-[#E8F1F2]">
             ${tag}
           </span>
         `).join('');
 
-        // 3. Update Right Column Direct Action Buttons
-        let primaryBtnClass = "flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-zinc-100 text-zinc-950 text-xs font-semibold hover:bg-white transition-all shadow-md";
-        let secondaryBtnClass = "inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border border-brand-border bg-zinc-900 text-zinc-300 text-xs font-medium hover:border-zinc-600 hover:text-white transition-all";
+        let primaryBtnClass = "flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-[#55DCE8] text-[#0C1820] text-xs font-semibold hover:bg-[#7fe7f2] transition-all shadow-[0_0_20px_rgba(85,220,232,0.3)] active:scale-95";
+        let secondaryBtnClass = "inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border border-[#18343A] bg-[#11222C] text-[#E8F1F2] text-xs font-medium hover:border-[#55DCE8]/60 hover:text-white transition-all";
 
         let actionButtonsHtml = `
           <div class="flex flex-wrap items-center gap-2.5">
             <a href="${game.primaryAction.url}" target="_blank" rel="noopener noreferrer" class="${primaryBtnClass}">
               ${getActionIconSvg(game.primaryAction.icon)}
               <span>${game.primaryAction.label}</span>
-              <svg class="w-3 h-3 text-zinc-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-3 h-3 text-[#0C1820]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
               </svg>
             </a>
@@ -1334,7 +1946,6 @@
         actionButtonsHtml += `</div>`;
         detailRightActionContainer.innerHTML = actionButtonsHtml;
 
-        // Fade in new content smoothly
         detailContent.classList.remove('opacity-0', 'translate-y-1');
         detailContent.classList.add('opacity-100', 'translate-y-0');
 
@@ -1357,10 +1968,8 @@
     // -----------------------------------------------------------------
     // General UI Utilities (Toast, Hamburger, Dynamic Year)
     // -----------------------------------------------------------------
-    // Dynamic Year
     document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-    // Mobile Hamburger Menu
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const mobileMenu = document.getElementById('mobileMenu');
     const hamburgerIcon = document.getElementById('hamburgerIcon');
@@ -1382,7 +1991,6 @@
       });
     }
 
-    // 1-Click Copy Email to Clipboard with Toast Notification
     const copyEmailBtn = document.getElementById('copyEmailBtn');
     const toastNotification = document.getElementById('toastNotification');
 
@@ -1425,6 +2033,383 @@
         }
       });
     }
+
+    // -----------------------------------------------------------------
+    // Interactive 3D Asset Showcase Controller
+    // -----------------------------------------------------------------
+    const models3DCollections = {
+      vehicles: {
+        label: "Vehicles",
+        countLabel: "4 Vehicles",
+        models: {
+          jeepney: {
+            name: "Filipino Jeepney",
+            btnLabel: "Jeepney",
+            subtitle: "Iconic Philippine Public Transport Vehicle",
+            description: "A stylized, low-poly representation of the classic Philippine passenger jeepney featuring signature passenger rails, decorative hood ornaments, open-air seating, and route display placards.",
+            variants: [
+              { id: "blue", label: "Sky Blue", file: "assets/models/jeepney-blue.glb", size: "~394 KB", colorHex: "#3b82f6" },
+              { id: "red", label: "Crimson Red", file: "assets/models/jeepney-red.glb", size: "~394 KB", colorHex: "#ef4444" },
+              { id: "orange", label: "Sunset Orange", file: "assets/models/jeepney-orange.glb", size: "~394 KB", colorHex: "#f97316" },
+              { id: "yellow", label: "Canary Yellow", file: "assets/models/jeepney-yellow.glb", size: "~394 KB", colorHex: "#eab308" }
+            ]
+          },
+          multicab: {
+            name: "Shizuku 6x7 Multicab",
+            btnLabel: "Multicab",
+            subtitle: "Compact Utility Workhorse & Cargo Carrier",
+            description: "A compact Japanese-style mini utility truck ('multicab') widely customized throughout the Philippines for municipal transit, cargo transport, and rural public commuting.",
+            variants: [
+              { id: "green", label: "Forest Green", file: "assets/models/multicab-green.glb", size: "~125 KB", colorHex: "#22c55e" },
+              { id: "black", label: "Onyx Black", file: "assets/models/multicab-black.glb", size: "~125 KB", colorHex: "#27272a" },
+              { id: "red", label: "Ruby Red", file: "assets/models/multicab-red.glb", size: "~125 KB", colorHex: "#ef4444" },
+              { id: "yellow", label: "Taxi Yellow", file: "assets/models/multicab-yellow.glb", size: "~125 KB", colorHex: "#eab308" }
+            ]
+          },
+          sedan: {
+            name: "Honka Cervix Hatchback",
+            btnLabel: "Hatchback",
+            subtitle: "Civic-Inspired Urban Daily Commuter",
+            description: "A sporty compact daily hatchback inspired by iconic Japanese 90s/00s street compacts, featuring aerodynamic hatch lines, lowered stance, and minimalist polygonal curves.",
+            variants: [
+              { id: "red", label: "Rally Red", file: "assets/models/sedan-red.glb", size: "~121 KB", colorHex: "#ef4444" },
+              { id: "black", label: "Midnight Black", file: "assets/models/sedan-black.glb", size: "~121 KB", colorHex: "#18181b" },
+              { id: "white", label: "Championship White", file: "assets/models/sedan-white.glb", size: "~121 KB", colorHex: "#f4f4f5" },
+              { id: "orange", label: "Blaze Orange", file: "assets/models/sedan-orange.glb", size: "~121 KB", colorHex: "#f97316" }
+            ]
+          },
+          scooter: {
+            name: "UMAY 125 Scooter",
+            btnLabel: "Scooter",
+            subtitle: "Agile 125cc City Commuter Underbone",
+            description: "An agile, ubiquitous city scooter based on standard 125cc automatic two-wheelers, optimized with efficient geometry for high-density ambient traffic in urban game scenes.",
+            variants: [
+              { id: "black", label: "Matte Black", file: "assets/models/scooter-black.glb", size: "~187 KB", colorHex: "#27272a" },
+              { id: "blue", label: "Yamaha Blue", file: "assets/models/scooter-blue.glb", size: "~187 KB", colorHex: "#3b82f6" },
+              { id: "red", label: "Racing Red", file: "assets/models/scooter-red.glb", size: "~187 KB", colorHex: "#ef4444" },
+              { id: "white", label: "Pearl White", file: "assets/models/scooter-white.glb", size: "~187 KB", colorHex: "#f4f4f5" }
+            ]
+          }
+        }
+      },
+      architecture: {
+        label: "Houses & Gates",
+        countLabel: "7 Structures",
+        models: {
+          "house-two-story": {
+            name: "Two-Story Filipino House",
+            btnLabel: "2-Story House",
+            subtitle: "Classic Suburban Concrete & Wood Residence",
+            description: "A stylized low-poly two-story Filipino residential home featuring corrugated metal awning roofs, window security grilles, wall-mounted air conditioning, and authentic street-level detailing.",
+            variants: [
+              { id: "default", label: "Standard", file: "assets/models/house-two-story.glb", size: "~685 KB", colorHex: "#10b981" }
+            ]
+          },
+          "house-sarisari-balcony": {
+            name: "Sari-Sari Store with Balcony",
+            btnLabel: "Sari Balcony",
+            subtitle: "Mixed Commercial & Residential 2-Story Building",
+            description: "A characteristic Philippine community corner building with an integrated ground-floor sari-sari retail store, protective iron bars, and an overhanging second-floor residential balcony.",
+            variants: [
+              { id: "default", label: "Standard", file: "assets/models/house-sarisari-balcony.glb", size: "~320 KB", colorHex: "#10b981" }
+            ]
+          },
+          "store-six-seven": {
+            name: "6-7 Convenience Store",
+            btnLabel: "6-7 Mini-Mart",
+            subtitle: "Neighborhood 24/7 Mini-Mart Storefront",
+            description: "A humorous low-poly tribute to ubiquitous urban Philippine 24/7 convenience stores, complete with illuminated storefront awning, signage, and glass display front.",
+            variants: [
+              { id: "default", label: "Standard", file: "assets/models/store-six-seven.glb", size: "~468 KB", colorHex: "#10b981" }
+            ]
+          },
+          "house-bungalow": {
+            name: "Sari-Sari Bungalow",
+            btnLabel: "Sari Bungalow",
+            subtitle: "Single-Story Residential Storefront",
+            description: "A compact single-story Filipino residential home with an attached front-porch sari-sari window, corrugated roofing, and textured plaster exterior.",
+            variants: [
+              { id: "default", label: "Standard", file: "assets/models/house-bungalow.glb", size: "~653 KB", colorHex: "#10b981" }
+            ]
+          },
+          "gate-driveway": {
+            name: "Driveway & Pedestrian Gate",
+            btnLabel: "Driveway Gate",
+            subtitle: "Subdivision Boundary Entrance",
+            description: "A stylized steel tube boundary gate featuring dual swing gates for vehicles alongside a separate pedestrian access door with security grillework.",
+            variants: [
+              { id: "default", label: "Standard", file: "assets/models/gate-driveway.glb", size: "~223 KB", colorHex: "#10b981" }
+            ]
+          },
+          "gate-village": {
+            name: "Compound Steel Gate",
+            btnLabel: "Compound Gate",
+            subtitle: "Heavy Steel Swing Gate with Concrete Posts",
+            description: "A heavy-duty compound entrance gate featuring reinforced concrete posts and an ornamental swinging steel panel.",
+            variants: [
+              { id: "default", label: "Standard", file: "assets/models/gate-village.glb", size: "~188 KB", colorHex: "#10b981" }
+            ]
+          },
+          "guardhouse": {
+            name: "Street Guardhouse Post",
+            btnLabel: "Guardhouse",
+            subtitle: "Barangay & Subdivision Security Outpost",
+            description: "An authentic neighborhood security booth featuring observation windows, boom barrier post mount, and rain canopy.",
+            variants: [
+              { id: "default", label: "Standard", file: "assets/models/guardhouse.glb", size: "~278 KB", colorHex: "#10b981" }
+            ]
+          }
+        }
+      },
+      props: {
+        label: "Props & Objects",
+        countLabel: "5 Objects",
+        models: {
+          "object-tabo": {
+            name: "Filipino Tabo (Water Dipper)",
+            btnLabel: "Tabo Dipper",
+            subtitle: "Essential Philippine Bath & Wash Dipper",
+            description: "The iconic Philippine plastic tabo dipper with ergonomic cylindrical handle, utilized across households for bathing, cleaning, and water pouring.",
+            variants: [
+              { id: "default", label: "Standard", file: "assets/models/object-tabo.glb", size: "~18 KB", colorHex: "#10b981" }
+            ]
+          },
+          "object-planggana": {
+            name: "Planggana (Wash Basin)",
+            btnLabel: "Planggana",
+            subtitle: "Large Utility Plastic Wash Basin",
+            description: "A wide, heavy-duty utility basin used for manual laundry, dishwashing, and household water storage throughout Filipino homes.",
+            variants: [
+              { id: "default", label: "Standard", file: "assets/models/object-planggana.glb", size: "~32 KB", colorHex: "#10b981" }
+            ]
+          },
+          "object-gripo": {
+            name: "Brass Gripo (Water Faucet)",
+            btnLabel: "Gripo Faucet",
+            subtitle: "Household Water Spigot & Tap",
+            description: "A minimalist low-poly brass water tap with turn-cross valve handle, designed for indoor wash stations and outdoor garden bibs.",
+            variants: [
+              { id: "default", label: "Standard", file: "assets/models/object-gripo.glb", size: "~41 KB", colorHex: "#10b981" }
+            ]
+          },
+          "object-sink": {
+            name: "Wall-Mounted Basin Sink",
+            btnLabel: "Wall Sink",
+            subtitle: "Compact Ceramic Lavatory Sink",
+            description: "A compact wall-hung ceramic bathroom basin with molded soap dish indentations, optimized for small residential washrooms.",
+            variants: [
+              { id: "default", label: "Standard", file: "assets/models/object-sink.glb", size: "~60 KB", colorHex: "#10b981" }
+            ]
+          },
+          "object-toilet": {
+            name: "Standard Ceramic Toilet",
+            btnLabel: "Toilet",
+            subtitle: "Low-Poly Sanitary Fixture",
+            description: "A compact porcelain water closet with water tank and lid, optimized with clean low-poly silhouettes for interior environments.",
+            variants: [
+              { id: "default", label: "Standard", file: "assets/models/object-toilet.glb", size: "~58 KB", colorHex: "#10b981" }
+            ]
+          }
+        }
+      }
+    };
+
+    let activeCollectionKey = 'vehicles';
+    let activeModelKey = 'jeepney';
+    let activeVariantIndex = 0;
+
+    const vehicleViewer = document.getElementById('vehicleViewer');
+    const viewerLoadingState = document.getElementById('viewerLoadingState');
+    const viewerErrorState = document.getElementById('viewerErrorState');
+    const viewerErrorMessage = document.getElementById('viewerErrorMessage');
+    const activeModelTag = document.getElementById('activeModelTag');
+    const modelDetailTitle = document.getElementById('modelDetailTitle');
+    const modelDetailSubtitle = document.getElementById('modelDetailSubtitle');
+    const modelDetailDesc = document.getElementById('modelDetailDesc');
+    const modelDetailSize = document.getElementById('modelDetailSize');
+    const variantSection = document.getElementById('variantSection');
+    const variantPillContainer = document.getElementById('variantPillContainer');
+    const modelButtonsGrid = document.getElementById('modelButtonsGrid');
+    const collectionItemCount = document.getElementById('collectionItemCount');
+    const toggleAutoRotateBtn = document.getElementById('toggleAutoRotateBtn');
+    const resetCameraBtn = document.getElementById('resetCameraBtn');
+
+    function renderModelButtons() {
+      const coll = models3DCollections[activeCollectionKey];
+      if (!coll || !modelButtonsGrid) return;
+
+      if (collectionItemCount) {
+        collectionItemCount.textContent = coll.countLabel;
+      }
+
+      const modelKeys = Object.keys(coll.models);
+      modelButtonsGrid.innerHTML = modelKeys.map(key => {
+        const item = coll.models[key];
+        const isActive = key === activeModelKey;
+        const activeClasses = isActive
+          ? "border-[#55DCE8] bg-[#132b35] text-[#E8F1F2] ring-1 ring-[#55DCE8]/40 shadow-[0_0_12px_rgba(85,220,232,0.2)]"
+          : "border-[#18343A] bg-[#11222C]/70 text-[#8BA3A8] hover:text-[#E8F1F2] hover:border-[#55DCE8]/40";
+        return `
+          <button type="button" data-model-key="${key}" class="model-select-btn px-2.5 py-2 rounded-lg border ${activeClasses} font-mono text-xs flex items-center justify-center gap-1.5 transition-all text-center">
+            <span class="truncate">${item.btnLabel || item.name}</span>
+          </button>
+        `;
+      }).join('');
+
+      modelButtonsGrid.querySelectorAll('.model-select-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const key = btn.getAttribute('data-model-key');
+          if (key && key !== activeModelKey) {
+            activeModelKey = key;
+            activeVariantIndex = 0;
+            renderModelButtons();
+            updateModelViewer();
+          }
+        });
+      });
+
+      document.querySelectorAll('.collection-tab').forEach(tab => {
+        const cKey = tab.getAttribute('data-coll');
+        if (cKey === activeCollectionKey) {
+          tab.className = "collection-tab px-2.5 py-1.5 rounded-md bg-[#132b35] text-[#55DCE8] border border-[#55DCE8]/40 shadow-sm font-medium transition-all";
+        } else {
+          tab.className = "collection-tab px-2.5 py-1.5 rounded-md text-[#8BA3A8] hover:text-[#E8F1F2] border border-transparent transition-all";
+        }
+      });
+    }
+
+    function updateModelViewer() {
+      const coll = models3DCollections[activeCollectionKey];
+      if (!coll) return;
+      const model = coll.models[activeModelKey];
+      if (!model) return;
+
+      const variant = model.variants[activeVariantIndex] || model.variants[0];
+
+      if (vehicleViewer && variant) {
+        if (viewerLoadingState) {
+          viewerLoadingState.classList.remove('hidden');
+          viewerLoadingState.classList.remove('opacity-0');
+        }
+        if (viewerErrorState) {
+          viewerErrorState.classList.add('hidden');
+        }
+        vehicleViewer.setAttribute('src', variant.file);
+      }
+
+      if (activeModelTag) {
+        if (model.variants.length > 1) {
+          activeModelTag.textContent = `${model.name} • ${variant.label}`;
+        } else {
+          activeModelTag.textContent = `${model.name}`;
+        }
+      }
+
+      if (modelDetailTitle) modelDetailTitle.textContent = model.name;
+      if (modelDetailSubtitle) modelDetailSubtitle.textContent = model.subtitle;
+      if (modelDetailDesc) modelDetailDesc.textContent = model.description;
+      if (modelDetailSize && variant) modelDetailSize.textContent = variant.size;
+
+      if (variantSection) {
+        if (model.variants && model.variants.length > 1) {
+          variantSection.classList.remove('hidden');
+          if (variantPillContainer) {
+            variantPillContainer.innerHTML = model.variants.map((v, idx) => {
+              const isActive = idx === activeVariantIndex;
+              const activeClasses = isActive
+                ? "border-[#55DCE8] bg-[#132b35] text-[#55DCE8] ring-1 ring-[#55DCE8]/40 shadow-[0_0_10px_rgba(85,220,232,0.2)]"
+                : "border-[#18343A] bg-[#11222C]/80 text-[#8BA3A8] hover:text-[#E8F1F2] hover:border-[#55DCE8]/40";
+              return `
+                <button type="button" data-variant-idx="${idx}" class="variant-pill px-3 py-1.5 rounded-lg border ${activeClasses} text-xs font-mono flex items-center gap-2 transition-all">
+                  <span class="w-2.5 h-2.5 rounded-full border border-black/40" style="background-color: ${v.colorHex};"></span>
+                  <span>${v.label}</span>
+                </button>
+              `;
+            }).join('');
+
+            variantPillContainer.querySelectorAll('.variant-pill').forEach(btn => {
+              btn.addEventListener('click', () => {
+                activeVariantIndex = parseInt(btn.getAttribute('data-variant-idx'), 10);
+                updateModelViewer();
+              });
+            });
+          }
+        } else {
+          variantSection.classList.add('hidden');
+        }
+      }
+    }
+
+    document.querySelectorAll('.collection-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const cKey = tab.getAttribute('data-coll');
+        if (cKey && cKey !== activeCollectionKey && models3DCollections[cKey]) {
+          activeCollectionKey = cKey;
+          activeModelKey = Object.keys(models3DCollections[cKey].models)[0];
+          activeVariantIndex = 0;
+          renderModelButtons();
+          updateModelViewer();
+        }
+      });
+    });
+
+    if (toggleAutoRotateBtn && vehicleViewer) {
+      let isAutoRotating = true;
+      toggleAutoRotateBtn.addEventListener('click', () => {
+        isAutoRotating = !isAutoRotating;
+        if (isAutoRotating) {
+          vehicleViewer.setAttribute('auto-rotate', '');
+          toggleAutoRotateBtn.textContent = 'Auto-Rotate: On';
+          toggleAutoRotateBtn.classList.remove('text-[#8BA3A8]/60');
+          toggleAutoRotateBtn.classList.add('text-[#8BA3A8]');
+        } else {
+          vehicleViewer.removeAttribute('auto-rotate');
+          toggleAutoRotateBtn.textContent = 'Auto-Rotate: Off';
+          toggleAutoRotateBtn.classList.remove('text-[#8BA3A8]');
+          toggleAutoRotateBtn.classList.add('text-[#8BA3A8]/60');
+        }
+      });
+    }
+
+    if (resetCameraBtn && vehicleViewer) {
+      resetCameraBtn.addEventListener('click', () => {
+        vehicleViewer.resetTurntable();
+        vehicleViewer.cameraOrbit = 'auto auto auto';
+        vehicleViewer.cameraTarget = 'auto auto auto';
+      });
+    }
+
+    if (vehicleViewer) {
+      vehicleViewer.addEventListener('load', () => {
+        if (viewerLoadingState) {
+          viewerLoadingState.classList.add('opacity-0');
+          setTimeout(() => viewerLoadingState.classList.add('hidden'), 250);
+        }
+        if (viewerErrorState) viewerErrorState.classList.add('hidden');
+      });
+
+      vehicleViewer.addEventListener('error', (e) => {
+        console.error('Failed to load 3D model:', e);
+        if (viewerLoadingState) viewerLoadingState.classList.add('hidden');
+        if (viewerErrorState) {
+          viewerErrorState.classList.remove('hidden');
+          const coll = models3DCollections[activeCollectionKey];
+          const model = coll ? coll.models[activeModelKey] : null;
+          const variant = model ? (model.variants[activeVariantIndex] || model.variants[0]) : null;
+          if (viewerErrorMessage) {
+            if (window.location.protocol === 'file:') {
+              viewerErrorMessage.textContent = 'Browser security (CORS) blocks 3D models on file:// protocol. Please run via a local HTTP server.';
+            } else if (variant) {
+              viewerErrorMessage.textContent = `Could not load ${variant.file}`;
+            }
+          }
+        }
+      });
+    }
+
+    // Initialize 3D Showcase
+    renderModelButtons();
+    updateModelViewer();
 
     // Initialize Default State on Page Load (Banana Farm Chaos)
     updateActiveCardVisuals('banana-farm-chaos');
